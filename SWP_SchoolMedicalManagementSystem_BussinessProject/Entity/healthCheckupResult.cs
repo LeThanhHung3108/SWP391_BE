@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
-    public class HealthCheckupResult
+    public class HealthCheckupResult : BaseEntity
     {
-        public Guid Id { get; set; }
         public Guid ScheduleID { get; set; } 
+        public StudentHealthCheckupSchedule? HealthCheckupSchedule { get; set; }
         public DateTime CheckupDate { get; set; }
         public Guid MedicalStaffID { get; set; } 
+        public User? MedicalStaf {  get; set; }
         public decimal? Height { get; set; } 
         public decimal? Weight { get; set; } 
         public string? VisionLeftResult { get; set; }
@@ -27,7 +28,5 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public string? Recommendations { get; set; }
         public bool ParentResultNotified { get; set; }
         public DateTime? ParentResultNotificationDate { get; set; } 
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
     }
 }
