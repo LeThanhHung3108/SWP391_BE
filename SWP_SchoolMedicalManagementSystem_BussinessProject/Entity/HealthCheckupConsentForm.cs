@@ -8,19 +8,19 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class HealthCheckupConsentForm
     {
-        public int ConsetnFormID { get; set; }
+        public Guid Id { get; set; }
 
-        public int CampaignID { get; set; }
+        public Guid CampaignID { get; set; }
 
-        public int StudentID { get; set; }
+        public Guid StudentID { get; set; }
 
-        public int ParentID { get; set; }
+        public Guid ParentID { get; set; }
 
         public Boolean ConsentStatus { get; set; }
 
         public DateTime ConsentDate { get; set; }
 
-        public string ReasonForDecline { get; set; }
+        public string? ReasonForDecline { get; set; }
 
         public DateTime CreateAt { get; set; }
 

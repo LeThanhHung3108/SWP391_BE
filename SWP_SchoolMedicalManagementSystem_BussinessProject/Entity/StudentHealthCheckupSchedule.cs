@@ -8,13 +8,13 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class StudentHealthCheckupSchedule
     {
-        public int ScheduleID { get; set; }
-        public int CampaignID { get; set; } 
-        public int StudentID { get; set; } 
+        public Guid Id { get; set; }
+        public Guid CampaignID { get; set; } 
+        public Guid StudentID { get; set; } 
         public DateTime ScheduledDate { get; set; }
-        public string Location { get; set; }
-        public string Notes { get; set; }
-        public string Status { get; set; } 
+        public string? Location { get; set; }
+        public string? Notes { get; set; }
+        public string? Status { get; set; } 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

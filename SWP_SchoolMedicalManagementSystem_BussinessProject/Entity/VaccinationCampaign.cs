@@ -8,21 +8,21 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class VaccinationCampaign
     {
-        public int CampaignID { get; set; }
+        public Guid Id { get; set; }
 
-        public string CampaignName { get; set; }
+        public string? CampaignName { get; set; }
         
-        public string VaccineType { get; set; }
+        public string? VaccineType { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
 
-        public int MedicalStaffID { get; set; }
+        public Guid MedicalStaffID { get; set; }
 
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         public DateTime CreateAt { get; set; }
 

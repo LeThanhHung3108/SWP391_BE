@@ -8,16 +8,16 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class Student
     {
-        public int StudentID { get; set; }
-        public int ParentID { get; set; }
-        public string StudentCode { get; set; } = string.Empty;
-        public string FullName { get; set;} = string.Empty;
+        public Guid Id { get; set; }
+        public Guid ParentID { get; set; }
+        public string? StudentCode { get; set; }
+        public string? FullName { get; set;} 
         public DateTime DateOfBirth { get; set;}
 
-        public string Gender { get; set; } = string.Empty;       
-        public string Class { get; set; } = string.Empty;
+        public string? Gender { get; set; }      
+        public string? Class { get; set; } 
 
-        public string SchoolYear { get; set; } = string.Empty;
+        public string? SchoolYear { get; set; } 
 
         public DateTime CreateAt { get; set; }
 

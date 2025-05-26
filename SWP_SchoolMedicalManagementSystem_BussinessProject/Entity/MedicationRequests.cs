@@ -8,17 +8,17 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class MedicationRequests
     {
-        public int RequestID {  get; set; }
+        public Guid Id {  get; set; }
         
-        public int StudentID { get; set; }
+        public Guid StudentID { get; set; }
 
-        public string ParentID { get; set; }
+        public Guid ParentID { get; set; }
 
-        public string MedicationName { get; set; }
+        public string? MedicationName { get; set; }
 
-        public string Dosage { get; set; }
+        public string? Dosage { get; set; }
 
-        public string Instructions { get; set; }
+        public string? Instructions { get; set; }
 
         public DateTime SubmissionDate { get; set; }
 
@@ -26,12 +26,12 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 
         public int Quantity { get; set; }
 
-        public string MedicalStaffNotes { get; set; }
+        public string? MedicalStaffNotes { get; set; }
 
 
-        public string Status { get;set; }
+        public string? Status { get;set; }
 
-        public int StaffID { get; set; }
+        public Guid StaffID { get; set; }
 
         public DateTime CreateAt { get; set; }
 

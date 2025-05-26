@@ -8,22 +8,17 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class MedicalSupplier
     {
-        public int SupplyID { get; set; }
+        public Guid Id { get; set; }
 
-        public string SupplyName { get; set; }
+        public string? SupplyName { get; set; }
 
+        public string? SupplyType { get; set; }
 
-        public string SupplyType { get; set; }
+        public string? Unit {  get; set; }
 
-        public string Unit {  get; set; }
+        public int Quantity {  get; set; }   
 
-        public int QuantityInStock {  get; set; }   
-
-        public DateTime ExpiryDate { get; set; }
-
-        public string Supplier {  get; set; }
-
-        public string Location { get; set; }
+        public string? Supplier {  get; set; }
 
         public DateTime CreateAt { get; set; }
 
