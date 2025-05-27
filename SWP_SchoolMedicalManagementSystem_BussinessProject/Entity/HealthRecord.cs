@@ -8,7 +8,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class HealthRecord : BaseEntity
     {
-        public Guid StudentID { get; set; } 
+        public Guid StudentId { get; set; } 
         public Student? Student { get; set; }
         public string? Allergies { get; set; } 
         public string? ChronicDiseases { get; set; }
@@ -19,7 +19,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public string? HearingRight { get; set; }
         public string? VaccinationHistory { get; set; }
         public string? OtherNotes { get; set; }
-        public Guid LastUpdatedByParentID { get; set; } 
+        public Guid LastUpdatedByParentId { get; set; } 
         public User? Parent {  get; set; }
     }
 }

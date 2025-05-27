@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public  class VaccinationResult : BaseEntity
     {
-        public Guid ScheduleID { get; set; }
+        public Guid ScheduleId { get; set; }
         public StudentVaccinationSchedule? VaccinationSchedule { get; set; }
         public DateTime VaccinationDate { get; set; }
-        public Guid MedicalStaffID { get; set; }
+        public Guid MedicalStaffId { get; set; }
         public User? MedicalStaff { get; set; }
         public string? DosageGiven {  get; set; }
         public string? SideEffects {  get; set; }

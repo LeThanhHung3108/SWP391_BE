@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SchoolMedicalManagementSystem.Enum;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class HealthCheckupResult : BaseEntity
     {
-        public Guid ScheduleID { get; set; } 
+        public Guid ScheduleId { get; set; } 
         public StudentHealthCheckupSchedule? HealthCheckupSchedule { get; set; }
         public DateTime CheckupDate { get; set; }
-        public Guid MedicalStaffID { get; set; } 
+        public Guid MedicalStaffId { get; set; } 
         public User? MedicalStaf {  get; set; }
         public decimal? Height { get; set; } 
         public decimal? Weight { get; set; } 
