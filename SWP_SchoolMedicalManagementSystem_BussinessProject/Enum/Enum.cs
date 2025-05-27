@@ -49,28 +49,28 @@ namespace SchoolMedicalManagementSystem.Enum
     public enum VaccCampaignStatus
     {
         Planned, 
-        Active, 
+        InProgress, 
         Completed, 
         Cancelled
     }
     public enum VaccScheduelStatus
     {
-        Scheduled, 
-        Vaccinated, 
+        Scheduled,
+        Completed, 
         Missed, 
         Rescheduled
     }
     public enum HealthCampaignStatus
     {
         Planned,
-        Active,
+        InProgress,
         Completed,
         Cancelled
     }
     public enum HealthScheduelStatus
     {
         Scheduled,
-        Vaccinated,
+        Completed,
         Missed,
         Rescheduled
     }
@@ -83,7 +83,6 @@ namespace SchoolMedicalManagementSystem.Enum
     public enum BlogStatus
     {
         Draft,
-        Published,
-        Archived
+        Published
     }  
 }

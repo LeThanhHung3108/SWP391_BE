@@ -15,12 +15,11 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public DateTime IncidentDate { get; set; }
         public string? Description { get; set; } 
         public string? ActionsTaken { get; set; }
-        public Guid MedicalStaffId { get; set; }
-        public User? MedicalStaff { get; set; }
         public string? Outcome { get; set; }
         public IncidentStatus Status { get; set; }
         public bool ParentNotified { get; set; }
         public DateTime ParentNotificationDate { get;set; }
+        public ICollection<MedicalSupplyUsage>? MedicalSupplyUsages { get; set; }
 
     }
 }

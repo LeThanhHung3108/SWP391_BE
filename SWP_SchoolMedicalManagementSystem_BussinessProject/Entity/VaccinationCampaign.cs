@@ -14,8 +14,8 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public string? Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public Guid MedicalStaffId { get; set; }
-        public User? MedicalStaff {  get; set; }
         public VaccCampaignStatus? Status { get; set; }
+        public ICollection<User>? MedicalStaffs { get; set; }
+        public ICollection<StudentVaccinationSchedule>? Schedules { get; set; }
     }
 }

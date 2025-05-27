@@ -10,8 +10,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
     {       
         public Guid StudentId { get; set; }
         public Student? Student { get; set; }
-        public Guid ParentId { get; set; }
-        public User? Parent { get; set; }
         public string? MedicationName { get; set; }
         public string? Dosage { get; set; }
         public string? Instructions { get; set; }

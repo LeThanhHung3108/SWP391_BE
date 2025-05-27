@@ -11,8 +11,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public Guid ScheduleId { get; set; } 
         public StudentHealthCheckupSchedule? HealthCheckupSchedule { get; set; }
         public DateTime CheckupDate { get; set; }
-        public Guid MedicalStaffId { get; set; } 
-        public User? MedicalStaf {  get; set; }
         public decimal? Height { get; set; } 
         public decimal? Weight { get; set; } 
         public string? VisionLeftResult { get; set; }

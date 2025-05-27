@@ -14,5 +14,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public string? Unit {  get; set; }
         public int Quantity {  get; set; }   
         public string? Supplier {  get; set; }
+        public List<string>? Image {  get; set; }
+        public ICollection<MedicalSupplyUsage>? MedicalSupplyUsages { get; set; }
     }
 }

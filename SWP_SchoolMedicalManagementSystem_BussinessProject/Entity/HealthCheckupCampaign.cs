@@ -11,11 +11,10 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
     {
         public string? CampaignName { get; set; }
         public string? Description { get; set; }
-        public string? CheckupItems { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public Guid MedicalStaffID { get; set; }
-        public User? MedicalStaff { get; set; }
         public HealthCampaignStatus Status { get; set; }
+        public ICollection<User>? MedicalStaffs { get; set; } 
+        public ICollection<StudentHealthCheckupSchedule>? Schedules { get; set; }
     }
 }

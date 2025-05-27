@@ -8,14 +8,22 @@ using SchoolMedicalManagementSystem.Enum;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
-    public class User
+    public class User : BaseEntity
     {
+
         public string? Username { get; set; } 
         public string? Password { get; set; }
         public string? FullName { get; set; } 
         public string? Email { get; set; } 
         public string? PhoneNumber { get; set; } 
         public string? Address { get; set; } 
-        public UserRole UserRole { get; set; } 
+        public UserRole UserRole { get; set; }
+        public string? Image { get; set; }
+        public ICollection<Blog>? Blogs { get; set; }
+        public ICollection<MedicalConsultation>? MedicalConsultations { get; set; }
+        public ICollection<MedicationRequests>? MedicationRequests { get; set; }
+        public ICollection<Student>? Students { get; set; }
+        public ICollection<HealthCheckupCampaign>? HealthCheckupCampaigns { get; set; }
+        public ICollection<VaccinationCampaign>? VaccinationCampaigns { get; set; }
     }
 }
