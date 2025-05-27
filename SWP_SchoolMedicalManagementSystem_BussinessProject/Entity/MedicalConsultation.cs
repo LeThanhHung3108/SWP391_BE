@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SchoolMedicalManagementSystem.Enum;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
-    public class MedicalConsultation
+    public class MedicalConsultation : BaseEntity
     {
-        public int ConsultationID { get; set; }
-        public int? ResultID { get; set; } 
-        public int StudentID { get; set; } 
-        public int ParentID { get; set; } 
-        public int MedicalStaffID { get; set; } 
+        public Guid ResultId { get; set; } 
+        public HealthCheckupResults? Result {  get; set; }
+        public Guid StudentId { get; set; } 
+        public Student? Student { get; set; }
+        public Guid MedicalStaffId { get; set; } 
+        public User? MedicalStaff { get; set; }
         public DateTime ScheduledDate { get; set; }
-        public string ConsultationNotes { get; set; }
-        public string Status { get; set; } 
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public string? ConsultationNotes { get; set; }
+        public ConsultantStatus Status { get; set; } 
     }
 }

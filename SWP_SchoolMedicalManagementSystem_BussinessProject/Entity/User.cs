@@ -4,39 +4,26 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SchoolMedicalManagementSystem.Enum;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
-    public class User
+    public class User : BaseEntity
     {
-        public int UserID { get; set; } 
 
-        public string Username { get; set; } = string.Empty;
-
-        public string Password { get; set; } = string.Empty;
-
-        public string FullName { get; set; } = string.Empty;
-
-        public string Email { get; set; } = string.Empty;
-
-        public string PhoneNumber { get; set; } = string.Empty;
-
-        public string Address { get; set; } = string.Empty;
-
-        public string UserRole { get; set; } = string.Empty;
-        
-        public DateTime CreateAt { get; set; }  
-
-        public DateTime UpdateAt { get; set; }  
-   
-
-            
-
-
-
-
-
+        public string? Username { get; set; } 
+        public string? Password { get; set; }
+        public string? FullName { get; set; } 
+        public string? Email { get; set; } 
+        public string? PhoneNumber { get; set; } 
+        public string? Address { get; set; } 
+        public UserRole UserRole { get; set; }
+        public string? Image { get; set; }
+        public ICollection<Blog>? Blogs { get; set; }
+        public ICollection<MedicalConsultation>? MedicalConsultations { get; set; }
+        public ICollection<MedicationRequests>? MedicationRequests { get; set; }
+        public ICollection<Student>? Students { get; set; }
+        public ICollection<HealthCheckupCampaign>? HealthCheckupCampaigns { get; set; }
+        public ICollection<VaccinationCampaign>? VaccinationCampaigns { get; set; }
     }
-
-
 }

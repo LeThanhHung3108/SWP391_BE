@@ -3,27 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SchoolMedicalManagementSystem.Enum;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
-    public class VaccinationConsentForm
+    public class VaccinationConsentForm : BaseEntity
     {
-        public int ConsetnFormID { get; set; }
-
-        public int CampaignID { get; set; }
-
-        public int StudentID { get; set; }
-
-        public int ParentID { get; set; }
-
-        public Boolean ConsentStatus { get; set; }
-
+        public Guid CampaignId { get; set; }
+        public VaccinationCampaign? VaccinationCampaign { get; set; }
+        public Guid StudentId { get; set; }
+        public Student? Student { get; set; }
+        public bool ConsentStatus { get; set; }
         public DateTime ConsentDate { get; set; }
-
-        public string ReasonForDecline { get; set; }
-
-        public DateTime CreateAt { get; set; }
-
-        public DateTime UpdateAt { get; set; }
+        public string? ReasonForDecline { get; set; }
     }
 }

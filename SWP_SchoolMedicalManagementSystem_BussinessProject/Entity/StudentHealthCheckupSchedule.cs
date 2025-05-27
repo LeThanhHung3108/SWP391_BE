@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SchoolMedicalManagementSystem.Enum;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
-    public class StudentHealthCheckupSchedule
+    public class StudentHealthCheckupSchedule : BaseEntity
     {
-        public int ScheduleID { get; set; }
-        public int CampaignID { get; set; } 
-        public int StudentID { get; set; } 
+        public Guid CampaignId { get; set; } 
+        public HealthCheckupCampaign? HealthCheckupCampaign { get; set; }
+        public Guid StudentId { get; set; } 
+        public Student? Student { get; set; }
         public DateTime ScheduledDate { get; set; }
-        public string Location { get; set; }
-        public string Notes { get; set; }
-        public string Status { get; set; } 
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public string? Location { get; set; }
+        public string? Notes { get; set; }
+        public HealthScheduelStatus Status { get; set; } 
     }
 }
