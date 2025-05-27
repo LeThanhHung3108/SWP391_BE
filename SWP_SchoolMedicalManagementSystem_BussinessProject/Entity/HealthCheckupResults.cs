@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
-    public class HealthCheckupResult:BaseEntity
+    public class HealthCheckupResults:BaseEntity
     {
         public Guid ScheduleId { get; set; } 
         public StudentHealthCheckupSchedule? HealthCheckupSchedule { get; set; }
