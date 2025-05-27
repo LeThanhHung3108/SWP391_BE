@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SchoolMedicalManagementSystem.Enum;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
-    public class HealthCheckupResult : BaseEntity
+    public class HealthCheckupResult:BaseEntity
     {
         public Guid ScheduleId { get; set; } 
         public StudentHealthCheckupSchedule? HealthCheckupSchedule { get; set; }
