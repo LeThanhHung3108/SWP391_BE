@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SWP_SchoolMedicalManagementSystem_BussinessProject\SWP_SchoolMedicalManagementSystem_BussinessOject.csproj" />
     <ProjectReference Include="..\SWP_SchoolMedicalManagementSystem_Repository\SWP_SchoolMedicalManagementSystem_Repository.csproj" />
   </ItemGroup>
