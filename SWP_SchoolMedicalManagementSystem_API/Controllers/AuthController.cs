@@ -23,10 +23,6 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
                 return BadRequest("Invalid login request.");
             }
             var response = await _userService.Login(loginRequest);
-            if (response == null)
-            {
-                return Unauthorized("Invalid username or password.");
-            }
             return Ok(response);
         }
 

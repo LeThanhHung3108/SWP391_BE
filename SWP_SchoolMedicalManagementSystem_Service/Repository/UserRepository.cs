@@ -33,19 +33,19 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
 
         public async Task<List<User>> GetAllUsersAsync()
         {
-            var listUser = await _context.Users.ToListAsync();
+            var listUser = await _context.Users.AsNoTracking().ToListAsync();
             return listUser;
         }
 
-        public Task<User?> GetUserByUsernameAsync(string userName)
+        public async Task<User?> GetUserByUsernameAsync(string userName)
         {
-            var user = _context.Users.FirstOrDefaultAsync(u => u.Username == userName);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userName);
             return user;
         }
 
-        public Task<User?> GetUserByIdAsync(Guid userId)
+        public async Task<User?> GetUserByIdAsync(Guid userId)
         {
-            var user = _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             return user;
         }
 
