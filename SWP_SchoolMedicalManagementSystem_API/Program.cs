@@ -36,6 +36,8 @@ builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IHealthRecordRepository, HealthRecordRepository>();
 builder.Services.AddScoped<IHealthRecordService, HealthRecordService>();
+builder.Services.AddScoped<IMedicalSupplierRepository, MedicalSuplierRepository>();
+builder.Services.AddScoped<IMedicalSupplierService, MedicalSupplierService>();
 #endregion
 
 #region DBContext
@@ -115,8 +117,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
