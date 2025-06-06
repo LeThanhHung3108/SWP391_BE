@@ -1,8 +1,10 @@
-﻿using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request;
+﻿using AutoMapper;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.Repository;
+using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,16 +14,19 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _studentRepository;
-         
-        public StudentService(IStudentRepository studentRepository)
+        private readonly IMapper _mapper;
+
+        public StudentService(IStudentRepository studentRepository, IMapper mapper)
         {
             _studentRepository = studentRepository ?? throw new ArgumentNullException(nameof(studentRepository));
+            _mapper = mapper;
+
         }
 
         public async Task<IEnumerable<StudentResponse>> GetAllStudentsAsync()
         {
             var students = await _studentRepository.GetAllAsync();
-            return students.Select(MapToResponse);
+            return _mapper.Map<IEnumerable<StudentResponse>>(students);
         }
 
         public async Task<StudentResponse?> GetStudentByIdAsync(Guid id)
@@ -30,7 +35,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
                 throw new ArgumentException("Invalid student ID", nameof(id));
 
             var student = await _studentRepository.GetByIdAsync(id);
-            return student != null ? MapToResponse(student) : null;
+            return _mapper?.Map<StudentResponse>(student);
         }
 
         public async Task<StudentResponse> CreateStudentAsync(StudentRequest request, string createdBy)
@@ -44,23 +49,10 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
             if (await _studentRepository.ExistsByStudentCodeAsync(request.StudentCode))
                 throw new InvalidOperationException($"Student with code {request.StudentCode} already exists.");
 
-            var student = new Student
-            {
-                ParentId = request.ParentId,
-                StudentCode = request.StudentCode.Trim(),
-                FullName = request.FullName?.Trim(),
-                DateOfBirth = request.DateOfBirth,
-                Gender = request.Gender,
-                Class = request.Class?.Trim(),
-                SchoolYear = request.SchoolYear?.Trim(),
-                Image = request.Image?.Trim(),
-                CreatedBy = createdBy,
-                CreateAt = DateTime.UtcNow,
-                UpdateAt = DateTime.UtcNow
-            };
+            var student = _mapper.Map<Student>(request);
 
             var createdStudent = await _studentRepository.CreateAsync(student);
-            return MapToResponse(createdStudent);
+            return _mapper?.Map<StudentResponse>(student);
         }
 
         public async Task<StudentResponse> UpdateStudentAsync(Guid id, StudentRequest request, string updatedBy)
@@ -82,18 +74,10 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
                 await _studentRepository.ExistsByStudentCodeAsync(request.StudentCode))
                 throw new InvalidOperationException($"Student with code {request.StudentCode} already exists.");
 
-            existingStudent.StudentCode = request.StudentCode.Trim();
-            existingStudent.FullName = request.FullName?.Trim();
-            existingStudent.DateOfBirth = request.DateOfBirth;
-            existingStudent.Gender = request.Gender;
-            existingStudent.Class = request.Class?.Trim();
-            existingStudent.SchoolYear = request.SchoolYear?.Trim();
-            existingStudent.Image = request.Image?.Trim();
-            existingStudent.UpdatedBy = updatedBy;
-            existingStudent.UpdateAt = DateTime.UtcNow;
+            var updatedStudent = _mapper.Map(request, existingStudent);
 
-            var updatedStudent = await _studentRepository.UpdateAsync(existingStudent);
-            return MapToResponse(updatedStudent);
+            var student = await _studentRepository.UpdateAsync(existingStudent);
+            return _mapper.Map<StudentResponse>(student);
         }
 
         public async Task<bool> DeleteStudentAsync(Guid id)
@@ -110,7 +94,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
                 throw new ArgumentException("Invalid parent ID", nameof(parentId));
 
             var students = await _studentRepository.GetByParentIdAsync(parentId);
-            return students.Select(MapToResponse);
+            return _mapper.Map<IEnumerable<StudentResponse>>(students);
         }
 
         public async Task<IEnumerable<StudentResponse>> GetStudentsByClassAsync(string className)
@@ -119,7 +103,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
                 throw new ArgumentException("Class name is required", nameof(className));
 
             var students = await _studentRepository.GetByClassAsync(className.Trim());
-            return students.Select(MapToResponse);
+            return _mapper.Map<IEnumerable<StudentResponse>>(students);
         }
 
         public async Task<IEnumerable<StudentResponse>> GetStudentsBySchoolYearAsync(string schoolYear)
@@ -128,7 +112,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
                 throw new ArgumentException("School year is required", nameof(schoolYear));
 
             var students = await _studentRepository.GetBySchoolYearAsync(schoolYear.Trim());
-            return students.Select(MapToResponse);
+            return _mapper.Map<IEnumerable<StudentResponse>>(students);
         }
 
         public async Task<StudentResponse?> GetStudentByStudentCodeAsync(string studentCode)
@@ -137,7 +121,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
                 throw new ArgumentException("Student code is required", nameof(studentCode));
 
             var student = await _studentRepository.GetByStudentCodeAsync(studentCode.Trim());
-            return student != null ? MapToResponse(student) : null;
+            return _mapper.Map<StudentResponse>(student);
         }
 
         public async Task<bool> StudentExistsAsync(Guid id)
@@ -156,28 +140,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
             return await _studentRepository.ExistsByStudentCodeAsync(studentCode.Trim());
         }
 
-        private static StudentResponse MapToResponse(Student student)
-        {
-            if (student == null)
-                throw new ArgumentNullException(nameof(student));
-
-            return new StudentResponse
-            {
-                Id = student.Id,
-                ParentId = student.ParentId,
-                StudentCode = student.StudentCode,
-                FullName = student.FullName,
-                DateOfBirth = student.DateOfBirth,
-                Gender = student.Gender,
-                Class = student.Class,
-                SchoolYear = student.SchoolYear,
-                Image = student.Image,
-                CreateAt = student.CreateAt,
-                UpdateAt = student.UpdateAt,
-                CreatedBy = student.CreatedBy,
-                UpdatedBy = student.UpdatedBy
-            };
-        }
 
         private static void ValidateStudentRequest(StudentRequest request)
         {

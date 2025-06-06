@@ -2,7 +2,7 @@
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 
-namespace SWP_SchoolMedicalManagementSystem_Service.IService
+namespace SWP_SchoolMedicalManagementSystem_Service.Service.Interface
 {
     public interface IUserService
     {

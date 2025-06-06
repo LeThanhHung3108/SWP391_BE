@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Context;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
+using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;

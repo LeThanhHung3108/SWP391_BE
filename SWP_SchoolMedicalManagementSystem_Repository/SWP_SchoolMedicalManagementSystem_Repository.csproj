@@ -10,4 +10,8 @@
     <ProjectReference Include="..\SWP_SchoolMedicalManagementSystem_BussinessProject\SWP_SchoolMedicalManagementSystem_BussinessOject.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interface\" />
+  </ItemGroup>
+
 </Project>

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.AuthDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
-using SWP_SchoolMedicalManagementSystem_Service.IService;
+using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
 
 namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 {

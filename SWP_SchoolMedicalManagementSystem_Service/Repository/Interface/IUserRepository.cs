@@ -1,7 +1,7 @@
 ﻿
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 
-namespace SWP_SchoolMedicalManagementSystem_Service.IRepository
+namespace SWP_SchoolMedicalManagementSystem_Service.Repository.Interface
 {
     public interface IUserRepository
     {

@@ -5,11 +5,14 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Context;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.Repository;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.Service;
 using SWP_SchoolMedicalManagementSystem_Service.Extension;
-using SWP_SchoolMedicalManagementSystem_Service.IRepository;
-using SWP_SchoolMedicalManagementSystem_Service.IService;
 using SWP_SchoolMedicalManagementSystem_Service.Repository;
+using SWP_SchoolMedicalManagementSystem_Service.Repository.Implementation;
+using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 using SWP_SchoolMedicalManagementSystem_Service.Service;
+using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
 using System.Reflection; // Added for Assembly reference
 using System.Text;
 
@@ -27,6 +30,12 @@ builder.Services.AddAutoMapper(typeof(MapperEntities));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenGeneratior, TokenGenerator>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+// Add Student services
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IHealthRecordRepository, HealthRecordRepository>();
+builder.Services.AddScoped<IHealthRecordService, HealthRecordService>();
 #endregion
 
 #region DBContext
