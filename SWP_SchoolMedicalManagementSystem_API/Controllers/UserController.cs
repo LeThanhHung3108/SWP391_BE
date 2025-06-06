@@ -36,7 +36,6 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
             return Ok(user);
         }
 
-        [Authorize]
         [HttpPut("update-user/{id}")]
         public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserUpdateRequestDto request)
         {
@@ -48,7 +47,6 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
             return Ok("User updated successfully.");
         }
 
-        [Authorize]
         [HttpDelete("delete-user/{userId}")]
         public async Task<IActionResult> DeleteUser(Guid userId)
         {

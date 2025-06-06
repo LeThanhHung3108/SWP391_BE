@@ -27,6 +27,8 @@ builder.Services.AddAutoMapper(typeof(MapperEntities));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenGeneratior, TokenGenerator>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMedicalSupplierRepository, MedicalSuplierRepository>();
+builder.Services.AddScoped<IMedicalSupplierService, MedicalSupplierService>();
 #endregion
 
 #region DBContext
