@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
+using System.ComponentModel.DataAnnotations;
 
-namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
+namespace SWP_SchoolMedicalManagementSystem_API.Models.Requests
 {
-    public class HealthRecord : BaseEntity
+    public class HealthRecordRequest
     {
-        public Guid StudentId { get; set; } 
+        public Guid StudentId { get; set; }
         public Student? Student { get; set; }
-        public string? Allergies { get; set; } 
+        public string? Allergies { get; set; }
         public string? ChronicDiseases { get; set; }
         public string? PastMedicalHistory { get; set; }
         public string? VisionLeft { get; set; }
@@ -19,6 +16,5 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public string? HearingRight { get; set; }
         public string? VaccinationHistory { get; set; }
         public string? OtherNotes { get; set; }
-
     }
 }
