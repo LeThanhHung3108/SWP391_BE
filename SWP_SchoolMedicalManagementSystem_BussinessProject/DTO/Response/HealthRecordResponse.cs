@@ -11,7 +11,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response
     {
         public Guid Id { get; set; }
         public Guid StudentId { get; set; }
-        public Student? Student { get; set; }
         public string? Allergies { get; set; }
         public string? ChronicDiseases { get; set; }
         public string? PastMedicalHistory { get; set; }

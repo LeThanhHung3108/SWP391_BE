@@ -1,7 +1,4 @@
 using SchoolMedicalManagementSystem.Enum;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
-using System;
-using System.Collections.Generic;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response
 {

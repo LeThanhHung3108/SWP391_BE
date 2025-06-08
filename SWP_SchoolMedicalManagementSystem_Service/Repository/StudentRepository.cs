@@ -2,10 +2,7 @@
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Context;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
 {
@@ -18,7 +15,8 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Student>> GetAllAsync()
+        //1. Get all students
+        public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {
             return await _context.Students
                 .Include(s => s.Parent)
@@ -26,55 +24,26 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
                 .ToListAsync();
         }
 
-        public async Task<Student?> GetByIdAsync(Guid id)
+        //2. Get student by ID
+        public async Task<Student?> GetStudentByIdAsync(Guid studentId)
         {
             return await _context.Students
                 .Include(s => s.Parent)
                 .Include(s => s.HealthRecord)
-                .FirstOrDefaultAsync(s => s.Id == id);
+                .FirstOrDefaultAsync(s => s.Id == studentId);
         }
 
-        public async Task<Student> CreateAsync(Student student)
+        //3. Get student by Student Code
+        public async Task<Student?> GetStudentByStudentCodeAsync(string studentCode)
         {
-            student.CreateAt = DateTime.UtcNow;
-            student.UpdateAt = DateTime.UtcNow;
-            await _context.Students.AddAsync(student);
-            await _context.SaveChangesAsync();
-            return student;
+            return await _context.Students
+                .Include(s => s.Parent)
+                .Include(s => s.HealthRecord)
+                .FirstOrDefaultAsync(s => s.StudentCode == studentCode);
         }
 
-        public async Task<Student> UpdateAsync(Student student)
-        {
-            var existingStudent = await _context.Students.FindAsync(student.Id);
-            if (existingStudent == null)
-                throw new KeyNotFoundException($"Student with ID {student.Id} not found.");
-
-            existingStudent.StudentCode = student.StudentCode;
-            existingStudent.FullName = student.FullName;
-            existingStudent.DateOfBirth = student.DateOfBirth;
-            existingStudent.Gender = student.Gender;
-            existingStudent.Class = student.Class;
-            existingStudent.SchoolYear = student.SchoolYear;
-            existingStudent.Image = student.Image;
-            existingStudent.UpdateAt = DateTime.UtcNow;
-            existingStudent.UpdatedBy = student.UpdatedBy;
-
-            await _context.SaveChangesAsync();
-            return existingStudent;
-        }
-
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
-                return false;
-
-            _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<IEnumerable<Student>> GetByParentIdAsync(Guid parentId)
+        //4. Get students by Parent ID
+        public async Task<IEnumerable<Student>> GetStudentsByParentIdAsync(Guid parentId)
         {
             return await _context.Students
                 .Include(s => s.Parent)
@@ -83,7 +52,8 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Student>> GetByClassAsync(string className)
+        //5. Get students by Class
+        public async Task<IEnumerable<Student>> GetStudentsByClassAsync(string className)
         {
             return await _context.Students
                 .Include(s => s.Parent)
@@ -92,7 +62,8 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Student>> GetBySchoolYearAsync(string schoolYear)
+        //6. Get students by School Year
+        public async Task<IEnumerable<Student>> GetStudentsBySchoolYearAsync(string schoolYear)
         {
             return await _context.Students
                 .Include(s => s.Parent)
@@ -100,23 +71,30 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
                 .Where(s => s.SchoolYear == schoolYear)
                 .ToListAsync();
         }
-
-        public async Task<Student?> GetByStudentCodeAsync(string studentCode)
+        //7. Create a new student
+        public async Task CreateStudentAsync(Student student)
         {
-            return await _context.Students
-                .Include(s => s.Parent)
-                .Include(s => s.HealthRecord)
-                .FirstOrDefaultAsync(s => s.StudentCode == studentCode);
+            await _context.Students.AddAsync(student);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> ExistsAsync(Guid id)
+        //8. Update an existing student
+        public async Task UpdateStudentAsync(Student student)
         {
-            return await _context.Students.AnyAsync(s => s.Id == id);
+            _context.Entry(student).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> ExistsByStudentCodeAsync(string studentCode)
+        //9. Delete a student
+        public async Task DeleteStudentAsync(Guid studentId)
         {
-            return await _context.Students.AnyAsync(s => s.StudentCode == studentCode);
+            var student = await GetStudentByIdAsync(studentId);
+            if(student != null)
+            {
+                _context.Students.Remove(student);
+                await _context.SaveChangesAsync();
+            }
+           
         }
     }
 }

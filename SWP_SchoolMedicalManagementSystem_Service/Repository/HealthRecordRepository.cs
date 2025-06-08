@@ -17,139 +17,54 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository.Implementation
 
         public HealthRecordRepository(ApplicationDBContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context;
         }
 
-        public async Task<HealthRecord?> GetByIdAsync(Guid id)
+        //1. Get all health records
+        public async Task<IEnumerable<HealthRecord>> GetAllHealthRecordAsync()
         {
-            try
-            {
-                return await _context.HealthRecords
-                    .Include(hr => hr.Student) // Include related student data if needed
-                    .FirstOrDefaultAsync(hr => hr.Id == id);
-            }
-            catch (Exception ex)
-            {
-                // Log exception here
-                throw new Exception($"Error retrieving health record with ID {id}", ex);
-            }
+            return await _context.HealthRecords.AsNoTracking().ToListAsync();
         }
 
-        public async Task<HealthRecord?> GetByStudentIdAsync(Guid studentId)
+        //2. Get health record by ID
+        public async Task<HealthRecord?> GetHealthRecordByIdAsync(Guid healthRecordId)
         {
-            try
-            {
-                return await _context.HealthRecords
-                    .Include(hr => hr.Student)
-                    .FirstOrDefaultAsync(hr => hr.StudentId == studentId);
-            }
-            catch (Exception ex)
-            {
-                // Log exception here
-                throw new Exception($"Error retrieving health record for student ID {studentId}", ex);
-            }
+            var healthRecord = await _context.HealthRecords.FirstOrDefaultAsync(hr => hr.Id == healthRecordId);
+            return healthRecord;
         }
 
-        public async Task<IEnumerable<HealthRecord>> GetAllAsync()
+        //3. Get health record by student ID
+        public async Task<HealthRecord?> GetHealthRecordByStudentIdAsync(Guid studentId)
         {
-            try
-            {
-                return await _context.HealthRecords
-                    .Include(hr => hr.Student)
-                    .OrderBy(hr => hr.CreateAt)
-                    .ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                // Log exception here
-                throw new Exception("Error retrieving all health records", ex);
-            }
+            var healthRecord = await _context.HealthRecords.FirstOrDefaultAsync(hr => hr.StudentId == studentId);
+            return healthRecord;
         }
 
-        public async Task<HealthRecord> CreateAsync(HealthRecord healthRecord)
+        //4. Create a new health record
+        public async Task CreateHealthRecordAsync(HealthRecord healthRecord)
         {
-            if (healthRecord == null)
-                throw new ArgumentNullException(nameof(healthRecord));
-
-            try
-            {
-                // Set creation timestamp if not already set
-                if (healthRecord.CreateAt == default)
-                    healthRecord.CreateAt = DateTime.UtcNow;
-
-                // Generate new ID if not set
-                if (healthRecord.Id == Guid.Empty)
-                    healthRecord.Id = Guid.NewGuid();
-
-                await _context.HealthRecords.AddAsync(healthRecord);
-                await _context.SaveChangesAsync();
-
-                return healthRecord;
-            }
-            catch (Exception ex)
-            {
-                // Log exception here
-                throw new Exception("Error creating health record", ex);
-            }
+            await _context.HealthRecords.AddAsync(healthRecord);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<HealthRecord> UpdateAsync(HealthRecord healthRecord)
+        //5. Update an existing health record
+        public async Task UpdateHealthRecordAsync(HealthRecord healthRecord)
         {
-            if (healthRecord == null)
-                throw new ArgumentNullException(nameof(healthRecord));
+            _context.Entry(healthRecord).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
-            try
-            {
-                var existingRecord = await _context.HealthRecords.FindAsync(healthRecord.Id);
-                if (existingRecord == null)
-                    throw new InvalidOperationException($"Health record with ID {healthRecord.Id} not found");
-
-                // Update properties
-                _context.Entry(existingRecord).CurrentValues.SetValues(healthRecord);
-
-                // Set update timestamp
-                existingRecord.UpdateAt = DateTime.UtcNow;
-
-                await _context.SaveChangesAsync();
-                return existingRecord;
-            }
-            catch (Exception ex)
-            {
-                // Log exception here
-                throw new Exception($"Error updating health record with ID {healthRecord.Id}", ex);
-            }
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        //6. Delete a health record
+        public async Task DeleteHealthRecordAsync(Guid healthRecordId)
         {
-            try
+            var healthRecord = await GetHealthRecordByIdAsync(healthRecordId);
+            if (healthRecord != null)
             {
-                var healthRecord = await _context.HealthRecords.FindAsync(id);
-                if (healthRecord == null)
-                    return false;
-
                 _context.HealthRecords.Remove(healthRecord);
-                var result = await _context.SaveChangesAsync();
-                return result > 0;
-            }
-            catch (Exception ex)
-            {
-                // Log exception here
-                throw new Exception($"Error deleting health record with ID {id}", ex);
+                await _context.SaveChangesAsync();
             }
         }
 
-        public async Task<bool> ExistsAsync(Guid id)
-        {
-            try
-            {
-                return await _context.HealthRecords.AnyAsync(hr => hr.Id == id);
-            }
-            catch (Exception ex)
-            {
-                // Log exception here
-                throw new Exception($"Error checking existence of health record with ID {id}", ex);
-            }
-        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using SchoolMedicalManagementSystem.Enum;
-using System;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request
 {
