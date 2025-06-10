@@ -2,6 +2,7 @@
 using SWP_SchoolMedicalManagementSystem_API.Models.Requests;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplierDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplyUsageDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
@@ -32,6 +33,10 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
             //Medcal Supply Mapper
             CreateMap<MedicalSupplier, SupplierRequestDto>().ReverseMap();
             CreateMap<MedicalSupplier, SupplierResponseDto>().ReverseMap();
+
+            // Medical Supply Usage Mapper
+            CreateMap<MedicalSupplyUsage, MedicalSupplyUsageCreateDto>().ReverseMap();
+            CreateMap<MedicalSupplyUsage, MedicalSupplyUsageResponseDto>().ReverseMap();
         }
     }
 }

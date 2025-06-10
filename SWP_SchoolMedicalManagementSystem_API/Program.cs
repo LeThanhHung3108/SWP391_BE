@@ -8,7 +8,6 @@ using SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Repository;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Service;
 using SWP_SchoolMedicalManagementSystem_Service.Extension;
-using SWP_SchoolMedicalManagementSystem_Service.IRepository;
 using SWP_SchoolMedicalManagementSystem_Service.IService;
 using SWP_SchoolMedicalManagementSystem_Service.Repository;
 using SWP_SchoolMedicalManagementSystem_Service.Repository.Implementation;
@@ -32,14 +31,14 @@ builder.Services.AddAutoMapper(typeof(MapperEntities));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenGeneratior, TokenGenerator>();
 builder.Services.AddScoped<IUserService, UserService>();
-
-// Add Student services
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IHealthRecordRepository, HealthRecordRepository>();
 builder.Services.AddScoped<IHealthRecordService, HealthRecordService>();
 builder.Services.AddScoped<IMedicalSupplierRepository, MedicalSuplierRepository>();
 builder.Services.AddScoped<IMedicalSupplierService, MedicalSupplierService>();
+builder.Services.AddScoped<IMedicalIncidentRepository, MedicalIncidentRepository>();
+builder.Services.AddScoped<IMedicalIncidentService, MedicalIncidentService>();
 #endregion
 
 #region DBContext
@@ -114,7 +113,6 @@ builder.Services.AddSwaggerGen(options =>
 });
 #endregion
 
-#region CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -125,19 +123,15 @@ builder.Services.AddCors(options =>
                    .AllowAnyHeader();
         });
 });
-#endregion
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
-
-// Add CORS middleware
-app.UseCors("AllowAll");
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors("AllowAll");
 
 app.Run();

@@ -1,4 +1,5 @@
 ﻿using SchoolMedicalManagementSystem.Enum;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplyUsageDto;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDto
 {
@@ -13,5 +14,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDt
         public IncidentStatus Status { get; set; }
         public bool ParentNotified { get; set; }
         public DateTime ParentNotificationDate { get; set; }
+        public List<MedicalSupplyUsageCreateDto>? MedicalSupplyUsage { get; set; } = new List<MedicalSupplyUsageCreateDto>();
     }
 }
