@@ -26,5 +26,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public ICollection<VaccinationConsentForm>? VaccinationConsentForms { get; set; }
         public ICollection<MedicalIncident>? MedicalIncidents { get; set; }
         public ICollection<MedicalConsultation>? MedicalConsultations { get; set; }
+        public ICollection<MedicineDiary>? MedicineDiaries { get; set; }
     }
 }

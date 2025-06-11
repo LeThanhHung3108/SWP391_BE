@@ -33,7 +33,11 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
 
         public async Task<List<User>> GetAllUsersAsync()
         {
-            var listUser = await _context.Users.AsNoTracking().ToListAsync();
+            var listUser = await _context.Users
+                .Include(u => u.Students!)
+                .ThenInclude(s => s.HealthRecord!)
+                .AsNoTracking()
+                .ToListAsync();
             return listUser;
         }
 

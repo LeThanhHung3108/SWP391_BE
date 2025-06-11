@@ -1,4 +1,5 @@
 ﻿using SchoolMedicalManagementSystem.Enum;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto
 {
@@ -12,5 +13,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto
         public string? Address { get; set; }
         public UserRole? UserRole { get; set; }
         public string? Image { get; set; }
+        public List<StudentResponse>? studentResponses { get; set; }
     }
 }

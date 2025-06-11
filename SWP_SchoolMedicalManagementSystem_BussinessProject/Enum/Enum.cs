@@ -84,5 +84,12 @@ namespace SchoolMedicalManagementSystem.Enum
     {
         Draft,
         Published
-    }  
+    }
+
+    public enum  MedicationStatus
+    {
+        Taken,
+        NotTaken,
+        Missed
+    }
 }

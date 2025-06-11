@@ -32,7 +32,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         }
 
         //3. Get student by student code
-        [HttpGet("code/{studentCode}")]
+        [HttpGet("get-student-by-student-code/{studentCode}")]
         public async Task<IActionResult> GetStudentByCode(string studentCode)
         {
             var student = await _studentService.GetStudentByStudentCodeAsync(studentCode);
@@ -40,7 +40,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         }
 
         //4. Get students by parent ID
-        [HttpGet("parent/{parentId}")]
+        [HttpGet("get-student-by-parent-id/{parentId}")]
         public async Task<IActionResult> GetStudentsByParent(Guid parentId)
         {
             var students = await _studentService.GetStudentsByParentIdAsync(parentId);
@@ -48,7 +48,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         }
 
         //5. Get students by class
-        [HttpGet("class/{className}")]
+        [HttpGet("get-students-by-class-name/{className}")]
         public async Task<IActionResult> GetStudentsByClass(string className)
         {
             var students = await _studentService.GetStudentsByClassAsync(className);
@@ -56,7 +56,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         }
 
         //6. Get students by school year
-        [HttpGet("year/{schoolYear}")]
+        [HttpGet("get-students-by-school-year/{schoolYear}")]
         public async Task<IActionResult> GetStudentsBySchoolYear(string schoolYear)
         {
             var students = await _studentService.GetStudentsBySchoolYearAsync(schoolYear);

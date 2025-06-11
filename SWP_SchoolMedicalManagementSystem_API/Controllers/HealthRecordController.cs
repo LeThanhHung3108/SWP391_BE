@@ -20,7 +20,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         }
 
         //1. Get All Health Records
-        [HttpGet("get-all-healtRecords")]
+        [HttpGet("get-all-health-records")]
         public async Task<IActionResult> GetAllHealthRecord()
         {
             var healthRecords = await _healthRecordService.GetAllHealthRecordAsync();
@@ -29,7 +29,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 
 
         //2. Get Health Record by ID
-        [HttpGet("get-healthRecord-by-id/{healthRecordId}")]
+        [HttpGet("get-health-record-by-id/{healthRecordId}")]
         public async Task<IActionResult> GetHealthRecordById(Guid healthRecordId)
         {
             var healthRecord = await _healthRecordService.GetHealthRecordByIdAsync(healthRecordId);
@@ -38,7 +38,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         }
 
         //3. Get Health Record by Student ID
-        [HttpGet("get-healthRecord-by-studentId/{studentId}")]
+        [HttpGet("get-health-record-by-student-id/{studentId}")]
         public async Task<IActionResult> GetByStudentId(Guid studentId)
         {
             var healthRecord = await _healthRecordService.GetHealthRecordByStudentIdAsync(studentId);
@@ -47,7 +47,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         }
 
         //4. Create Health Record
-        [HttpPost("create-healthRecord")]
+        [HttpPost("create-health-record")]
         public async Task<IActionResult> CreateHealthRecord([FromBody] HealthRecordRequest request)
         {
             await _healthRecordService.CreateHealthRecordAsync(request);
@@ -55,7 +55,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         }
 
         //5. Update Health Record
-        [HttpPut("update-healthRecord/{healthRecordId}")]
+        [HttpPut("update-health-record/{healthRecordId}")]
         public async Task<IActionResult> UpdateHealthRecord(Guid healthRecordId, [FromBody] HealthRecordRequest request)
         {
                 if (request == null)
@@ -68,7 +68,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         }
 
         //6. Delete Health Record
-        [HttpDelete("delete-healthRecord/{healthRecordId}")]
+        [HttpDelete("delete-health-record/{healthRecordId}")]
         public async Task<IActionResult> DeleteHealthRecord(Guid healthRecordId)
         {          
            await _healthRecordService.DeleteHealthRecordAsync(healthRecordId);
