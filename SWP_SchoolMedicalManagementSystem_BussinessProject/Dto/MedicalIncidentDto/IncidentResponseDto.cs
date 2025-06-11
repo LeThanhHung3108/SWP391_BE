@@ -1,5 +1,6 @@
 ﻿using SchoolMedicalManagementSystem.Enum;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplyUsageDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDto
@@ -7,7 +8,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDt
     public class IncidentResponseDto
     {
         public Guid Id { get; set; }
-        public Student? Student { get; set; }
+        public StudentResponse? Student { get; set; }
         public IncidentType IncidentType { get; set; }
         public DateTime IncidentDate { get; set; }
         public string? Description { get; set; }

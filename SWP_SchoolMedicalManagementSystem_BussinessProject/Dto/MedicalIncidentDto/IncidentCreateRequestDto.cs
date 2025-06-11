@@ -12,8 +12,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDt
         public string? ActionsTaken { get; set; }
         public string? Outcome { get; set; }
         public IncidentStatus Status { get; set; }
-        public bool ParentNotified { get; set; }
-        public DateTime ParentNotificationDate { get; set; }
         public List<MedicalSupplyUsageCreateDto>? MedicalSupplyUsage { get; set; } = new List<MedicalSupplyUsageCreateDto>();
     }
 }

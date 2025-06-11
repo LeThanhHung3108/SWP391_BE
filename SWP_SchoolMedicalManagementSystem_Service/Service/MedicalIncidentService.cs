@@ -38,6 +38,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
                 throw new KeyNotFoundException($"Student with ID {incident.StudentId} not found.");
 
             var newIncident = _mapper.Map<MedicalIncident>(incident);
+            var listSupplier = new List<MedicalSupplyUsage>();
 
             foreach (var supplierList in incident.MedicalSupplyUsage)
             {
@@ -45,16 +46,17 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
                 if (supplier == null)
                     throw new KeyNotFoundException($"Supplier with ID {supplierList.MedicalSupplierId} not found.");
 
-                newIncident.MedicalSupplyUsages?.Add(new MedicalSupplyUsage
+                listSupplier.Add(new MedicalSupplyUsage
                 {
-                    SupplyId = supplierList.MedicalSupplierId,
                     MedicalSupply = supplier,
-                    Notes = supplierList.Notes,
                     QuantityUsed = supplierList.QuantityUsed,
-                    UsageDate  = supplierList.UsageDate,
+                    Notes = supplierList.Notes,
+                    UsageDate = supplierList.UsageDate,
+                    SupplyId = supplierList.MedicalSupplierId
                 });
             }
 
+            newIncident.MedicalSupplyUsages = listSupplier;
             newIncident.Student = student;
             newIncident.CreateAt = DateTime.UtcNow;
             newIncident.CreatedBy = GetCurrentUsername();
