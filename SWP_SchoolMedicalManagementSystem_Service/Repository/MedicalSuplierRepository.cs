@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Context;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
-using SWP_SchoolMedicalManagementSystem_Service.IRepository;
+using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 
 namespace SWP_SchoolMedicalManagementSystem_Service.Repository
 {
