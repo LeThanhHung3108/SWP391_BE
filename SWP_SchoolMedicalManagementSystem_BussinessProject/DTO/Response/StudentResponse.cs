@@ -12,7 +12,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response
         public string? Class { get; set; }
         public string? SchoolYear { get; set; }
         public string? Image { get; set; }
-        public List<HealthRecordResponse>? healthRecordResponses { get; set; }
-
+        public HealthRecordResponse? HealthRecord { get; set; }
     }
 } 

@@ -48,7 +48,7 @@ IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettin
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("local")));
+    options.UseNpgsql(configuration.GetConnectionString("server")));
 #endregion
 
 #region JWT

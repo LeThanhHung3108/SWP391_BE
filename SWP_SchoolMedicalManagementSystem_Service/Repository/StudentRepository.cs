@@ -19,7 +19,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
         public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {
             return await _context.Students
-                .Include(s => s.Parent)
                 .Include(s => s.HealthRecord)
                 .ToListAsync();
         }
@@ -28,7 +27,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
         public async Task<Student?> GetStudentByIdAsync(Guid studentId)
         {
             return await _context.Students
-                .Include(s => s.Parent)
                 .Include(s => s.HealthRecord)
                 .FirstOrDefaultAsync(s => s.Id == studentId);
         }
@@ -37,7 +35,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
         public async Task<Student?> GetStudentByStudentCodeAsync(string studentCode)
         {
             return await _context.Students
-                .Include(s => s.Parent)
                 .Include(s => s.HealthRecord)
                 .FirstOrDefaultAsync(s => s.StudentCode == studentCode);
         }
@@ -46,7 +43,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
         public async Task<IEnumerable<Student>> GetStudentsByParentIdAsync(Guid parentId)
         {
             return await _context.Students
-                .Include(s => s.Parent)
                 .Include(s => s.HealthRecord)
                 .Where(s => s.ParentId == parentId)
                 .ToListAsync();
@@ -56,7 +52,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
         public async Task<IEnumerable<Student>> GetStudentsByClassAsync(string className)
         {
             return await _context.Students
-                .Include(s => s.Parent)
                 .Include(s => s.HealthRecord)
                 .Where(s => s.Class == className)
                 .ToListAsync();
@@ -66,7 +61,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
         public async Task<IEnumerable<Student>> GetStudentsBySchoolYearAsync(string schoolYear)
         {
             return await _context.Students
-                .Include(s => s.Parent)
                 .Include(s => s.HealthRecord)
                 .Where(s => s.SchoolYear == schoolYear)
                 .ToListAsync();
