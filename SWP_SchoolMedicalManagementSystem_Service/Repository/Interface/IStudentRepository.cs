@@ -8,19 +8,14 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository.Interface
 {
     public interface IStudentRepository
     {
-        // Basic CRUD operations
-        Task<IEnumerable<Student>> GetAllAsync();
-        Task<Student?> GetByIdAsync(Guid id);
-        Task<Student> CreateAsync(Student student);
-        Task<Student> UpdateAsync(Student student);
-        Task<bool> DeleteAsync(Guid id);
-
-        // Specific student operations
-        Task<IEnumerable<Student>> GetByParentIdAsync(Guid parentId);
-        Task<IEnumerable<Student>> GetByClassAsync(string className);
-        Task<IEnumerable<Student>> GetBySchoolYearAsync(string schoolYear);
-        Task<Student?> GetByStudentCodeAsync(string studentCode);
-        Task<bool> ExistsAsync(Guid id);
-        Task<bool> ExistsByStudentCodeAsync(string studentCode);
+        Task<IEnumerable<Student>> GetAllStudentsAsync();
+        Task<Student?> GetStudentByIdAsync(Guid studentId);
+        Task<Student?> GetStudentByStudentCodeAsync(string studentCode);
+        Task<IEnumerable<Student>> GetStudentsByParentIdAsync(Guid parentId);
+        Task<IEnumerable<Student>> GetStudentsByClassAsync(string className);
+        Task<IEnumerable<Student>> GetStudentsBySchoolYearAsync(string schoolYear);
+        Task CreateStudentAsync(Student student);
+        Task UpdateStudentAsync(Student student);
+        Task DeleteStudentAsync(Guid studentId);
     }
 }

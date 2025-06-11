@@ -25,6 +25,11 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
             //HealthRecord Mapper
             CreateMap<HealthRecord, HealthRecordRequest>().ReverseMap();
             CreateMap<HealthRecord, HealthRecordResponse>().ReverseMap();
+
+            //Vaccination Campaign Mapper
+            CreateMap<VaccinationCampaign, VaccinationCampaignRequest>().ReverseMap();
+            CreateMap<VaccinationCampaign, VaccinationCampaignResponse>().ReverseMap();
+
             //Incident Mapper
             CreateMap<MedicalIncident, IncidentResponseDto>().ReverseMap();
             CreateMap<MedicalIncident, IncidentCreateRequestDto>().ReverseMap();

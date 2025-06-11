@@ -1,88 +1,96 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SWP_SchoolMedicalManagementSystem_API.Models.Requests;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 
+
 namespace SWP_SchoolMedicalManagementSystem_Service.Service
 {
     public class HealthRecordService : IHealthRecordService
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHealthRecordRepository _healthRecordRepository;
         private readonly IMapper _mapper;
 
-        public HealthRecordService(IHealthRecordRepository healthRecordRepository, IMapper mapper)
+        public HealthRecordService(IHttpContextAccessor httpContextAccessor, IHealthRecordRepository healthRecordRepository, IMapper mapper)
         {
-            _healthRecordRepository = healthRecordRepository ?? throw new ArgumentNullException(nameof(healthRecordRepository));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _httpContextAccessor = httpContextAccessor;
+            _healthRecordRepository = healthRecordRepository;
+            _mapper = mapper;
+        }
+        //1. Get all health records
+        public async Task<IEnumerable<HealthRecordResponse>> GetAllHealthRecordAsync()
+        {
+            var healthRecords = await _healthRecordRepository.GetAllHealthRecordAsync();
+            if(healthRecords == null || !healthRecords.Any())
+                throw new KeyNotFoundException("No health records found.");
+            return _mapper.Map<IEnumerable<HealthRecordResponse>>(healthRecords);
         }
 
-        public async Task<HealthRecord?> GetByIdAsync(Guid id)
+        //2. Get health record by ID
+        public async Task<HealthRecordResponse?> GetHealthRecordByIdAsync(Guid healthRecordId)
         {
-            if (id == Guid.Empty)
-                throw new ArgumentException("Invalid ID", nameof(id));
-
-            return await _healthRecordRepository.GetByIdAsync(id);
-        }
-
-        public async Task<HealthRecord?> GetByStudentIdAsync(Guid studentId)
-        {
-            if (studentId == Guid.Empty)
-                throw new ArgumentException("Invalid student ID", nameof(studentId));
-
-            return await _healthRecordRepository.GetByStudentIdAsync(studentId);
-        }
-
-        public async Task<IEnumerable<HealthRecord>> GetAllAsync()
-        {
-            return await _healthRecordRepository.GetAllAsync();
-        }
-
-        public async Task<HealthRecord> CreateAsync(HealthRecordRequest healthRecord)
-        {
+            var healthRecord = await _healthRecordRepository.GetHealthRecordByIdAsync(healthRecordId);
             if (healthRecord == null)
-                throw new ArgumentNullException(nameof(healthRecord));
-
-            if (healthRecord.StudentId == Guid.Empty)
-                throw new ArgumentException("Student ID is required", nameof(healthRecord.StudentId));
-
-            var entity = _mapper.Map<HealthRecord>(healthRecord);
-            return await _healthRecordRepository.CreateAsync(entity);
+                throw new KeyNotFoundException($"Health record with ID {healthRecordId} not found.");
+            return _mapper?.Map<HealthRecordResponse>(healthRecord);
         }
 
-        public async Task<HealthRecord> UpdateAsync(HealthRecordRequest healthRecord)
+        //3. Get health record by student ID
+        public async Task<HealthRecordResponse?> GetHealthRecordByStudentIdAsync(Guid studentId)
         {
+            var healthRecord = await _healthRecordRepository.GetHealthRecordByStudentIdAsync(studentId);
             if (healthRecord == null)
-                throw new ArgumentNullException(nameof(healthRecord));
+                throw new KeyNotFoundException($"Health record for student ID {studentId} not found.");
+            return _mapper?.Map<HealthRecordResponse>(healthRecord);
+        }
 
-            if (healthRecord.StudentId == Guid.Empty)
-                throw new ArgumentException("Student ID is required", nameof(healthRecord.StudentId));
+        //4. Create a new health record
+        public async Task CreateHealthRecordAsync(HealthRecordRequest healthRecord)
+        {
+            try
+            {
+                var newHealthRecord = _mapper.Map<HealthRecord>(healthRecord);
+                newHealthRecord.CreatedBy = GetCurrentUsername();
+                newHealthRecord.CreateAt = DateTime.UtcNow;
+                await _healthRecordRepository.CreateHealthRecordAsync(newHealthRecord);
 
-            var existingRecord = await _healthRecordRepository.GetByStudentIdAsync(healthRecord.StudentId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while creating the health record.", ex);
+            }
+        }
+
+        //5. Update an existing health record
+        public async Task UpdateHealthRecordAsync(Guid healthRecordId, HealthRecordRequest healthRecord)
+        {
+          var existingRecord = await _healthRecordRepository.GetHealthRecordByIdAsync(healthRecordId);
+          if (existingRecord == null)
+               throw new KeyNotFoundException($"Health record with ID {healthRecordId} not found.");
+
+          _mapper.Map(healthRecord, existingRecord);
+            existingRecord.Id = healthRecordId;
+            existingRecord.UpdatedBy = GetCurrentUsername();
+            existingRecord.UpdateAt = DateTime.UtcNow;
+          await _healthRecordRepository.UpdateHealthRecordAsync(existingRecord);
+        }
+
+        //6. Delete a health record
+        public async Task DeleteHealthRecordAsync(Guid healthRecordId)
+        {
+            var existingRecord = await _healthRecordRepository.GetHealthRecordByIdAsync(healthRecordId);
             if (existingRecord == null)
-                throw new InvalidOperationException($"Health record for student ID {healthRecord.StudentId} not found");
-
-            _mapper.Map(healthRecord, existingRecord);
-            return await _healthRecordRepository.UpdateAsync(existingRecord);
+                throw new KeyNotFoundException($"Health record with ID {healthRecordId} not found.");
+            await _healthRecordRepository.DeleteHealthRecordAsync(healthRecordId);
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        //7. Get current username from HTTP context
+        private string GetCurrentUsername()
         {
-            if (id == Guid.Empty)
-                throw new ArgumentException("Invalid ID", nameof(id));
-
-            return await _healthRecordRepository.DeleteAsync(id);
-        }
-
-        public async Task<bool> ExistsAsync(Guid id)
-        {
-            if (id == Guid.Empty)
-                throw new ArgumentException("Invalid ID", nameof(id));
-
-            return await _healthRecordRepository.ExistsAsync(id);
+            return _httpContextAccessor.HttpContext?.User.FindFirst("username")?.Value ?? "Unknown User";
         }
     }
 }

@@ -31,6 +31,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Context
         public DbSet<VaccinationCampaign> VaccinationCampaigns { get; set; }
         public DbSet<VaccinationConsentForm> VaccinationConsentForms { get; set; }
         public DbSet<VaccinationResults> VaccinationResults { get; set; }
+        public DbSet<MedicineDiary> MedicineDiaries { get; set; }
 
 
 
@@ -94,6 +95,11 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Context
                     .OnDelete(DeleteBehavior.NoAction);
 
                 options.HasMany(s => s.MedicalConsultations)
+                    .WithOne(m => m.Student)
+                    .HasForeignKey(m => m.StudentId)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                options.HasMany(s => s.MedicineDiaries)
                     .WithOne(m => m.Student)
                     .HasForeignKey(m => m.StudentId)
                     .OnDelete(DeleteBehavior.NoAction);

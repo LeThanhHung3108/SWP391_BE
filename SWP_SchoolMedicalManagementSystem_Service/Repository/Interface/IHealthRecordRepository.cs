@@ -11,13 +11,12 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository.Interface
 {
     public interface IHealthRecordRepository
     {
-        Task<HealthRecord?> GetByIdAsync(Guid id);
-        Task<HealthRecord?> GetByStudentIdAsync(Guid studentId);
-        Task<IEnumerable<HealthRecord>> GetAllAsync();
-        Task<HealthRecord> CreateAsync(HealthRecord healthRecord);
-        Task<HealthRecord> UpdateAsync(HealthRecord healthRecord);
-        Task<bool> DeleteAsync(Guid id);
-        Task<bool> ExistsAsync(Guid id);
+        Task<IEnumerable<HealthRecord>> GetAllHealthRecordAsync();
+        Task<HealthRecord?> GetHealthRecordByIdAsync(Guid healthRecordId);
+        Task<HealthRecord?> GetHealthRecordByStudentIdAsync(Guid studentId);
+        Task CreateHealthRecordAsync(HealthRecord healthRecord);
+        Task UpdateHealthRecordAsync(HealthRecord healthRecord);
+        Task DeleteHealthRecordAsync(Guid HealthRecordId);
     }
 }
     

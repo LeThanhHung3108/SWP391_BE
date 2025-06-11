@@ -5,8 +5,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Models.Requests
 {
     public class HealthRecordRequest
     {
-        public Guid StudentId { get; set; }
-        public Student? Student { get; set; }
+        public Guid? StudentId { get; set; }
         public string? Allergies { get; set; }
         public string? ChronicDiseases { get; set; }
         public string? PastMedicalHistory { get; set; }

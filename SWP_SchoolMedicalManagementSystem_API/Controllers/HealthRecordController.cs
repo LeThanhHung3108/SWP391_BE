@@ -1,161 +1,78 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SWP_SchoolMedicalManagementSystem_API.Models.Requests;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
-using AutoMapper;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 
 namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
-    public class HealthRecordController : ControllerBase
+    public class HealthRecordController : Controller
     {
         private readonly IHealthRecordService _healthRecordService;
-        private readonly IMapper _mapper;
 
-        public HealthRecordController(IHealthRecordService healthRecordService, IMapper mapper)
+        public HealthRecordController(IHealthRecordService healthRecordService)
         {
-            _healthRecordService = healthRecordService ?? throw new ArgumentNullException(nameof(healthRecordService));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _healthRecordService = healthRecordService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<HealthRecordResponse>>> GetAll()
+        //1. Get All Health Records
+        [HttpGet("get-all-health-records")]
+        public async Task<IActionResult> GetAllHealthRecord()
         {
-            try
-            {
-                var healthRecords = await _healthRecordService.GetAllAsync();
-                var response = _mapper.Map<IEnumerable<HealthRecordResponse>>(healthRecords);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var healthRecords = await _healthRecordService.GetAllHealthRecordAsync();
+            return Ok(healthRecords);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<HealthRecordResponse>> GetById(Guid id)
+
+        //2. Get Health Record by ID
+        [HttpGet("get-health-record-by-id/{healthRecordId}")]
+        public async Task<IActionResult> GetHealthRecordById(Guid healthRecordId)
         {
-            try
-            {
-                var healthRecord = await _healthRecordService.GetByIdAsync(id);
-                if (healthRecord == null)
-                {
-                    return NotFound($"Health record with ID {id} not found");
-                }
-                var response = _mapper.Map<HealthRecordResponse>(healthRecord);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var healthRecord = await _healthRecordService.GetHealthRecordByIdAsync(healthRecordId);
+            return Ok(healthRecord);
+
         }
 
-        [HttpGet("student/{studentId}")]
-        public async Task<ActionResult<HealthRecordResponse>> GetByStudentId(Guid studentId)
+        //3. Get Health Record by Student ID
+        [HttpGet("get-health-record-by-student-id/{studentId}")]
+        public async Task<IActionResult> GetByStudentId(Guid studentId)
         {
-            try
-            {
-                var healthRecord = await _healthRecordService.GetByStudentIdAsync(studentId);
-                if (healthRecord == null)
-                {
-                    return NotFound($"Health record for student ID {studentId} not found");
-                }
-                var response = _mapper.Map<HealthRecordResponse>(healthRecord);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var healthRecord = await _healthRecordService.GetHealthRecordByStudentIdAsync(studentId);
+            return Ok(healthRecord);
+            
         }
 
-        [HttpPost]
-        public async Task<ActionResult<HealthRecordResponse>> Create([FromBody] HealthRecordRequest request)
+        //4. Create Health Record
+        [HttpPost("create-health-record")]
+        public async Task<IActionResult> CreateHealthRecord([FromBody] HealthRecordRequest request)
         {
-            try
-            {
+            await _healthRecordService.CreateHealthRecordAsync(request);
+            return Ok("HealthRecord created successfully.");
+        }
+
+        //5. Update Health Record
+        [HttpPut("update-health-record/{healthRecordId}")]
+        public async Task<IActionResult> UpdateHealthRecord(Guid healthRecordId, [FromBody] HealthRecordRequest request)
+        {
                 if (request == null)
                 {
                     return BadRequest("Invalid request data");
                 }
 
-                var createdRecord = await _healthRecordService.CreateAsync(request);
-                var response = _mapper.Map<HealthRecordResponse>(createdRecord);
-                return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+                await _healthRecordService.UpdateHealthRecordAsync(healthRecordId, request);
+                return Ok("HealthRecord updated successfully.");
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<HealthRecordResponse>> Update(Guid id, [FromBody] HealthRecordRequest request)
-        {
-            try
-            {
-                if (request == null)
-                {
-                    return BadRequest("Invalid request data");
-                }
-
-                if (!await _healthRecordService.ExistsAsync(id))
-                {
-                    return NotFound($"Health record with ID {id} not found");
-                }
-
-                var updatedRecord = await _healthRecordService.UpdateAsync(request);
-                var response = _mapper.Map<HealthRecordResponse>(updatedRecord);
-                return Ok(response);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(Guid id)
-        {
-            try
-            {
-                if (!await _healthRecordService.ExistsAsync(id))
-                {
-                    return NotFound($"Health record with ID {id} not found");
-                }
-
-                var result = await _healthRecordService.DeleteAsync(id);
-                if (result)
-                {
-                    return NoContent();
-                }
-                return StatusCode(500, "Failed to delete health record");
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+        //6. Delete Health Record
+        [HttpDelete("delete-health-record/{healthRecordId}")]
+        public async Task<IActionResult> DeleteHealthRecord(Guid healthRecordId)
+        {          
+           await _healthRecordService.DeleteHealthRecordAsync(healthRecordId);
+           return Ok("HealthRecord deleted successfuly.");
         }
     }
 }

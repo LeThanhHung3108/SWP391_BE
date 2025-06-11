@@ -1,11 +1,10 @@
 ﻿using SchoolMedicalManagementSystem.Enum;
-using System;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request
 {
     public class StudentRequest
     {
-        public Guid ParentId { get; set; }
+        public Guid? ParentId { get; set; }
         public string? StudentCode { get; set; }
         public string? FullName { get; set; }
         public DateTime DateOfBirth { get; set; }
