@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplierDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
-using SWP_SchoolMedicalManagementSystem_Service.IRepository;
 using SWP_SchoolMedicalManagementSystem_Service.IService;
+using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 
 namespace SWP_SchoolMedicalManagementSystem_Service.Service
 {

@@ -4,12 +4,10 @@ using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.AuthDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using SWP_SchoolMedicalManagementSystem_Service.Extension;
-using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
-using SWP_SchoolMedicalManagementSystem_Service.IRepository;
-using SWP_SchoolMedicalManagementSystem_Service.IService;
 using System.Security.Cryptography;
 using System.Text;
+using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 
 namespace SWP_SchoolMedicalManagementSystem_Service.Service
 {
