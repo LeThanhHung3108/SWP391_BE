@@ -5,15 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request
+namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response
 {
-    public class VaccinationCampaignRequest
+    public class VaccCampaignResponse
     {
+        public Guid Id { get; set; }
         public string? CampaignName { get; set; }
         public string? VaccineType { get; set; }
         public string? Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public VaccCampaignStatus? Status { get; set; }
+        public List<VaccScheduleResponse>? Schedules { get; set; }
     }
 }

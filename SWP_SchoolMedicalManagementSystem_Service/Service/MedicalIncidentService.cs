@@ -33,7 +33,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
 
         public async Task CreateIncidentAsync(IncidentCreateRequestDto incident)
         {
-            var student = await _studentRepository.GetByIdAsync(incident.StudentId);
+            var student = await _studentRepository.GetStudentByIdAsync(incident.StudentId);
             if (student == null)
                 throw new KeyNotFoundException($"Student with ID {incident.StudentId} not found.");
 

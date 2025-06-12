@@ -10,6 +10,9 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response
     public class HealthRecordResponse
     {
         public Guid Id { get; set; }
+        public string? Height { get; set; }
+        public string? Weight { get; set; }
+        public string? BloodType { get; set; }
         public string? Allergies { get; set; }
         public string? ChronicDiseases { get; set; }
         public string? PastMedicalHistory { get; set; }

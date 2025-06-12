@@ -7,6 +7,8 @@ using SWP_SchoolMedicalManagementSystem_BussinessOject.Context;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Repository;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Service;
+using SWP_SchoolMedicalManagementSystem_Repository.Repository;
+using SWP_SchoolMedicalManagementSystem_Repository.Repository.Interface;
 using SWP_SchoolMedicalManagementSystem_Service.Extension;
 using SWP_SchoolMedicalManagementSystem_Service.IService;
 using SWP_SchoolMedicalManagementSystem_Service.Repository;
@@ -39,6 +41,12 @@ builder.Services.AddScoped<IMedicalSupplierRepository, MedicalSuplierRepository>
 builder.Services.AddScoped<IMedicalSupplierService, MedicalSupplierService>();
 builder.Services.AddScoped<IMedicalIncidentRepository, MedicalIncidentRepository>();
 builder.Services.AddScoped<IMedicalIncidentService, MedicalIncidentService>();
+builder.Services.AddScoped<IVaccCampaignRepository, VaccCampaignRepository>();
+builder.Services.AddScoped<IVaccCampaignService, VaccCampaignService>();
+builder.Services.AddScoped<IVaccScheduleRepository, VaccScheduleRepository>();
+builder.Services.AddScoped<IVaccScheduleService, VaccScheduleService>();
+builder.Services.AddScoped<IVaccFormRepository, VaccFormRepository>();
+builder.Services.AddScoped<IVaccFormService, VaccFormService>();
 #endregion
 
 #region DBContext
