@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.StudentDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 
@@ -82,15 +81,22 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
             return _mapper.Map<IEnumerable<StudentResponse>>(students);
         }
 
+        
         //7. Create student
         public async Task CreateStudentAsync(StudentRequest student)
         {
             try
             {
+                //var userRole = GetCurrentUsername();
+                //if (!userRole.Equals("Parent"))
+                //{
+                //    throw new Exception("User is not a parent.");
+                //}
                 var newStudent = _mapper.Map<Student>(student);
                 newStudent.CreatedBy = GetCurrentUsername();
                 newStudent.CreateAt = DateTime.UtcNow;
                 await _studentRepository.CreateStudentAsync(newStudent);
+
             }
             catch (Exception ex)
             {
@@ -102,12 +108,17 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
         //8. Update student
         public async Task UpdateStudentAsync(Guid studentId, StudentRequest student)
         {
+            //var userRole = GetUserRole();
+            //if (!userRole.Equals("Parent"))
+            //{
+            //    throw new Exception("User is not a parent.");
+            //}
             var existingStudent = await _studentRepository.GetStudentByIdAsync(studentId);
-            if(existingStudent == null)
+            if (existingStudent == null)
             {
                 throw new KeyNotFoundException($"Student with ID {studentId} not found.");
             }
-            
+
             existingStudent.UpdatedBy = GetCurrentUsername();
             existingStudent.UpdateAt = DateTime.UtcNow;
             _mapper.Map(student, existingStudent);
@@ -117,8 +128,13 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
         //9. Delete student
         public async Task DeleteStudentAsync(Guid studentId)
         {
+            //var userRole = GetUserRole();
+            //if (!userRole.Equals("Parent"))
+            //{
+            //    throw new Exception("User is not a parent.");
+            //}
             var existingStudent = await _studentRepository.GetStudentByIdAsync(studentId);
-            if(existingStudent == null)
+            if (existingStudent == null)
             {
                 throw new KeyNotFoundException($"Student with ID {studentId} not found.");
             }
@@ -129,6 +145,11 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
         private string GetCurrentUsername()
         {
             return _httpContextAccessor.HttpContext?.User.FindFirst("username")?.Value ?? "Unknown User";
+        }
+
+        private string GetUserRole()
+        {
+             return _httpContextAccessor.HttpContext?.User.FindFirst("role")?.Value ?? "Unknown Role";
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request
+namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccScheduleDto
 {
     public class VaccScheduleRequest
     {

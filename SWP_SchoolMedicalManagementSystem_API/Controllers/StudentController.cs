@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.StudentDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Service;
 
 namespace SWP_SchoolMedicalManagementSystem_API.Controllers

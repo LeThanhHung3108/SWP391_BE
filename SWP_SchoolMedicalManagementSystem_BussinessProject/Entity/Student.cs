@@ -9,7 +9,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class Student : BaseEntity
     {
-        public Guid ParentId { get; set; }
+        public Guid? ParentId { get; set; }
         public User? Parent {  get; set; }
         public HealthRecord? HealthRecord { get; set; }
         public string? StudentCode { get; set; }
@@ -26,6 +26,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public ICollection<VaccinationConsentForm>? VaccinationConsentForms { get; set; }
         public ICollection<MedicalIncident>? MedicalIncidents { get; set; }
         public ICollection<MedicalConsultation>? MedicalConsultations { get; set; }
-        public ICollection<MedicineDiary>? MedicineDiaries { get; set; }
+        public ICollection<MedicalDiary>? MedicineDiaries { get; set; }
     }
 }

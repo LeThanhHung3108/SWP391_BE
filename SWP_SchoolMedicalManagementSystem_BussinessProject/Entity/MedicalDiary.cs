@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
-    public class MedicineDiary : BaseEntity
+    public class MedicalDiary : BaseEntity
     {
-        public Guid StudentId { get; set; }
-        public Student? Student { get; set; }   
-        public DateTime Date { get; set; }
+        public Guid MedicationReqId { get; set; }
+        public MedicationRequests? MedicationReq { get; set; }   
         public MedicationStatus? Status { get; set; }
         public string? Description { get; set; }
     }

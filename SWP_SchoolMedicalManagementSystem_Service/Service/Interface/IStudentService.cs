@@ -1,6 +1,4 @@
-﻿using SWP_SchoolMedicalManagementSystem_API.Models.Requests;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
+﻿using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.StudentDto;
 
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service

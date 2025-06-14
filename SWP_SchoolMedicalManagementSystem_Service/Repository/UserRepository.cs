@@ -35,7 +35,6 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         {
             var listUser = await _context.Users
                 .Include(u => u.Students!)
-                .ThenInclude(s => s.HealthRecord!)
                 .AsNoTracking()
                 .ToListAsync();
             return listUser;

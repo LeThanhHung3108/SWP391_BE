@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response
+namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccScheduleDto
 {
     public class VaccScheduleResponse
     {

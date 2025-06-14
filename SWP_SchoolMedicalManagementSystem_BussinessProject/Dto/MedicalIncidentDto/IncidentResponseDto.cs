@@ -1,6 +1,6 @@
 ﻿using SchoolMedicalManagementSystem.Enum;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplyUsageDto;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.StudentDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDto

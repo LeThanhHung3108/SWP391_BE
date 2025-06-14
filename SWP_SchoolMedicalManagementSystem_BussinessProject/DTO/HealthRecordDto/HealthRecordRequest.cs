@@ -1,7 +1,7 @@
 ﻿using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using System.ComponentModel.DataAnnotations;
 
-namespace SWP_SchoolMedicalManagementSystem_API.Models.Requests
+namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.HealthRecordDto
 {
     public class HealthRecordRequest
     {

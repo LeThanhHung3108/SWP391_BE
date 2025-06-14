@@ -47,6 +47,8 @@ builder.Services.AddScoped<IVaccScheduleRepository, VaccScheduleRepository>();
 builder.Services.AddScoped<IVaccScheduleService, VaccScheduleService>();
 builder.Services.AddScoped<IVaccFormRepository, VaccFormRepository>();
 builder.Services.AddScoped<IVaccFormService, VaccFormService>();
+builder.Services.AddScoped<IMedicationReqRepository, MedicationReqRepository>();
+builder.Services.AddScoped<IMedicalRequestService, MedicalRequestService>();
 #endregion
 
 #region DBContext

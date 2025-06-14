@@ -19,7 +19,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
         public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {
             return await _context.Students
-                .Include(s => s.HealthRecord)
                 .ToListAsync();
         }
 

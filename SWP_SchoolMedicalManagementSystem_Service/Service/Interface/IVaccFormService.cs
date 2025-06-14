@@ -1,5 +1,4 @@
-﻿using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
+﻿using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccFormDto;
 
 
 namespace SWP_SchoolMedicalManagementSystem_Service.Service.Interface

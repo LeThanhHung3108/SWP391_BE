@@ -1,6 +1,5 @@
 ﻿using SchoolMedicalManagementSystem.Enum;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccCampaignDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using System;
 using System.Collections.Generic;

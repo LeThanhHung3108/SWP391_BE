@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccFormDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using SWP_SchoolMedicalManagementSystem_Repository.Repository.Interface;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;

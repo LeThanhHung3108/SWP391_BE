@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccFormDto;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
 
 namespace SWP_SchoolMedicalManagementSystem_API.Controllers

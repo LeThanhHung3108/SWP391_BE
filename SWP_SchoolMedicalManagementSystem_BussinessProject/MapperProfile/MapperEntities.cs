@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
-using SWP_SchoolMedicalManagementSystem_API.Models.Requests;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplierDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplyUsageDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Request;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.HealthRecordDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.MedicationRequestsDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.StudentDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccCampaignDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccFormDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccScheduleDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
@@ -26,6 +29,10 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
             //HealthRecord Mapper
             CreateMap<HealthRecord, HealthRecordRequest>().ReverseMap();
             CreateMap<HealthRecord, HealthRecordResponse>().ReverseMap();
+
+            //Medical Request Mapper
+            CreateMap<MedicationRequests, MedicationReqRequest>().ReverseMap();
+            CreateMap<MedicationRequests, MedicationReqResponse>().ReverseMap();
 
             //Vaccination Campaign Mapper
             CreateMap<VaccinationCampaign, VaccCampaignRequest>().ReverseMap();

@@ -1,5 +1,5 @@
 ﻿using SchoolMedicalManagementSystem.Enum;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.StudentDto;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto
 {

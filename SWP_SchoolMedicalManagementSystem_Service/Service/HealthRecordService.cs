@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using SWP_SchoolMedicalManagementSystem_API.Models.Requests;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.HealthRecordDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 
