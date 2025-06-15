@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.Response
+namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccCampaignDto
 {
-    public class VaccinationCampaignResponse
+    public class VaccCampaignRequest
     {
-        Guid Id { get; set; }
         public string? CampaignName { get; set; }
         public string? VaccineType { get; set; }
         public string? Description { get; set; }

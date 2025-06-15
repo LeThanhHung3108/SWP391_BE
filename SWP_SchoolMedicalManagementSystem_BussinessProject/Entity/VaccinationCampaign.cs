@@ -19,3 +19,4 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public ICollection<StudentVaccinationSchedule>? Schedules { get; set; }
     }
 }
+            
