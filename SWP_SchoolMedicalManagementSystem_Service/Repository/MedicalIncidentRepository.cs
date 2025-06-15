@@ -31,19 +31,19 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         public async Task<IEnumerable<MedicalIncident>> GetAllIncidentsAsync()
         {
             var incidentList = await _context.MedicalIncidents
-                .Include(i => i.Student)
-                .Include(i => i.MedicalSupplyUsages)
+                .Include(i => i.Student!)
+                .Include(i => i.MedicalSupplyUsages!)
                     .ThenInclude(msu => msu.MedicalSupply)
                 .AsNoTracking()
                 .ToListAsync();
             return incidentList;
         }
 
-        public Task<MedicalIncident?> GetIncidentByIdAsync(Guid id)
+        public async Task<MedicalIncident?> GetIncidentByIdAsync(Guid id)
         {
-            var incident = _context.MedicalIncidents
-                .Include(i => i.Student)
-                .Include(i => i.MedicalSupplyUsages)
+            var incident = await _context.MedicalIncidents
+                .Include(i => i.Student!)
+                .Include(i => i.MedicalSupplyUsages!)
                     .ThenInclude(msu => msu.MedicalSupply)
                 .FirstOrDefaultAsync(i => i.Id == id);
             return incident;
@@ -52,8 +52,8 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         public async Task<IEnumerable<MedicalIncident>> GetIncidentsByStudentIdAsync(Guid studentId)
         {
             var incidents = await _context.MedicalIncidents
-                .Include(i => i.Student)
-                .Include(i => i.MedicalSupplyUsages)
+                .Include(i => i.Student!)
+                .Include(i => i.MedicalSupplyUsages!)
                     .ThenInclude(msu => msu.MedicalSupply)
                 .Where(i => i.StudentId == studentId)
                 .AsNoTracking()

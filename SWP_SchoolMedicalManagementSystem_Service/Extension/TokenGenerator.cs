@@ -41,7 +41,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Extension
 
             var keyString = _configuration["JWT:SecretKey"];
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var accessToken = new JwtSecurityToken(
                 issuer: _configuration["JWT:Issuer"],

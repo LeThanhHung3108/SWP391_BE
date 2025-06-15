@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalDiaryDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplierDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplyUsageDto;
@@ -58,6 +59,12 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
             // Medical Supply Usage Mapper
             CreateMap<MedicalSupplyUsage, MedicalSupplyUsageCreateDto>().ReverseMap();
             CreateMap<MedicalSupplyUsage, MedicalSupplyUsageResponseDto>().ReverseMap();
+
+            // Medical Diary Mapper
+            CreateMap<MedicalDiary, MedicalDiaryRequestDto>().ReverseMap();
+            CreateMap<MedicalDiary, MedicalDiaryResponseDto>()
+                .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.MedicationReq!.Student!.FullName))
+                .ReverseMap();
         }
     }
 }
