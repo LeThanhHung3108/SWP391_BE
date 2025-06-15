@@ -7,7 +7,7 @@ using SchoolMedicalManagementSystem.Enum;
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class MedicationRequests : BaseEntity
-    {       
+    {
         public Guid StudentId { get; set; }
         public Student? Student { get; set; }
         public string? MedicationName { get; set; }
@@ -17,7 +17,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public List<string>? ImagesMedicalInvoice { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public RequestStatus Status { get;set; }
+        public RequestStatus Status { get; set; }
         public Guid? MedicalStaffId { get; set; }
         public User? MedicalStaff { get; set; }
         public ICollection<MedicalDiary>? MedicalDiaries { get; set; }

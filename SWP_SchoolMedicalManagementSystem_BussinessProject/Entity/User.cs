@@ -11,12 +11,12 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
     public class User : BaseEntity
     {
 
-        public string? Username { get; set; } 
+        public string? Username { get; set; }
         public string? Password { get; set; }
-        public string? FullName { get; set; } 
-        public string? Email { get; set; } 
-        public string? PhoneNumber { get; set; } 
-        public string? Address { get; set; } 
+        public string? FullName { get; set; }
+        public string? Email { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Address { get; set; }
         public UserRole UserRole { get; set; }
         public string? Image { get; set; }
         public ICollection<Blog>? Blogs { get; set; }
