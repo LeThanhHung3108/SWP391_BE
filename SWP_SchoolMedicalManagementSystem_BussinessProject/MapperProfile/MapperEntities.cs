@@ -34,7 +34,12 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
 
             //Medical Request Mapper
             CreateMap<MedicationRequests, MedicationReqRequest>().ReverseMap();
-            CreateMap<MedicationRequests, MedicationReqResponse>().ReverseMap();
+            CreateMap<MedicationRequests, MedicationReqResponse>()
+                .ForMember(dest => dest.StudentCode, opt => opt.MapFrom(x => x.Student!.StudentCode))
+                .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.Student!.FullName))
+                .ForMember(dest => dest.MedicalStaffId, opt => opt.MapFrom(src => src.MedicalStaffId))
+                .ForMember(dest => dest.MedicalStaffName, opt => opt.MapFrom(src => src.MedicalStaff!.FullName))
+                .ReverseMap();
 
             //Vaccination Campaign Mapper
             CreateMap<VaccinationCampaign, VaccCampaignRequest>().ReverseMap();

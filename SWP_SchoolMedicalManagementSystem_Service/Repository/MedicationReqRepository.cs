@@ -31,6 +31,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
             return await _context.MedicationRequests
                 .Include(mr => mr.Student)
                 .Include(mr => mr.MedicalStaff)
+                .Include(mr => mr.MedicalDiaries)
                 .FirstOrDefaultAsync(mr => mr.Id == medicalReqId);
         }
 
@@ -40,6 +41,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
             return await _context.MedicationRequests
                 .Include(mr => mr.Student)
                 .Include(mr => mr.MedicalStaff)
+                .Include(mr => mr.MedicalDiaries)
                 .Where(mr => mr.StudentId == studentId)
                 .AsNoTracking()
                 .ToListAsync();
@@ -51,6 +53,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
             return await _context.MedicationRequests
                 .Include(mr => mr.Student)
                 .Include(mr => mr.MedicalStaff)
+                .Include(mr => mr.MedicalDiaries)
                 .Where(mr => mr.Status == status)
                 .AsNoTracking()
                 .ToListAsync();

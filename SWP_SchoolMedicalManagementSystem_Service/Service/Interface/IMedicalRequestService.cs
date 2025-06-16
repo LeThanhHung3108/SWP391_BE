@@ -13,5 +13,6 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service.Interface
         Task UpdateMedicationRequest(Guid medicalReqId, MedicationReqRequest request);
         Task DeleteMedicationRequest(Guid medicalReqId);
         Task AccecptMedicationRequest(Guid medicalReqId);
+        Task RejectMedicationRequest(Guid medicalReqId);
     }
 } 
