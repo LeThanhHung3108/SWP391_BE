@@ -51,6 +51,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
             var medicineDiaries = _context.MedicalDiaries
                 .Include(m => m.MedicationReq)
                 .ThenInclude(m => m.Student)
+                .Where(m => m.MedicationReq.StudentId == studentId)
                 .OrderByDescending(m => m.CreateAt)
                 .ToListAsync();
             return medicineDiaries;
