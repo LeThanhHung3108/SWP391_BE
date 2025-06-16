@@ -8,6 +8,6 @@ namespace SWP_SchoolMedicalManagementSystem_Service.IService
         Task UpdateSupplierAsync(Guid id, SupplierRequestDto supplier);
         Task DeleteSupplierAsync(Guid id);
         Task<SupplierResponseDto> GetSupplierByIdAsync(Guid id);
-        Task<IEnumerable<SupplierResponseDto>> GetAllSuppliersAsync();
+        Task<List<SupplierResponseDto>> GetAllSuppliersAsync();
     }
 }

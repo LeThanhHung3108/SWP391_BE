@@ -8,7 +8,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository.Interface
 {
     public interface IHealthRecordService
     {
-        Task<IEnumerable<HealthRecordResponse>> GetAllHealthRecordAsync();
+        Task<List<HealthRecordResponse>> GetAllHealthRecordAsync();
         Task<HealthRecordResponse?> GetHealthRecordByIdAsync(Guid healthRecordId);
         Task<HealthRecordResponse?> GetHealthRecordByStudentIdAsync(Guid studentId);
         Task CreateHealthRecordAsync(HealthRecordRequest healthRecord);

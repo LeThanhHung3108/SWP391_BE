@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.StudentDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
 {
@@ -17,16 +18,15 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
             _httpContextAccessor = httpContextAccessor;
             _studentRepository = studentRepository;
             _mapper = mapper;
-
         }
 
         //1. Get all students
-        public async Task<IEnumerable<StudentResponse>> GetAllStudentsAsync()
+        public async Task<List<StudentResponse>> GetAllStudentsAsync()
         {
             var students = await _studentRepository.GetAllStudentsAsync();
             if(students == null || !students.Any())
                 throw new KeyNotFoundException("No students found.");
-            return _mapper.Map<IEnumerable<StudentResponse>>(students);
+            return _mapper.Map<List<StudentResponse>>(students);
         }
 
         //2. Get student by ID
@@ -49,16 +49,16 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
         }
 
         //4. Get students by parent ID
-        public async Task<IEnumerable<StudentResponse>> GetStudentsByParentIdAsync(Guid parentId)
+        public async Task<List<StudentResponse>> GetStudentsByParentIdAsync(Guid parentId)
         {
             var students = await _studentRepository.GetStudentsByParentIdAsync(parentId);
             if (students == null || !students.Any())
                 throw new KeyNotFoundException($"No students found for parent ID {parentId}.");
-            return _mapper.Map<IEnumerable<StudentResponse>>(students);
+            return _mapper.Map<List<StudentResponse>>(students);
         }
 
         //5. Get students by class
-        public async Task<IEnumerable<StudentResponse>> GetStudentsByClassAsync(string className)
+        public async Task<List<StudentResponse>> GetStudentsByClassAsync(string className)
         {
             if (string.IsNullOrWhiteSpace(className))
                 throw new ArgumentException("Class name is required", nameof(className));
@@ -66,11 +66,11 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
             var students = await _studentRepository.GetStudentsByClassAsync(className.Trim());
             if (students == null || !students.Any())
                 throw new KeyNotFoundException($"No students found for class {className}.");
-            return _mapper.Map<IEnumerable<StudentResponse>>(students);
+            return _mapper.Map<List<StudentResponse>>(students);
         }
 
         //6. Get students by school year
-        public async Task<IEnumerable<StudentResponse>> GetStudentsBySchoolYearAsync(string schoolYear)
+        public async Task<List<StudentResponse>> GetStudentsBySchoolYearAsync(string schoolYear)
         {
             if (string.IsNullOrWhiteSpace(schoolYear))
                 throw new ArgumentException("School year is required", nameof(schoolYear));
@@ -78,41 +78,28 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
             var students = await _studentRepository.GetStudentsBySchoolYearAsync(schoolYear.Trim());
             if (students == null || !students.Any())
                 throw new KeyNotFoundException($"No students found for school year {schoolYear}.");
-            return _mapper.Map<IEnumerable<StudentResponse>>(students);
+            return _mapper.Map<List<StudentResponse>>(students);
         }
 
-        
         //7. Create student
         public async Task CreateStudentAsync(StudentRequest student)
         {
-            try
-            {
-                //var userRole = GetCurrentUsername();
-                //if (!userRole.Equals("Parent"))
-                //{
-                //    throw new Exception("User is not a parent.");
-                //}
-                var newStudent = _mapper.Map<Student>(student);
-                newStudent.CreatedBy = GetCurrentUsername();
-                newStudent.CreateAt = DateTime.UtcNow;
-                await _studentRepository.CreateStudentAsync(newStudent);
+            var existingStudent = await _studentRepository.GetStudentByStudentCodeAsync(student.StudentCode);
+            if (existingStudent != null)
+                throw new InvalidOperationException($"Student with code {student.StudentCode} already exists");
 
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("An error occurred while creating the student.", ex);
-
-            }
+            var newStudent = _mapper.Map<Student>(student);
+            newStudent.Id = Guid.NewGuid();
+            newStudent.CreatedBy = GetCurrentUsername();
+            newStudent.CreateAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+            newStudent.UpdateAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+            newStudent.DateOfBirth = DateTime.SpecifyKind(student.DateOfBirth.ToUniversalTime(), DateTimeKind.Utc);
+            await _studentRepository.CreateStudentAsync(newStudent);
         }
 
         //8. Update student
         public async Task UpdateStudentAsync(Guid studentId, StudentRequest student)
         {
-            //var userRole = GetUserRole();
-            //if (!userRole.Equals("Parent"))
-            //{
-            //    throw new Exception("User is not a parent.");
-            //}
             var existingStudent = await _studentRepository.GetStudentByIdAsync(studentId);
             if (existingStudent == null)
             {
@@ -120,7 +107,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
             }
 
             existingStudent.UpdatedBy = GetCurrentUsername();
-            existingStudent.UpdateAt = DateTime.UtcNow;
+            existingStudent.UpdateAt = DateTime.UtcNow; ;
             _mapper.Map(student, existingStudent);
             await _studentRepository.UpdateStudentAsync(existingStudent);
         }
@@ -128,11 +115,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
         //9. Delete student
         public async Task DeleteStudentAsync(Guid studentId)
         {
-            //var userRole = GetUserRole();
-            //if (!userRole.Equals("Parent"))
-            //{
-            //    throw new Exception("User is not a parent.");
-            //}
             var existingStudent = await _studentRepository.GetStudentByIdAsync(studentId);
             if (existingStudent == null)
             {

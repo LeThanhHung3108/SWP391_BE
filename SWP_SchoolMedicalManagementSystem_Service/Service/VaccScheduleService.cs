@@ -24,12 +24,12 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         }
 
         //1. Get all vaccination schedules
-        public async Task<IEnumerable<VaccScheduleResponse>> GetAllVaccSchedulesAsync()
+        public async Task<List<VaccScheduleResponse>> GetAllVaccSchedulesAsync()
         {
             var vaccSchedules = await _vaccScheduleRepository.GetAllVaccSchedulesAsync();
             if (vaccSchedules == null || !vaccSchedules.Any())
                 throw new KeyNotFoundException("No vaccination schedules found.");
-            return _mapper.Map<IEnumerable<VaccScheduleResponse>>(vaccSchedules);
+            return _mapper.Map<List<VaccScheduleResponse>>(vaccSchedules);
         }
 
         //2. Get vaccination schedule by ID
@@ -42,12 +42,12 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         }
 
         //3. Get vaccination schedules by campaign ID
-        public async Task<IEnumerable<VaccScheduleResponse>> GetVaccSchedulesByCampaignIdAsync(Guid vaccCampaignId)
+        public async Task<List<VaccScheduleResponse>> GetVaccSchedulesByCampaignIdAsync(Guid vaccCampaignId)
         {
             var vaccSchedules = await _vaccScheduleRepository.GetVaccSchedulesByCampaignIdAsync(vaccCampaignId);
             if (vaccSchedules == null || !vaccSchedules.Any())
                 throw new KeyNotFoundException($"No vaccination schedules found for campaign ID {vaccCampaignId}.");
-            return _mapper.Map<IEnumerable<VaccScheduleResponse>>(vaccSchedules);
+            return _mapper.Map<List<VaccScheduleResponse>>(vaccSchedules);
         }
 
         //4. Create a new vaccination schedule

@@ -6,7 +6,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VaccFormController : Controller
+    public class VaccFormController : ControllerBase
     {
         private readonly IVaccFormService _vaccFormService;
 
@@ -16,7 +16,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         }
 
         [HttpGet("get-all-vacc-forms")]
-        public async Task<ActionResult<IEnumerable<VaccFormResponse>>> GetAllVaccForms()
+        public async Task<ActionResult<List<VaccFormResponse>>> GetAllVaccForms()
         {
             var vaccForms = await _vaccFormService.GetAllVaccFormsAsync();
             return Ok(vaccForms);
@@ -30,14 +30,14 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         }
 
         [HttpGet("get-vacc-forms-by-campaign-id/{vaccCampaignId}")]
-        public async Task<ActionResult<IEnumerable<VaccFormResponse>>> GetVaccFormsByCampaign(Guid vaccCampaignId)
+        public async Task<ActionResult<List<VaccFormResponse>>> GetVaccFormsByCampaign(Guid vaccCampaignId)
         {
             var vaccForms = await _vaccFormService.GetVaccFormsByCampaignIdAsync(vaccCampaignId);
             return Ok(vaccForms);
         }
 
         [HttpGet("get-vacc-forms-by-student-id/{studentId}")]
-        public async Task<ActionResult<IEnumerable<VaccFormResponse>>> GetVaccFormsByStudent(Guid studentId)
+        public async Task<ActionResult<List<VaccFormResponse>>> GetVaccFormsByStudent(Guid studentId)
         {
             var vaccForms = await _vaccFormService.GetVaccFormsByStudentIdAsync(studentId);
             return Ok(vaccForms);

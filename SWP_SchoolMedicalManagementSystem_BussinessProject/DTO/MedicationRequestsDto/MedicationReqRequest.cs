@@ -1,4 +1,6 @@
-﻿namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.MedicationRequestsDto
+﻿using SchoolMedicalManagementSystem.Enum;
+
+namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.MedicationRequestsDto
 {
     public class MedicationReqRequest
     {
@@ -9,5 +11,7 @@
         public string? Instructions { get; set; }
         public List<string>? ImagesMedicalInvoice { get; set; }
         public DateTime? StartDate { get; set; }
+        public RequestStatus Status { get; set; }
+        public Guid? MedicalStaffId { get; set; }
     }
 }

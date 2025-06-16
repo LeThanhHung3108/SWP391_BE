@@ -30,7 +30,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<MedicalSupplier>> GetAllSuppliersAsync()
+        public async Task<List<MedicalSupplier>> GetAllSuppliersAsync()
         {
             var listSupplier = await _context.MedicalSuppliers.AsNoTracking().ToListAsync();
             return listSupplier;

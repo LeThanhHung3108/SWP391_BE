@@ -8,7 +8,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
         private readonly IUploadImage _uploadImageService;

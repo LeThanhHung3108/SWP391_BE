@@ -16,9 +16,10 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
         }
 
         //1. Get all students
-        public async Task<IEnumerable<Student>> GetAllStudentsAsync()
+        public async Task<List<Student>> GetAllStudentsAsync()
         {
             return await _context.Students
+                .Include(s => s.HealthRecord)
                 .ToListAsync();
         }
 
@@ -39,7 +40,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
         }
 
         //4. Get students by Parent ID
-        public async Task<IEnumerable<Student>> GetStudentsByParentIdAsync(Guid parentId)
+        public async Task<List<Student>> GetStudentsByParentIdAsync(Guid parentId)
         {
             return await _context.Students
                 .Include(s => s.HealthRecord)
@@ -48,7 +49,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
         }
 
         //5. Get students by Class
-        public async Task<IEnumerable<Student>> GetStudentsByClassAsync(string className)
+        public async Task<List<Student>> GetStudentsByClassAsync(string className)
         {
             return await _context.Students
                 .Include(s => s.HealthRecord)
@@ -57,7 +58,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Repository
         }
 
         //6. Get students by School Year
-        public async Task<IEnumerable<Student>> GetStudentsBySchoolYearAsync(string schoolYear)
+        public async Task<List<Student>> GetStudentsBySchoolYearAsync(string schoolYear)
         {
             return await _context.Students
                 .Include(s => s.HealthRecord)

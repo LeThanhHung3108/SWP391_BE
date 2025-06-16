@@ -15,7 +15,7 @@ namespace SWP_SchoolMedicalManagementSystem_Repository.Repository
         }
 
         //1. Get all vaccination consent forms
-        public async Task<IEnumerable<VaccinationConsentForm>> GetAllVaccFormsAsync()
+        public async Task<List<VaccinationConsentForm>> GetAllVaccFormsAsync()
         {
             return await _context.VaccinationConsentForms
                 .Include(vf => vf.VaccinationCampaign)
@@ -33,7 +33,7 @@ namespace SWP_SchoolMedicalManagementSystem_Repository.Repository
         }
 
         //3. Get vaccination consent forms by campaign ID
-        public async Task<IEnumerable<VaccinationConsentForm>> GetVaccFormsByCampaignIdAsync(Guid vaccCampaignId)
+        public async Task<List<VaccinationConsentForm>> GetVaccFormsByCampaignIdAsync(Guid vaccCampaignId)
         {
             return await _context.VaccinationConsentForms
                 .Include(vf => vf.VaccinationCampaign)
@@ -43,7 +43,7 @@ namespace SWP_SchoolMedicalManagementSystem_Repository.Repository
         }
 
         //4. Get vaccination consent forms by student ID
-        public async Task<IEnumerable<VaccinationConsentForm>> GetVaccFormsByStudentIdAsync(Guid studentId)
+        public async Task<List<VaccinationConsentForm>> GetVaccFormsByStudentIdAsync(Guid studentId)
         {
             return await _context.VaccinationConsentForms
                 .Include(vf => vf.VaccinationCampaign)
