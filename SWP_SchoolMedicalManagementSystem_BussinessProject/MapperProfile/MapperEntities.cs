@@ -21,6 +21,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
             //User Mapper
             CreateMap<User, UserRegisterRequestDto>().ReverseMap();
             CreateMap<User, UserResponseDto>().ReverseMap();
+            CreateMap<User, UserCreateRequestDto>().ReverseMap();
             CreateMap<User, UserUpdateRequestDto>().ReverseMap();
 
             //Student Mapper

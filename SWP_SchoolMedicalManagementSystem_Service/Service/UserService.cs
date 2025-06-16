@@ -26,6 +26,16 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             _tokenGenerator = tokenGeneratior;
         }
 
+        public async Task CreateUserAsync(UserCreateRequestDto request)
+        {
+            var user = _mapper.Map<User>(request);
+            user.Password = HashPasswordToSha256(request.Password);
+            user.CreateAt = DateTime.UtcNow;
+            user.CreatedBy = GetCurrentUsername();
+
+            await _userRepository.AddUserAsync(user);
+        }
+
         public async Task DeleteUserAsync(Guid userId)
         {
             var user = await _userRepository.GetUserByIdAsync(userId);

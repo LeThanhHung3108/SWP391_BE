@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SchoolMedicalManagementSystem.Enum;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.MedicationRequestsDto;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
@@ -7,7 +8,8 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MedicationRequestController : Controller
+    [Authorize]
+    public class MedicationRequestController : ControllerBase
     {
         private readonly IMedicalRequestService _medicalRequestService;
 
@@ -87,6 +89,13 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         {
             await _medicalRequestService.DeleteMedicationRequest(medicalReqId);
             return Ok("Medication request deleted successfully.");
+        }
+
+        [HttpPost("approve-medication-request/{medicalReqId}")]
+        public async Task<IActionResult> ApproveMedicationRequest(Guid medicalReqId)
+        {
+            await _medicalRequestService.AccecptMedicationRequest(medicalReqId);
+            return Ok("Medication request approved successfully.");
         }
     }
 }
