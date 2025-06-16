@@ -20,12 +20,12 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             _mapper = mapper;
         }
         //1. Get all health records
-        public async Task<IEnumerable<HealthRecordResponse>> GetAllHealthRecordAsync()
+        public async Task<List<HealthRecordResponse>> GetAllHealthRecordAsync()
         {
             var healthRecords = await _healthRecordRepository.GetAllHealthRecordAsync();
             if(healthRecords == null || !healthRecords.Any())
                 throw new KeyNotFoundException("No health records found.");
-            return _mapper.Map<IEnumerable<HealthRecordResponse>>(healthRecords);
+            return _mapper.Map<List<HealthRecordResponse>>(healthRecords);
         }
 
         //2. Get health record by ID

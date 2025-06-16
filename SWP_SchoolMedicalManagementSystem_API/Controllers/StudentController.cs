@@ -1,18 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SchoolMedicalManagementSystem.Enum;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.StudentDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Service;
+using SWP_SchoolMedicalManagementSystem_Service.Service;
+using ClosedXML.Excel;
+using System.Data;
+using System.Net.Mime;
 
 namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentController : Controller
+    public class StudentController : ControllerBase
     {
         private readonly IStudentService _studentService;
+        private readonly StudentExcelReader _excelReader;
 
         public StudentController(IStudentService studentService)
         {
             _studentService = studentService;
+            _excelReader = new StudentExcelReader();
         }
 
         //1. Get all students
@@ -70,6 +77,46 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
             await _studentService.CreateStudentAsync(request);
             return Ok("Student created successfully.");
 
+        }
+
+        //7.1 Import students from Excel file
+        [HttpPost("import-student-from-excel")]
+        public async Task<IActionResult> ImportStudentsFromExcel(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded");
+            }
+
+            if (!file.FileName.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest("Only .xlsx files are allowed");
+            }
+
+            try
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    var students = await _excelReader.ReadStudentsFromExcelAsync(stream);
+
+                    if (!students.Any())
+                    {
+                        return BadRequest("No valid student data found in the file");
+                    }
+
+                    // Process each student
+                    foreach (var student in students)
+                    {
+                        await _studentService.CreateStudentAsync(student);
+                    }
+
+                    return Ok(new { message = $"Successfully imported {students.Count} students" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error processing file: {ex.Message}");
+            }
         }
 
         //8. Update an existing student

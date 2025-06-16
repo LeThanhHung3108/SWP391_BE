@@ -10,9 +10,9 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service.Interface
 {
     public interface IVaccScheduleService
     {
-        Task<IEnumerable<VaccScheduleResponse>> GetAllVaccSchedulesAsync();
+        Task<List<VaccScheduleResponse>> GetAllVaccSchedulesAsync();
         Task<VaccScheduleResponse?> GetVaccScheduleByIdAsync(Guid vaccScheduleId);
-        Task<IEnumerable<VaccScheduleResponse>> GetVaccSchedulesByCampaignIdAsync(Guid vaccCampaignId);
+        Task<List<VaccScheduleResponse>> GetVaccSchedulesByCampaignIdAsync(Guid vaccCampaignId);
         Task CreateVaccScheduleAsync(VaccScheduleRequest request);
         Task UpdateVaccScheduleAsync(Guid vaccScheduleId, VaccScheduleRequest request);
         Task DeleteVaccScheduleAsync(Guid vaccScheduleId);

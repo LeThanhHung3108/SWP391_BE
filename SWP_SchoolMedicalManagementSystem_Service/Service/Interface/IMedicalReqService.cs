@@ -5,10 +5,10 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service.Interface
 {
     public interface IMedicalReqService
     {
-        Task<IEnumerable<MedicationReqResponse>> GetAllMedicationRequests();
+        Task<List<MedicationReqResponse>> GetAllMedicationRequests();
         Task<MedicationReqResponse?> GetMedicationRequestById(Guid medicalReqId);
-        Task<IEnumerable<MedicationReqResponse>> GetMedicationRequestsByStudentId(Guid studentId);
-        Task<IEnumerable<MedicationReqResponse>> GetMedicationRequestsByStatus(RequestStatus status);
+        Task<List<MedicationReqResponse>> GetMedicationRequestsByStudentId(Guid studentId);
+        Task<List<MedicationReqResponse>> GetMedicationRequestsByStatus(RequestStatus status);
         Task CreateMedicationRequest(MedicationReqRequest medicationReq);
         Task UpdateMedicationRequest(Guid medicalReqId, MedicationReqRequest medicationReq);
         Task DeleteMedicationRequest(Guid medicalReqId);

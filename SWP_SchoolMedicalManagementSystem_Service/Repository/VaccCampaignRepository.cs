@@ -16,7 +16,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         }
 
         //1. Get all vaccination campaigns
-        public async Task<IEnumerable<VaccinationCampaign>> GetAllVaccCampaignsAsync()
+        public async Task<List<VaccinationCampaign>> GetAllVaccCampaignsAsync()
         {
             return await _context.VaccinationCampaigns
                 .Include(v => v.Schedules)
@@ -32,7 +32,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         }
 
         //3. Get vaccination campaigns by status
-        public async Task<IEnumerable<VaccinationCampaign>> GetCampaignsByStatusAsync(VaccCampaignStatus vaccCampaigStatus)
+        public async Task<List<VaccinationCampaign>> GetCampaignsByStatusAsync(VaccCampaignStatus vaccCampaigStatus)
         {
             return await _context.VaccinationCampaigns
                 .Include(v => v.Schedules)

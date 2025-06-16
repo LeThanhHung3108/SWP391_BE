@@ -47,7 +47,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             }
         }
 
-        public async Task<IEnumerable<SupplierResponseDto>> GetAllSuppliersAsync()
+        public async Task<List<SupplierResponseDto>> GetAllSuppliersAsync()
         {
             try
             {

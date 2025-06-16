@@ -6,7 +6,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class HealthRecordController : Controller
+    public class HealthRecordController : ControllerBase
     {
         private readonly IHealthRecordService _healthRecordService;
 

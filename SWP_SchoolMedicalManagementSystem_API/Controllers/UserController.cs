@@ -6,7 +6,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
         public UserController(IUserService userService)
