@@ -72,7 +72,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             await _medicalIncidentRepository.DeleteIncidentAsync(id);
         }
 
-        public async Task<IEnumerable<IncidentResponseDto>> GetAllIncidentsAsync()
+        public async Task<List<IncidentResponseDto>> GetAllIncidentsAsync()
         {
             var incidents = await _medicalIncidentRepository.GetAllIncidentsAsync();
             if (incidents == null || !incidents.Any())
@@ -90,7 +90,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             return _mapper.Map<IncidentResponseDto>(incident);
         }
 
-        public async Task<IEnumerable<IncidentResponseDto>> GetIncidentsByStudentIdAsync(Guid studentId)
+        public async Task<List<IncidentResponseDto>> GetIncidentsByStudentIdAsync(Guid studentId)
         {
             var incidents = await _medicalIncidentRepository.GetIncidentsByStudentIdAsync(studentId);
             if (incidents == null || !incidents.Any())

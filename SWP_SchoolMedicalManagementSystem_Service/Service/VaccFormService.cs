@@ -23,10 +23,10 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<VaccFormResponse>> GetAllVaccFormsAsync()
+        public async Task<List<VaccFormResponse>> GetAllVaccFormsAsync()
         {
             var vaccForms = await _vaccFormRepository.GetAllVaccFormsAsync();
-            return _mapper.Map<IEnumerable<VaccFormResponse>>(vaccForms);
+            return _mapper.Map<List<VaccFormResponse>>(vaccForms);
         }
 
         public async Task<VaccFormResponse> GetVaccFormByIdAsync(Guid vaccFormId)
@@ -37,16 +37,16 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             return _mapper.Map<VaccFormResponse>(vaccForm);
         }
 
-        public async Task<IEnumerable<VaccFormResponse>> GetVaccFormsByCampaignIdAsync(Guid vaccCampaignId)
+        public async Task<List<VaccFormResponse>> GetVaccFormsByCampaignIdAsync(Guid vaccCampaignId)
         {
             var vaccForms = await _vaccFormRepository.GetVaccFormsByCampaignIdAsync(vaccCampaignId);
-            return _mapper.Map<IEnumerable<VaccFormResponse>>(vaccForms);
+            return _mapper.Map<List<VaccFormResponse>>(vaccForms);
         }
 
-        public async Task<IEnumerable<VaccFormResponse>> GetVaccFormsByStudentIdAsync(Guid studentId)
+        public async Task<List<VaccFormResponse>> GetVaccFormsByStudentIdAsync(Guid studentId)
         {
             var vaccForms = await _vaccFormRepository.GetVaccFormsByStudentIdAsync(studentId);
-            return _mapper.Map<IEnumerable<VaccFormResponse>>(vaccForms);
+            return _mapper.Map<List<VaccFormResponse>>(vaccForms);
         }
 
         public async Task CreateVaccFormAsync(VaccFormRequest vaccForm)

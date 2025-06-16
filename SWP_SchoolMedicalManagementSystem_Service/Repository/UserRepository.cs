@@ -48,7 +48,10 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
 
         public async Task<User?> GetUserByIdAsync(Guid userId)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _context.Users
+                 .Include(u => u.Students!)
+                 .ThenInclude(u => u.HealthRecord!)
+                .FirstOrDefaultAsync(u => u.Id == userId);
             return user;
         }
 

@@ -15,7 +15,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository.Implementation
         }
 
         //1. Get all health records
-        public async Task<IEnumerable<HealthRecord>> GetAllHealthRecordAsync()
+        public async Task<List<HealthRecord>> GetAllHealthRecordAsync()
         {
             return await _context.HealthRecords.AsNoTracking().ToListAsync();
         }

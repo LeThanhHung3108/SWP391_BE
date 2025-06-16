@@ -8,6 +8,6 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository.Interface
         Task UpdateSupplierAsync(MedicalSupplier supplier);
         Task DeleteSupplierAsync(Guid id);
         Task<MedicalSupplier?> GetSupplierByIdAsync(Guid id);
-        Task<IEnumerable<MedicalSupplier>> GetAllSuppliersAsync();
+        Task<List<MedicalSupplier>> GetAllSuppliersAsync();
     }
 }

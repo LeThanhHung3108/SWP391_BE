@@ -10,9 +10,9 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository.Interface
 {
     public interface IVaccCampaignRepository
     {
-        Task<IEnumerable<VaccinationCampaign>> GetAllVaccCampaignsAsync();
+        Task<List<VaccinationCampaign>> GetAllVaccCampaignsAsync();
         Task<VaccinationCampaign?> GetVaccCampaignByIdAsync(Guid vaccCampaignId);
-        Task<IEnumerable<VaccinationCampaign>> GetCampaignsByStatusAsync(VaccCampaignStatus vaccCampaigStatus);
+        Task<List<VaccinationCampaign>> GetCampaignsByStatusAsync(VaccCampaignStatus vaccCampaigStatus);
         Task CreateCampaignAsync(VaccinationCampaign campaign);
         Task UpdateCampaignAsync(VaccinationCampaign campaign);
         Task DeleteCampaignAsync(Guid vaccCampaignId);

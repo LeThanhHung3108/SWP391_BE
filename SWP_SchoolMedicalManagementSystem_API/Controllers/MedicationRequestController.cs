@@ -7,7 +7,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MedicationRequestController : Controller
+    public class MedicationRequestController : ControllerBase
     {
         private readonly IMedicalRequestService _medicalRequestService;
 

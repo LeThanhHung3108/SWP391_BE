@@ -18,8 +18,12 @@ using SWP_SchoolMedicalManagementSystem_Service.Service;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
 using System.Reflection; // Added for Assembly reference
 using System.Text;
+using OfficeOpenXml;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Set EPPlus license
+ExcelPackage.License.SetNonCommercialOrganization("My Organization");
 
 // Add services to the container.
 

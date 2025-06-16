@@ -30,12 +30,12 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         
 
         //1. Get all medication requests
-        public async Task<IEnumerable<MedicationReqResponse>> GetAllMedicationRequests()
+        public async Task<List<MedicationReqResponse>> GetAllMedicationRequests()
         {
             var medicationRequests = await _medicationReqRepository.GetAllMedicationRequests();
             if (medicationRequests == null || !medicationRequests.Any())
                 throw new KeyNotFoundException("No medication requests found.");
-            return _mapper.Map<IEnumerable<MedicationReqResponse>>(medicationRequests);
+            return _mapper.Map<List<MedicationReqResponse>>(medicationRequests);
         }
 
         //2. Get medication request by ID
@@ -48,7 +48,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         }
 
         //3. Get medication requests by Student ID
-        public async Task<IEnumerable<MedicationReqResponse>> GetMedicationRequestsByStudentId(Guid studentId)
+        public async Task<List<MedicationReqResponse>> GetMedicationRequestsByStudentId(Guid studentId)
         {
             var student = await _studentRepository.GetStudentByIdAsync(studentId);
             if (student == null)
@@ -57,16 +57,16 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             var medicationRequests = await _medicationReqRepository.GetMedicationRequestsByStudentId(studentId);
             if (medicationRequests == null || !medicationRequests.Any())
                 throw new KeyNotFoundException($"No medication requests found for student ID {studentId}.");
-            return _mapper.Map<IEnumerable<MedicationReqResponse>>(medicationRequests);
+            return _mapper.Map<List<MedicationReqResponse>>(medicationRequests);
         }
 
         //4. Get medication requests by status
-        public async Task<IEnumerable<MedicationReqResponse>> GetMedicationRequestsByStatus(RequestStatus status)
+        public async Task<List<MedicationReqResponse>> GetMedicationRequestsByStatus(RequestStatus status)
         {
             var medicationRequests = await _medicationReqRepository.GetMedicationRequestsByStatus(status);
             if (medicationRequests == null || !medicationRequests.Any())
                 throw new KeyNotFoundException($"No medication requests found with status {status}.");
-            return _mapper.Map<IEnumerable<MedicationReqResponse>>(medicationRequests);
+            return _mapper.Map<List<MedicationReqResponse>>(medicationRequests);
         }
 
         //5. Create a new medication request

@@ -7,7 +7,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VaccCampaignController : Controller
+    public class VaccCampaignController : ControllerBase
     {
         private readonly IVaccCampaignService _vaccCampaignService;
 

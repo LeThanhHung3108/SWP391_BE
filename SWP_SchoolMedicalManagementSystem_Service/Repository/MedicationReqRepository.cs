@@ -16,7 +16,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         }
 
         //1. Get all medication requests
-        public async Task<IEnumerable<MedicationRequests>> GetAllMedicationRequests()
+        public async Task<List<MedicationRequests>> GetAllMedicationRequests()
         {
             return await _context.MedicationRequests
                 .Include(mr => mr.Student)
@@ -35,7 +35,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         }
 
         //3. Get medication requests by Student ID
-        public async Task<IEnumerable<MedicationRequests>> GetMedicationRequestsByStudentId(Guid studentId)
+        public async Task<List<MedicationRequests>> GetMedicationRequestsByStudentId(Guid studentId)
         {
             return await _context.MedicationRequests
                 .Include(mr => mr.Student)
@@ -46,7 +46,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         }
 
         //4. Get medication requests by status
-        public async Task<IEnumerable<MedicationRequests>> GetMedicationRequestsByStatus(RequestStatus status)
+        public async Task<List<MedicationRequests>> GetMedicationRequestsByStatus(RequestStatus status)
         {
             return await _context.MedicationRequests
                 .Include(mr => mr.Student)

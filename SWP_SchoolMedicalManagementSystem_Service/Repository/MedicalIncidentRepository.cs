@@ -28,7 +28,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<MedicalIncident>> GetAllIncidentsAsync()
+        public async Task<List<MedicalIncident>> GetAllIncidentsAsync()
         {
             var incidentList = await _context.MedicalIncidents
                 .Include(i => i.Student!)
@@ -49,7 +49,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
             return incident;
         }
 
-        public async Task<IEnumerable<MedicalIncident>> GetIncidentsByStudentIdAsync(Guid studentId)
+        public async Task<List<MedicalIncident>> GetIncidentsByStudentIdAsync(Guid studentId)
         {
             var incidents = await _context.MedicalIncidents
                 .Include(i => i.Student!)
