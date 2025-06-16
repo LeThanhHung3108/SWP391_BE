@@ -16,20 +16,22 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
     {
         static StudentExcelReader()
         {
-            // Set EPPlus license
             ExcelPackage.License.SetNonCommercialOrganization("My Organization");
         }
 
         public async Task<List<StudentRequest>> ReadStudentsFromExcelAsync(Stream fileStream)
         {
             var students = new List<StudentRequest>();
+            if (fileStream == null || fileStream.Length == 0)
+            {
+                throw new FileNotFoundException("No file uploaded");
+            }
 
             using (var package = new ExcelPackage(fileStream))
             {
-                var worksheet = package.Workbook.Worksheets[0]; // Get first worksheet
+                var worksheet = package.Workbook.Worksheets[0];
                 var rowCount = worksheet.Dimension.Rows;
 
-                // Start from row 2 to skip header
                 for (int row = 2; row <= rowCount; row++)
                 {
                     try
@@ -44,28 +46,19 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
                             SchoolYear = worksheet.Cells[row, 6].Value?.ToString()
                         };
 
-                        if (IsValidStudent(student))
-                        {
-                            students.Add(student);
-                        }
+                        students.Add(student);
                     }
                     catch (Exception ex)
                     {
-                        // Log error for this row but continue processing
                         Console.WriteLine($"Error processing row {row}: {ex.Message}");
                     }
                 }
             }
-
+            if (!students.Any())
+            {
+                throw new Exception("No valid student data found in the file");
+            }
             return students;
-        }
-
-        private bool IsValidStudent(StudentRequest student)
-        {
-            return !string.IsNullOrWhiteSpace(student.StudentCode) &&
-                   !string.IsNullOrWhiteSpace(student.FullName) &&
-                   !string.IsNullOrWhiteSpace(student.Class) &&
-                   !string.IsNullOrWhiteSpace(student.SchoolYear);
         }
 
         private Gender ParseGender(string? genderStr)

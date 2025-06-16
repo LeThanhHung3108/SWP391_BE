@@ -84,53 +84,17 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
         //7. Create student
         public async Task CreateStudentAsync(StudentRequest student)
         {
-            try
-            {
-                // Validate required fields
-                if (string.IsNullOrWhiteSpace(student.StudentCode))
-                    throw new ArgumentException("Student code is required");
-                if (string.IsNullOrWhiteSpace(student.FullName))
-                    throw new ArgumentException("Full name is required");
-                if (student.DateOfBirth == default)
-                    throw new ArgumentException("Date of birth is required");
-                if (string.IsNullOrWhiteSpace(student.Class))
-                    throw new ArgumentException("Class is required");
-                if (string.IsNullOrWhiteSpace(student.SchoolYear))
-                    throw new ArgumentException("School year is required");
+            var existingStudent = await _studentRepository.GetStudentByStudentCodeAsync(student.StudentCode);
+            if (existingStudent != null)
+                throw new InvalidOperationException($"Student with code {student.StudentCode} already exists");
 
-                // Check if student code already exists
-                var existingStudent = await _studentRepository.GetStudentByStudentCodeAsync(student.StudentCode);
-                if (existingStudent != null)
-                    throw new InvalidOperationException($"Student with code {student.StudentCode} already exists");
-
-                var newStudent = _mapper.Map<Student>(student);
-                newStudent.Id = Guid.NewGuid(); // Ensure new ID is generated
-                newStudent.CreatedBy = GetCurrentUsername();
-                newStudent.CreateAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
-                newStudent.UpdateAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
-                // Ensure DateOfBirth is in UTC
-                newStudent.DateOfBirth = DateTime.SpecifyKind(student.DateOfBirth.ToUniversalTime(), DateTimeKind.Utc);
-
-                await _studentRepository.CreateStudentAsync(newStudent);
-            }
-            catch (DbUpdateException ex)
-            {
-                // Handle database-specific errors
-                if (ex.InnerException != null)
-                {
-                    throw new Exception($"Database error: {ex.InnerException.Message}", ex);
-                }
-                throw new Exception("Error saving student to database", ex);
-            }
-            catch (Exception ex)
-            {
-                // Log the inner exception for more details
-                if (ex.InnerException != null)
-                {
-                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
-                }
-                throw new Exception($"Error creating student: {ex.Message}", ex);
-            }
+            var newStudent = _mapper.Map<Student>(student);
+            newStudent.Id = Guid.NewGuid();
+            newStudent.CreatedBy = GetCurrentUsername();
+            newStudent.CreateAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+            newStudent.UpdateAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+            newStudent.DateOfBirth = DateTime.SpecifyKind(student.DateOfBirth.ToUniversalTime(), DateTimeKind.Utc);
+            await _studentRepository.CreateStudentAsync(newStudent);
         }
 
         //8. Update student
@@ -143,21 +107,14 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Service
             }
 
             existingStudent.UpdatedBy = GetCurrentUsername();
-            existingStudent.UpdateAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+            existingStudent.UpdateAt = DateTime.UtcNow; ;
             _mapper.Map(student, existingStudent);
-            // Ensure DateOfBirth is in UTC
-            existingStudent.DateOfBirth = DateTime.SpecifyKind(student.DateOfBirth.ToUniversalTime(), DateTimeKind.Utc);
             await _studentRepository.UpdateStudentAsync(existingStudent);
         }
 
         //9. Delete student
         public async Task DeleteStudentAsync(Guid studentId)
         {
-            //var userRole = GetUserRole();
-            //if (!userRole.Equals("Parent"))
-            //{
-            //    throw new Exception("User is not a parent.");
-            //}
             var existingStudent = await _studentRepository.GetStudentByIdAsync(studentId);
             if (existingStudent == null)
             {

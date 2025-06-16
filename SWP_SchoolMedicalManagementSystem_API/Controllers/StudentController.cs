@@ -83,40 +83,18 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         [HttpPost("import-student-from-excel")]
         public async Task<IActionResult> ImportStudentsFromExcel(IFormFile file)
         {
-            if (file == null || file.Length == 0)
-            {
-                return BadRequest("No file uploaded");
-            }
-
-            if (!file.FileName.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase))
-            {
-                return BadRequest("Only .xlsx files are allowed");
-            }
-
-            try
             {
                 using (var stream = file.OpenReadStream())
                 {
                     var students = await _excelReader.ReadStudentsFromExcelAsync(stream);
-
-                    if (!students.Any())
-                    {
-                        return BadRequest("No valid student data found in the file");
-                    }
-
-                    // Process each student
                     foreach (var student in students)
                     {
                         await _studentService.CreateStudentAsync(student);
                     }
-
                     return Ok(new { message = $"Successfully imported {students.Count} students" });
                 }
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error processing file: {ex.Message}");
-            }
+
         }
 
         //8. Update an existing student
