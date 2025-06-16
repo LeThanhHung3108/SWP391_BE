@@ -14,17 +14,20 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         private readonly IStudentRepository _studentRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUserRepository _userRepository;
 
         public MedicalRequestService(
             IMedicationReqRepository medicationReqRepository,
             IStudentRepository studentRepository,
             IMapper mapper,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IUserRepository userRepository)
         {
             _medicationReqRepository = medicationReqRepository;  
             _studentRepository = studentRepository;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
+            _userRepository = userRepository;
         }
 
         
@@ -121,6 +124,38 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         private string GetCurrentUsername()
         {
             return _httpContextAccessor.HttpContext?.User.FindFirst("username")?.Value ?? "Unknown User";
+        }
+
+        private string GetCurrentUserId()
+        {
+            return _httpContextAccessor.HttpContext?.User.FindFirst("userId")?.Value ?? "Unknown role";
+        }
+
+        public async Task AccecptMedicationRequest(Guid medicalReqId)
+        {
+            var userId = GetCurrentUserId();
+            var user = await _userRepository.GetUserByIdAsync(Guid.Parse(userId));
+
+            if (user == null)
+                throw new KeyNotFoundException($"User with ID {userId} not found.");
+
+            if (user.UserRole != UserRole.MedicalStaff)
+                throw new UnauthorizedAccessException("Only MedicalStaff can accept medication requests.");
+
+            var medicationRequest = await _medicationReqRepository.GetMedicationRequestById(medicalReqId);
+            if (medicationRequest == null)
+                throw new KeyNotFoundException($"Medication request with ID {medicalReqId} not found.");
+
+            if (medicationRequest.Status != RequestStatus.Pending)
+                throw new InvalidOperationException("Only pending requests can be accepted.");
+
+            medicationRequest.Status = RequestStatus.Received;
+            medicationRequest.MedicalStaffId = user.Id;
+            medicationRequest.MedicalStaff = user;
+            medicationRequest.UpdatedBy = GetCurrentUsername();
+            medicationRequest.UpdateAt = DateTime.UtcNow;
+
+            await _medicationReqRepository.UpdateMedicationRequest(medicationRequest);
         }
     }
 }

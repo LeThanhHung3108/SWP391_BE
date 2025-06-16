@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
 
@@ -6,6 +7,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -33,6 +35,17 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         {
             var user = await _userService.GetUserByUsernamelAsync(username);
             return Ok(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] UserCreateRequestDto request)
+        {
+            if (request == null)
+            {
+                return BadRequest("Invalid user creation request.");
+            }
+            await _userService.CreateUserAsync(request);
+            return Created("User created successfully.", null);
         }
 
         [HttpPut("update-user/{id}")]

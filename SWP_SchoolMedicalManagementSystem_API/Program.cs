@@ -55,6 +55,7 @@ builder.Services.AddScoped<IMedicationReqRepository, MedicationReqRepository>();
 builder.Services.AddScoped<IMedicalRequestService, MedicalRequestService>();
 builder.Services.AddScoped<IMedicalDiaryRepository, MedicalDiaryRepository>();
 builder.Services.AddScoped<IMedicalDiaryService, MedicalDiaryService>();
+builder.Services.AddScoped<IUploadImage, UploadImage>();
 #endregion
 
 #region DBContext

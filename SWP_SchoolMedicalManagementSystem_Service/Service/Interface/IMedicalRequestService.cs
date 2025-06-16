@@ -12,5 +12,6 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service.Interface
         Task CreateMedicationRequest(MedicationReqRequest request);
         Task UpdateMedicationRequest(Guid medicalReqId, MedicationReqRequest request);
         Task DeleteMedicationRequest(Guid medicalReqId);
+        Task AccecptMedicationRequest(Guid medicalReqId);
     }
 } 

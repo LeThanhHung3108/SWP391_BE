@@ -13,5 +13,6 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service.Interface
         Task Register(UserRegisterRequestDto request);
         Task UpdateUserAsync(Guid id, UserUpdateRequestDto request);
         Task DeleteUserAsync(Guid userId);
+        Task CreateUserAsync(UserCreateRequestDto request);
     }
 }
