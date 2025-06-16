@@ -1,4 +1,5 @@
 ﻿using SchoolMedicalManagementSystem.Enum;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalDiaryDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.StudentDto;
 
@@ -16,7 +17,11 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.MedicationRequest
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public RequestStatus Status { get; set; }
-        public StudentResponse? Student { get; set; }  
-        public UserResponseDto? MedicalStaff { get; set; }
+        //public string? RejectReason { get; set; }
+        public string? StudentCode { get; set; }  
+        public string? StudentName { get; set; }
+        public Guid? MedicalStaffId { get; set; }
+        public string? MedicalStaffName { get; set; }
+        public List<MedicalDiaryResponseDto>? MedicalDiaries { get; set; }
     }
 }

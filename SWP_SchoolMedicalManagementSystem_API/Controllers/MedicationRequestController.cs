@@ -91,11 +91,21 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
             return Ok("Medication request deleted successfully.");
         }
 
+        //8. Approve a medication request
         [HttpPost("approve-medication-request/{medicalReqId}")]
         public async Task<IActionResult> ApproveMedicationRequest(Guid medicalReqId)
         {
             await _medicalRequestService.AccecptMedicationRequest(medicalReqId);
             return Ok("Medication request approved successfully.");
         }
+
+        //9. Reject a medication request
+        [HttpPost("reject-medication-request/{medicalReqId}")]
+        public async Task<IActionResult> RejectMedicationRequest(Guid medicalReqId)
+        {
+            await _medicalRequestService.RejectMedicationRequest(medicalReqId);
+            return Ok("Medication request rejected successfully.");
+        }
+
     }
 }

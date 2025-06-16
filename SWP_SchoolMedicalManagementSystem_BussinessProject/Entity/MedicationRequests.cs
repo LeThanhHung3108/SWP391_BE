@@ -18,6 +18,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public RequestStatus Status { get; set; }
+        //public string? RejectReason { get; set; } 
         public Guid? MedicalStaffId { get; set; }
         public User? MedicalStaff { get; set; }
         public ICollection<MedicalDiary>? MedicalDiaries { get; set; }
