@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿ using Microsoft.AspNetCore.Mvc;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDto;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
 
@@ -51,14 +51,14 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
             return Ok("Incident created successfully.");
         }
 
-        [HttpPost("delete")]
+        [HttpDelete("delete")]
         public async Task<IActionResult> DeleteIncident([FromBody] Guid id)
         {
             await _medicalIncidentService.DeleteIncidentAsync(id);
             return Ok("Incident deleted successfully.");
         }
 
-        [HttpPost("update/{incidentId}")]
+        [HttpPut("update/{incidentId}")]
         public async Task<IActionResult> UpdateIncident(Guid incidentId, [FromBody] IncidentUpdateRequestDto incident)
         {
             await _medicalIncidentService.UpdateIncidentAsync(incidentId, incident);

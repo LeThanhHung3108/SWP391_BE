@@ -9,6 +9,8 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDt
     {
         public Guid Id { get; set; }
         public StudentResponse? Student { get; set; }
+        public Guid MedicalStaffId { get; set; }
+        public string? MedicalStaffName { get; set; }
         public IncidentType IncidentType { get; set; }
         public DateTime IncidentDate { get; set; }
         public string? Description { get; set; }

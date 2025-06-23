@@ -54,7 +54,9 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
             CreateMap<VaccinationConsentForm, VaccFormResponse>().ReverseMap();
 
             //Incident Mapper
-            CreateMap<MedicalIncident, IncidentResponseDto>().ReverseMap();
+            CreateMap<MedicalIncident, IncidentResponseDto>()
+                .ForMember(dest => dest.MedicalStaffId, opt => opt.MapFrom(src => src.Nurse))
+                .ReverseMap();
             CreateMap<MedicalIncident, IncidentCreateRequestDto>().ReverseMap();
             CreateMap<MedicalIncident, IncidentUpdateRequestDto>().ReverseMap();
 
