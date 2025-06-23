@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.HealthCheckupResultDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalConsultationDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalDiaryDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplierDto;
@@ -55,7 +57,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
 
             //Incident Mapper
             CreateMap<MedicalIncident, IncidentResponseDto>()
-                .ForMember(dest => dest.MedicalStaffId, opt => opt.MapFrom(src => src.Nurse))
+                .ForMember(dest => dest.MedicalStaffId, opt => opt.MapFrom(src => src.MedicalStaff!.Id))
                 .ReverseMap();
             CreateMap<MedicalIncident, IncidentCreateRequestDto>().ReverseMap();
             CreateMap<MedicalIncident, IncidentUpdateRequestDto>().ReverseMap();
@@ -72,6 +74,19 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
             CreateMap<MedicalDiary, MedicalDiaryRequestDto>().ReverseMap();
             CreateMap<MedicalDiary, MedicalDiaryResponseDto>()
                 .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.MedicationReq!.Student!.FullName))
+                .ReverseMap();
+
+            // HealthCheckup Result Mapper
+            CreateMap<HealthCheckupResult, HealthCheckupCreateRequestDto>().ReverseMap();
+            CreateMap<HealthCheckupResult, HealthCheckupUpdateRequestDto>().ReverseMap();
+            CreateMap<HealthCheckupResult, HealthCheckupResponseDto>().ReverseMap();
+
+            // Medical Consultation Mapper
+            CreateMap<MedicalConsultation, MedicalConsultationCreateRequestDto>().ReverseMap();
+            CreateMap<MedicalConsultation, MedicalConsultationUpdateRequesteDto>().ReverseMap();
+            CreateMap<MedicalConsultation, MedicalConsultationResponeDto>()
+                .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.Student!.FullName))
+                .ForMember(dest => dest.MedicalStaffName, opt => opt.MapFrom(src => src.MedicalStaff!.FullName))
                 .ReverseMap();
         }
     }

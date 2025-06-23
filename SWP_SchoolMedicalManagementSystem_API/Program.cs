@@ -56,6 +56,10 @@ builder.Services.AddScoped<IMedicalRequestService, MedicalRequestService>();
 builder.Services.AddScoped<IMedicalDiaryRepository, MedicalDiaryRepository>();
 builder.Services.AddScoped<IMedicalDiaryService, MedicalDiaryService>();
 builder.Services.AddScoped<IUploadImage, UploadImage>();
+builder.Services.AddScoped<IHealthCheckupResultRepository, HealthCheckupResultRepository>();
+builder.Services.AddScoped<IHealthCheckupResultService, HealthCheckupResultService>();
+builder.Services.AddScoped<IMedicalConsultationRepository, MedicalConsultationRepository>();
+builder.Services.AddScoped<IMedicalConsultationService, MedicalConsultationService>();
 #endregion
 
 #region DBContext

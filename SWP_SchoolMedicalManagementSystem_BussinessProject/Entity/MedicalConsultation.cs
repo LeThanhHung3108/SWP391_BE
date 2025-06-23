@@ -13,7 +13,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public HealthCheckupResult? HealthCheckupResult {  get; set; }
         public Guid? VaccinationResultId { get; set; }
         public VaccinationResult? VaccinationResult { get; set; }
-        public Guid StudentId { get; set; } 
+        public Guid StudentId { get; set; }
         public Student? Student { get; set; }
         public Guid MedicalStaffId { get; set; } 
         public User? MedicalStaff { get; set; }
