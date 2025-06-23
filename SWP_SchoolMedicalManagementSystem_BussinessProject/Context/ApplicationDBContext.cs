@@ -14,22 +14,20 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Context
         }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<HealthCheckupCampaign> HealthCheckupCampaigns { get; set; }
-        public DbSet<HealthCheckupConsentForm> HealthCheckupConsentForms { get; set; }
-        public DbSet<HealthCheckupResults> HealthCheckupResults { get; set; }
+        public DbSet<HealthCheckupResult> HealthCheckupResults { get; set; }
         public DbSet<HealthRecord> HealthRecords { get; set; }
         public DbSet<MedicalConsultation> MedicalConsultations { get; set; }
         public DbSet<MedicalIncident> MedicalIncidents { get; set; }
-        public DbSet<MedicalSupplier> MedicalSuppliers { get; set; }
+        public DbSet<MedicalSupply> MedicalSupplies { get; set; }
         public DbSet<MedicalSupplyUsage> MedicalSupplyUsages { get; set; }
-        public DbSet<MedicationRequests> MedicationRequests { get; set; }
-        public DbSet<StudentHealthCheckupSchedule> StudentHealthCheckupSchedules { get; set; }
-        public DbSet<StudentVaccinationSchedule> StudentVaccinationSchedules { get; set; }
+        public DbSet<MedicalRequest> MedicationRequests { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Student> Students { get; set; }
-        public DbSet<VaccinationCampaign> VaccinationCampaigns { get; set; }
-        public DbSet<VaccinationConsentForm> VaccinationConsentForms { get; set; }
-        public DbSet<VaccinationResults> VaccinationResults { get; set; }
+        public DbSet<Campaign> Campaigns { get; set; }
+        public DbSet<ConsentForm> ConsentForms { get; set; }
+        public DbSet<VaccinationResult> VaccinationResults { get; set; }
         public DbSet<MedicalDiary> MedicalDiaries { get; set; }
+        public DbSet<ScheduleDetail> ScheduleDetails { get; set; }
 
 
 
@@ -58,16 +56,16 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Context
                     .WithOne(s => s.Parent)
                     .HasForeignKey(s => s.ParentId)
                     .OnDelete(DeleteBehavior.NoAction);
+
+                options.HasMany(u => u.MedicalIncidents)
+                    .WithOne(c => c.MedicalStaff)
+                    .HasForeignKey(c => c.MedicalStaffId)
+                    .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<Student>(options =>
             {
-                options.HasMany(s => s.HealthCheckupSchedules)
-                    .WithOne(h => h.Student)
-                    .HasForeignKey(h => h.StudentId)
-                    .OnDelete(DeleteBehavior.NoAction);
-
-                options.HasMany(s => s.VaccinationSchedules)
+                options.HasMany(s => s.ScheduleDetails)
                     .WithOne(v => v.Student)
                     .HasForeignKey(v => v.StudentId)
                     .OnDelete(DeleteBehavior.NoAction);
@@ -77,14 +75,9 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Context
                     .HasForeignKey(m => m.StudentId)
                     .OnDelete(DeleteBehavior.NoAction);
 
-                options.HasMany(s => s.CheckupConsentForms)
+                options.HasMany(s => s.ConsentForms)
                     .WithOne(c => c.Student)
                     .HasForeignKey(c => c.StudentId)
-                    .OnDelete(DeleteBehavior.NoAction);
-
-                options.HasMany(s => s.VaccinationConsentForms)
-                    .WithOne(v => v.Student)
-                    .HasForeignKey(v => v.StudentId)
                     .OnDelete(DeleteBehavior.NoAction);
 
                 options.HasMany(s => s.MedicalIncidents)
@@ -112,7 +105,8 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Context
                     .HasForeignKey(msu => msu.IncidentId)
                     .OnDelete(DeleteBehavior.NoAction);
             });
-            modelBuilder.Entity<MedicationRequests>(options =>
+
+            modelBuilder.Entity<MedicalRequest>(options =>
             {
                 options.HasMany(m => m.MedicalDiaries)
                     .WithOne(md => md.MedicationReq)
