@@ -45,12 +45,12 @@ builder.Services.AddScoped<IMedicalSupplierRepository, MedicalSuplierRepository>
 builder.Services.AddScoped<IMedicalSupplierService, MedicalSupplierService>();
 builder.Services.AddScoped<IMedicalIncidentRepository, MedicalIncidentRepository>();
 builder.Services.AddScoped<IMedicalIncidentService, MedicalIncidentService>();
-builder.Services.AddScoped<IVaccCampaignRepository, VaccCampaignRepository>();
-builder.Services.AddScoped<IVaccCampaignService, VaccCampaignService>();
-builder.Services.AddScoped<IVaccScheduleRepository, VaccScheduleRepository>();
-builder.Services.AddScoped<IVaccScheduleService, VaccScheduleService>();
-builder.Services.AddScoped<IVaccFormRepository, VaccFormRepository>();
-builder.Services.AddScoped<IVaccFormService, VaccFormService>();
+builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
+builder.Services.AddScoped<ICampaignService, CampaignService>();
+builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
+builder.Services.AddScoped<IScheduleService, ScheduleService>();
+builder.Services.AddScoped<IConsentFormRepository, ConsentFormRepository>();
+builder.Services.AddScoped<IConsentFormService, ConsentFormService>();
 builder.Services.AddScoped<IMedicationReqRepository, MedicationReqRepository>();
 builder.Services.AddScoped<IMedicalRequestService, MedicalRequestService>();
 builder.Services.AddScoped<IMedicalDiaryRepository, MedicalDiaryRepository>();
@@ -65,6 +65,7 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseNpgsql(configuration.GetConnectionString("server")));
+    /*options.UseSqlServer(configuration.GetConnectionString("local")));*/
 #endregion
 
 #region JWT

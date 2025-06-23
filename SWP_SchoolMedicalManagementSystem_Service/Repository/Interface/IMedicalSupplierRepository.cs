@@ -4,10 +4,10 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository.Interface
 {
     public interface IMedicalSupplierRepository
     {
-        Task CreateSupplierAsync(MedicalSupplier supplier);
-        Task UpdateSupplierAsync(MedicalSupplier supplier);
+        Task CreateSupplierAsync(MedicalSupply supplier);
+        Task UpdateSupplierAsync(MedicalSupply supplier);
         Task DeleteSupplierAsync(Guid id);
-        Task<MedicalSupplier?> GetSupplierByIdAsync(Guid id);
-        Task<List<MedicalSupplier>> GetAllSuppliersAsync();
+        Task<MedicalSupply?> GetSupplierByIdAsync(Guid id);
+        Task<List<MedicalSupply>> GetAllSuppliersAsync();
     }
 }

@@ -24,7 +24,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         {
             try
             {
-                var newSupplier = _mapper.Map<MedicalSupplier>(supplier);
+                var newSupplier = _mapper.Map<MedicalSupply>(supplier);
                 newSupplier.CreatedBy = GetCurrentUsername();
                 newSupplier.CreateAt = DateTime.UtcNow;
                 await _supplyRepo.CreateSupplierAsync(newSupplier);
