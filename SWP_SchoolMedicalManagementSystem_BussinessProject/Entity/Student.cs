@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SchoolMedicalManagementSystem.Enum;
+﻿using SchoolMedicalManagementSystem.Enum;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
@@ -19,11 +14,9 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public string? Class { get; set; } 
         public string? SchoolYear { get; set; } 
         public string? Image {  get; set; }
-        public ICollection<StudentHealthCheckupSchedule>? HealthCheckupSchedules { get; set; }
-        public ICollection<StudentVaccinationSchedule>? VaccinationSchedules { get; set; }
-        public ICollection<MedicationRequests>? MedicationRequests { get; set; }
-        public ICollection<HealthCheckupConsentForm>? CheckupConsentForms { get; set; }
-        public ICollection<VaccinationConsentForm>? VaccinationConsentForms { get; set; }
+        public ICollection<MedicalRequest>? MedicationRequests { get; set; }
+        public ICollection<ConsentForm>? ConsentForms { get; set; }
+        public ICollection<ScheduleDetail>? ScheduleDetails { get; set; }
         public ICollection<MedicalIncident>? MedicalIncidents { get; set; }
         public ICollection<MedicalConsultation>? MedicalConsultations { get; set; }
         public ICollection<MedicalDiary>? MedicineDiaries { get; set; }

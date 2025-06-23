@@ -9,8 +9,10 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class MedicalConsultation : BaseEntity
     {
-        public Guid ResultId { get; set; } 
-        public HealthCheckupResults? Result {  get; set; }
+        public Guid? HealthCheckupResultId { get; set; } 
+        public HealthCheckupResult? HealthCheckupResult {  get; set; }
+        public Guid? VaccinationResultId { get; set; }
+        public VaccinationResult? VaccinationResult { get; set; }
         public Guid StudentId { get; set; } 
         public Student? Student { get; set; }
         public Guid MedicalStaffId { get; set; } 

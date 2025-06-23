@@ -11,7 +11,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
     {
         public string? Title { get; set; }
         public string? Content { get; set; }
-        public Guid AuthorId {  get; set; }
+        public Guid? AuthorId {  get; set; }
         public User? Author { get; set; }
         public DateTime PublishedDate { get; set; }
         public BlogStatus Status { get; set; }

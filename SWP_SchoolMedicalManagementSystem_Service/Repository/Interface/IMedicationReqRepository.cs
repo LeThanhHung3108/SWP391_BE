@@ -6,12 +6,12 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository.Interface
 {
     public interface IMedicationReqRepository
     {
-        Task<List<MedicationRequests>> GetAllMedicationRequests();
-        Task<MedicationRequests?> GetMedicationRequestById(Guid medicalReqId);
-        Task<List<MedicationRequests>> GetMedicationRequestsByStudentId(Guid studentId);
-        Task<List<MedicationRequests>> GetMedicationRequestsByStatus(RequestStatus status);
-        Task CreateMedicationRequest(MedicationRequests medicationReq);
-        Task UpdateMedicationRequest(MedicationRequests medicationReq);
+        Task<List<MedicalRequest>> GetAllMedicationRequests();
+        Task<MedicalRequest?> GetMedicationRequestById(Guid medicalReqId);
+        Task<List<MedicalRequest>> GetMedicationRequestsByStudentId(Guid studentId);
+        Task<List<MedicalRequest>> GetMedicationRequestsByStatus(RequestStatus status);
+        Task CreateMedicationRequest(MedicalRequest medicationReq);
+        Task UpdateMedicationRequest(MedicalRequest medicationReq);
         Task DeleteMedicationRequest(Guid medicalReqId);
     }
 }

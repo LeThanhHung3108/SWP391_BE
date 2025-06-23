@@ -8,7 +8,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class HealthRecord : BaseEntity
     {
-        public Guid StudentId { get; set; } 
+        public Guid? StudentId { get; set; } 
         public Student? Student { get; set; } 
         public string? Height { get; set; }
         public string? Weight { get; set; }         

@@ -46,33 +46,17 @@ namespace SchoolMedicalManagementSystem.Enum
         FirstAid,
         Other
     }
-    public enum VaccCampaignStatus
+    public enum CampaignStatus
     {
         Planned, 
         InProgress, 
         Completed, 
         Cancelled
     }
-    public enum VaccScheduelStatus
+    public enum CampaignType
     {
-        Scheduled,
-        Completed, 
-        Missed, 
-        Rescheduled
-    }
-    public enum HealthCampaignStatus
-    {
-        Planned,
-        InProgress,
-        Completed,
-        Cancelled
-    }
-    public enum HealthScheduelStatus
-    {
-        Scheduled,
-        Completed,
-        Missed,
-        Rescheduled
+        Vaccination, 
+        HealthCheckup, 
     }
     public enum ConsultantStatus
     {

@@ -10,7 +10,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
 {
     public class User : BaseEntity
     {
-
         public string? Username { get; set; }
         public string? Password { get; set; }
         public string? FullName { get; set; }
@@ -21,9 +20,9 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public string? Image { get; set; }
         public ICollection<Blog>? Blogs { get; set; }
         public ICollection<MedicalConsultation>? MedicalConsultations { get; set; }
-        public ICollection<MedicationRequests>? MedicationRequests { get; set; }
+        public ICollection<MedicalRequest>? MedicationRequests { get; set; }
         public ICollection<Student>? Students { get; set; }
-        public ICollection<HealthCheckupCampaign>? HealthCheckupCampaigns { get; set; }
-        public ICollection<VaccinationCampaign>? VaccinationCampaigns { get; set; }
+        public ICollection<Campaign>? Campaigns { get; set; }
+        public ICollection<MedicalIncident>? MedicalIncidents { get; set; }
     }
 }

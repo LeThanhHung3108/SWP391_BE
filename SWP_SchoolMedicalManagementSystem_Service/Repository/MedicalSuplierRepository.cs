@@ -17,32 +17,32 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task CreateSupplierAsync(MedicalSupplier supplier)
+        public async Task CreateSupplierAsync(MedicalSupply supplier)
         {
-            await _context.MedicalSuppliers.AddAsync(supplier);
+            await _context.MedicalSupplies.AddAsync(supplier);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteSupplierAsync(Guid id)
         {
-            var oldSupplier = await _context.MedicalSuppliers.FirstOrDefaultAsync(s => s.Id.Equals(id));
-            _context.MedicalSuppliers.Remove(oldSupplier);
+            var oldSupplier = await _context.MedicalSupplies.FirstOrDefaultAsync(s => s.Id.Equals(id));
+            _context.MedicalSupplies.Remove(oldSupplier);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<MedicalSupplier>> GetAllSuppliersAsync()
+        public async Task<List<MedicalSupply>> GetAllSuppliersAsync()
         {
-            var listSupplier = await _context.MedicalSuppliers.AsNoTracking().ToListAsync();
+            var listSupplier = await _context.MedicalSupplies.AsNoTracking().ToListAsync();
             return listSupplier;
         }
 
-        public async Task<MedicalSupplier?> GetSupplierByIdAsync(Guid id)
+        public async Task<MedicalSupply?> GetSupplierByIdAsync(Guid id)
         {
-            var supplier = await _context.MedicalSuppliers.FirstOrDefaultAsync(s => s.Id.Equals(id));
+            var supplier = await _context.MedicalSupplies.FirstOrDefaultAsync(s => s.Id.Equals(id));
             return supplier;
         }
 
-        public async Task UpdateSupplierAsync(MedicalSupplier supplier)
+        public async Task UpdateSupplierAsync(MedicalSupply supplier)
         {
             _context.Entry(supplier).State = EntityState.Modified;
             await _context.SaveChangesAsync();

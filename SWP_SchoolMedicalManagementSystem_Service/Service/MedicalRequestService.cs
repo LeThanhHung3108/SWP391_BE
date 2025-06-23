@@ -80,7 +80,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
                 throw new KeyNotFoundException($"Student with ID {request.StudentId} not found.");
             try
             {
-                var medicationRequest = _mapper.Map<MedicationRequests>(request);
+                var medicationRequest = _mapper.Map<MedicalRequest>(request);
                 medicationRequest.Status = RequestStatus.Pending;
                 medicationRequest.CreatedBy = GetCurrentUsername();
                 medicationRequest.CreateAt = DateTime.UtcNow;
