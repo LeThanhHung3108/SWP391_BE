@@ -16,7 +16,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccScheduleDto
         public DateTime ScheduledDate { get; set; }
         public string? Location { get; set; }
         public string? Notes { get; set; }
-        public ScheduleDetailResponse? ScheduleDetail { get; set; }
         public string? CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
         public DateTime CreateAt { get; set; }

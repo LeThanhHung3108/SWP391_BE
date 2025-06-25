@@ -20,10 +20,10 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 
         //1. Get all schedule details
         [HttpGet("get-all-schedule-detail")]
-        public async Task<IActionResult> GetAllSchedukleDetails()
+        public async Task<IActionResult> GetAllScheduleDetails()
         {
-            var details = await _scheduleDetailService.GetAllScheduleDetailsAsync();
-            return Ok(details);
+            var scheduleDetails = await _scheduleDetailService.GetAllScheduleDetailsAsync();
+            return Ok(scheduleDetails);
         }
 
         //2. Get schedule detail by ID

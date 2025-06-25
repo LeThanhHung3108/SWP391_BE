@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.ScheduleDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccScheduleDto;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
 
@@ -41,15 +42,26 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
 
         //4. Create schedule
         [HttpPost("create-schedule")]
-        public async Task<IActionResult> CreateSchedule([FromBody] ScheduleRequest request)
+        public async Task<IActionResult> CreateSchedule([FromBody] ScheduleCreateDto request)
         {
             await _scheduleService.CreateScheduleAsync(request);
             return Ok("Schedule created successfully.");
         }
 
+        // Assign students to a schedule
+        [HttpPost("assign-students-to-schedule")]
+        public async Task<IActionResult> AssignStudentsToSchedule([FromBody] AssignStudentToScheduleDto request)
+        {
+            if (request == null || request.ScheduleId == Guid.Empty || request.StudentIds == null || !request.StudentIds.Any())
+            {
+                return BadRequest("Invalid request data.");
+            }
+            await _scheduleService.AssignStudentToScheduleAsync(request);
+            return Ok("Students assigned to schedule successfully.");
+        }
         //5. Update schedule
         [HttpPut("update-schedule/{scheduleId}")]
-        public async Task<IActionResult> UpdateSchedule(Guid scheduleId, [FromBody] ScheduleRequest request)
+        public async Task<IActionResult> UpdateSchedule(Guid scheduleId, [FromBody] ScheduleBaseRequest request)
         {
             if (request == null)
             {

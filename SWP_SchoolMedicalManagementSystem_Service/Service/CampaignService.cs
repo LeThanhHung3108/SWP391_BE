@@ -70,7 +70,21 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
                 var newCampaign = _mapper.Map<Campaign>(campaign);
                 newCampaign.CreatedBy = GetCurrentUsername();
                 newCampaign.CreateAt = DateTime.UtcNow;
+                newCampaign.Schedules = campaign.Schedules?.Select(s => new Schedule
+                {
+                    Id = Guid.NewGuid(),
+                    CampaignId = newCampaign.Id,
+                    Campaign = newCampaign,
+                    ScheduledDate = s.ScheduledDate,
+                    Location = s.Location,
+                    Notes = s.Notes,
+                    CreatedBy = GetCurrentUsername(),
+                    CreateAt = DateTime.UtcNow,
+                    UpdateAt = DateTime.UtcNow
+                }).ToList() ?? new List<Schedule>();
+
                 await _campaignRepository.CreateCampaignAsync(newCampaign);
+
             }
             catch (Exception ex)
             {

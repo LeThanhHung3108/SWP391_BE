@@ -8,9 +8,12 @@ using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplyUsageDto
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.HealthRecordDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.MedicationRequestsDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.ScheduleDetailDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.ScheduleDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.StudentDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccCampaignDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccFormDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccResultDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccScheduleDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 
@@ -43,20 +46,28 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
                 .ForMember(dest => dest.MedicalStaffName, opt => opt.MapFrom(src => src.MedicalStaff!.FullName))
                 .ReverseMap();
 
-            //Vaccination Campaign Mapper
-            CreateMap<Campaign, CampaignRequest>()
-                     .ForMember(dest => dest.Schedules, opt => opt.MapFrom(src => src.Schedules))
-                     .ReverseMap();
+            //Campaign Mapper
             CreateMap<Campaign, CampaignRequest>().ReverseMap();
             CreateMap<Campaign, CampaignResponse>().ReverseMap();
 
-            //Vaccination Schedule Mapper
-            CreateMap<Schedule, ScheduleRequest>().ReverseMap();
+            //Schedule Mapper
+            CreateMap<Schedule, ScheduleBaseRequest>().ReverseMap();
+            CreateMap<Schedule, ScheduleGetByIdResponse>()
+                .ForMember(dest => dest.ScheduleDetail, opt => opt.MapFrom(src => src.ScheduleDetails))
+                .ReverseMap();
             CreateMap<Schedule, ScheduleResponse>().ReverseMap();
 
-            //Vaccination Consent Form Mapper
+            //Consent Form Mapper
             CreateMap<ConsentForm, ConsentFormRequest>().ReverseMap();
             CreateMap<ConsentForm, ConsentFormResponse>().ReverseMap();
+
+            //Schedule Detail Mapper
+            CreateMap<ScheduleDetail, ScheduleDetailRequest>().ReverseMap();
+            CreateMap<ScheduleDetail, ScheduleDetailResponse>().ReverseMap();
+
+            //Vaccination Result Mapper
+            CreateMap<VaccinationResult, VaccResultRequest>().ReverseMap();
+            CreateMap<VaccinationResult, VaccResultResponse>().ReverseMap();
 
             //Incident Mapper
             CreateMap<MedicalIncident, IncidentResponseDto>()

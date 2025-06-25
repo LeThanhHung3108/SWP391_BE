@@ -49,6 +49,8 @@ builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
 builder.Services.AddScoped<ICampaignService, CampaignService>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
+builder.Services.AddScoped<IScheduleDetailRepository, ScheduleDetailRepository>();
+builder.Services.AddScoped<IScheduleDetailService, ScheduleDetailService>();
 builder.Services.AddScoped<IConsentFormRepository, ConsentFormRepository>();
 builder.Services.AddScoped<IConsentFormService, ConsentFormService>();
 builder.Services.AddScoped<IMedicationReqRepository, MedicationReqRepository>();
@@ -58,6 +60,8 @@ builder.Services.AddScoped<IMedicalDiaryService, MedicalDiaryService>();
 builder.Services.AddScoped<IUploadImage, UploadImage>();
 builder.Services.AddScoped<IHealthCheckupResultRepository, HealthCheckupResultRepository>();
 builder.Services.AddScoped<IHealthCheckupResultService, HealthCheckupResultService>();
+builder.Services.AddScoped<IVaccResultRepository, VaccResultRepository>();
+builder.Services.AddScoped<IVaccResultService, VaccResultService>();
 builder.Services.AddScoped<IMedicalConsultationRepository, MedicalConsultationRepository>();
 builder.Services.AddScoped<IMedicalConsultationService, MedicalConsultationService>();
 #endregion
