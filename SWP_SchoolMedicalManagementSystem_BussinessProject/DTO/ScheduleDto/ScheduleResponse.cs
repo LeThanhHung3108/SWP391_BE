@@ -13,8 +13,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccScheduleDto
         public Guid Id { get; set; }
         public Guid CampaignId { get; set; }
         public string? CampaignName { get; set; }
-        public Guid StudentId { get; set; }
-        public string? StudentName { get; set; }
         public DateTime ScheduledDate { get; set; }
         public string? Location { get; set; }
         public string? Notes { get; set; }

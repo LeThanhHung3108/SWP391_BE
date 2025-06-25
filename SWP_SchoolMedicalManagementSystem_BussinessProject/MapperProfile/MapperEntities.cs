@@ -44,6 +44,9 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
                 .ReverseMap();
 
             //Vaccination Campaign Mapper
+            CreateMap<Campaign, CampaignRequest>()
+                     .ForMember(dest => dest.Schedules, opt => opt.MapFrom(src => src.Schedules))
+                     .ReverseMap();
             CreateMap<Campaign, CampaignRequest>().ReverseMap();
             CreateMap<Campaign, CampaignResponse>().ReverseMap();
 
