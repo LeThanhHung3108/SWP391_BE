@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.ScheduleDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccScheduleDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using SWP_SchoolMedicalManagementSystem_Repository.Repository.Interface;
+using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
 
 namespace SWP_SchoolMedicalManagementSystem_Service.Service
@@ -11,16 +13,22 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IScheduleRepository _scheduleRepository;
+        private readonly IStudentRepository _studentRepository;
         private readonly IMapper _mapper;
+        private readonly IConsentFormService _consentFormService;
 
         public ScheduleService(
             IHttpContextAccessor httpContextAccessor,
             IScheduleRepository scheduleRepository,
-            IMapper mapper)
+            IStudentRepository studentRepository,
+            IMapper mapper,
+            IConsentFormService consentFormService)
         {
             _httpContextAccessor = httpContextAccessor;
             _scheduleRepository = scheduleRepository;
+            _studentRepository = studentRepository;
             _mapper = mapper;
+            _consentFormService = consentFormService;
         }
 
         //1. Get all schedules
@@ -33,12 +41,12 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         }
 
         //2. Get schedule by ID
-        public async Task<ScheduleResponse?> GetScheduleByIdAsync(Guid scheduleId)
+        public async Task<ScheduleGetByIdResponse?> GetScheduleByIdAsync(Guid scheduleId)
         {
             var schedules = await _scheduleRepository.GetScheduleByIdAsync(scheduleId);
             if (schedules == null)
                 throw new KeyNotFoundException($"Schedule with ID {scheduleId} not found.");
-            return _mapper.Map<ScheduleResponse>(schedules);
+            return _mapper.Map<ScheduleGetByIdResponse>(schedules);
         }
 
         //3. Get schedules by campaign ID
@@ -51,7 +59,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         }
 
         //4. Create a new schedule
-        public async Task CreateScheduleAsync(ScheduleRequest request)
+        public async Task CreateScheduleAsync(ScheduleCreateDto request)
         {
             try
             {
@@ -67,7 +75,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         }
 
         //5. Update an existing schedule
-        public async Task UpdateScheduleAsync(Guid scheduleId, ScheduleRequest request)
+        public async Task UpdateScheduleAsync(Guid scheduleId, ScheduleBaseRequest request)
         {
             var existingSchedule = await _scheduleRepository.GetScheduleByIdAsync(scheduleId);
             if (existingSchedule == null)
@@ -93,6 +101,56 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         private string GetCurrentUsername()
         {
             return _httpContextAccessor.HttpContext?.User.FindFirst("username")?.Value ?? "Unknown User";
+        }
+
+        //8. Assign students to a schedule
+        public async Task AssignStudentToScheduleAsync(AssignStudentToScheduleDto request)
+        {
+            var schedule = await _scheduleRepository.GetScheduleByIdAsync(request.ScheduleId);
+            if (schedule == null)
+            {
+                throw new KeyNotFoundException($"Schedule with ID {request.ScheduleId} not found.");
+            }
+            foreach (var studentId in request.StudentIds)
+            {
+                var student = await _studentRepository.GetStudentByIdAsync(studentId);
+                if(student == null)
+                {
+                    throw new KeyNotFoundException($"Student with ID {studentId} not found.");
+                }
+
+                // Kiểm tra consent form
+                var consentForms = await _consentFormService.GetConsentFormsByStudentIdAsync(studentId);
+                var validConsent = consentForms.FirstOrDefault(cf => cf.CampaignId == schedule.CampaignId && cf.IsApproved);
+                if (validConsent == null)
+                {
+                    // Bỏ qua nếu không có consent form hợp lệ
+                    continue;
+                }
+
+                // Kiểm tra học sinh đã có trong schedule chưa
+                bool alreadyAssigned = schedule.ScheduleDetails != null &&
+                    schedule.ScheduleDetails.Any(sd => sd.StudentId == studentId);
+                if (alreadyAssigned)
+                {
+                    // Bỏ qua nếu đã có
+                    continue;
+                }
+
+                schedule.ScheduleDetails!.Add(new ScheduleDetail
+                {
+                    ScheduleId = request.ScheduleId,
+                    Schedule = schedule,
+                    StudentId = student.Id,
+                    Student = student,
+                    VaccinationDate = DateTime.UtcNow,
+                    CreatedBy = GetCurrentUsername(),
+                    CreateAt = DateTime.UtcNow,
+                    UpdateAt = DateTime.UtcNow
+                });
+
+            }
+            await _scheduleRepository.UpdateScheduleAsync(schedule);
         }
     }
 }

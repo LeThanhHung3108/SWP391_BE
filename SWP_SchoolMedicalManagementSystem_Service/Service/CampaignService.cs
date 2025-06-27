@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using SchoolMedicalManagementSystem.Enum;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccCampaignDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
+using SWP_SchoolMedicalManagementSystem_Repository.Repository.Interface;
 using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
 
@@ -12,12 +13,15 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICampaignRepository _campaignRepository;
+        private readonly IScheduleRepository _scheduleRepository;
         private readonly IMapper _mapper;
 
-        public CampaignService(IHttpContextAccessor httpContextAccessor, ICampaignRepository campaignRepository, IMapper mapper)
+        public CampaignService(IHttpContextAccessor httpContextAccessor, ICampaignRepository campaignRepository,
+            IScheduleRepository scheduleRepository, IMapper mapper)
         {
             _httpContextAccessor = httpContextAccessor;
             _campaignRepository = campaignRepository;
+            _scheduleRepository = scheduleRepository;
             _mapper = mapper;
 
         }
@@ -66,7 +70,21 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
                 var newCampaign = _mapper.Map<Campaign>(campaign);
                 newCampaign.CreatedBy = GetCurrentUsername();
                 newCampaign.CreateAt = DateTime.UtcNow;
+                newCampaign.Schedules = campaign.Schedules?.Select(s => new Schedule
+                {
+                    Id = Guid.NewGuid(),
+                    CampaignId = newCampaign.Id,
+                    Campaign = newCampaign,
+                    ScheduledDate = s.ScheduledDate,
+                    Location = s.Location,
+                    Notes = s.Notes,
+                    CreatedBy = GetCurrentUsername(),
+                    CreateAt = DateTime.UtcNow,
+                    UpdateAt = DateTime.UtcNow
+                }).ToList() ?? new List<Schedule>();
+
                 await _campaignRepository.CreateCampaignAsync(newCampaign);
+
             }
             catch (Exception ex)
             {
