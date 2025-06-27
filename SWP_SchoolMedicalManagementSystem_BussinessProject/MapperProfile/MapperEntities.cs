@@ -56,10 +56,17 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
                 .ForMember(dest => dest.ScheduleDetail, opt => opt.MapFrom(src => src.ScheduleDetails))
                 .ReverseMap();
             CreateMap<Schedule, ScheduleResponse>().ReverseMap();
+            CreateMap<Schedule, ScheduleConsentForm>()
+                .ForMember(dest => dest.ScheduledDate, opt => opt.MapFrom(src => src.ScheduledDate))
+                .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location));
 
             //Consent Form Mapper
             CreateMap<ConsentForm, ConsentFormRequest>().ReverseMap();
-            CreateMap<ConsentForm, ConsentFormResponse>().ReverseMap();
+            CreateMap<ConsentForm, ConsentFormResponse>()
+                .ForMember(dest => dest.CampaignName, opt => opt.MapFrom(src => src.Campaign!.Name))
+                .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.Student!.FullName))
+                .ForMember(dest => dest.ScheduleConsentForms, opt => opt.MapFrom(src => src.Campaign!.Schedules))
+                .ReverseMap();
 
             //Schedule Detail Mapper
             CreateMap<ScheduleDetail, ScheduleDetailRequest>().ReverseMap();

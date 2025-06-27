@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.ScheduleDto;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccFormDto
 {
@@ -16,6 +12,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccFormDto
         public bool IsApproved { get; set; }
         public DateTime ConsentDate { get; set; }
         public string? ReasonForDecline { get; set; }
+        public List<ScheduleConsentForm>? ScheduleConsentForms { get; set; }   
         public string? CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
         public DateTime CreateAt { get; set; }

@@ -20,6 +20,7 @@ namespace SWP_SchoolMedicalManagementSystem_Repository.Repository
             return await _context.ConsentForms
                 .Include(vf => vf.Campaign)
                 .Include(vf => vf.Student)
+                .Include(vf => vf.Campaign!.Schedules)
                 .ToListAsync();
         }
 
@@ -29,6 +30,7 @@ namespace SWP_SchoolMedicalManagementSystem_Repository.Repository
             return await _context.ConsentForms
                 .Include(vf => vf.Campaign)
                 .Include(vf => vf.Student)
+                .Include(vf => vf.Campaign!.Schedules)
                 .FirstOrDefaultAsync(vf => vf.Id == consentFormId);
         }
 
@@ -38,6 +40,7 @@ namespace SWP_SchoolMedicalManagementSystem_Repository.Repository
             return await _context.ConsentForms
                 .Include(vf => vf.Campaign)
                 .Include(vf => vf.Student)
+                .Include(vf => vf.Campaign!.Schedules)
                 .Where(vf => vf.CampaignId == campaignId)
                 .ToListAsync();
         }
@@ -48,6 +51,7 @@ namespace SWP_SchoolMedicalManagementSystem_Repository.Repository
             return await _context.ConsentForms
                 .Include(vf => vf.Campaign)
                 .Include(vf => vf.Student)
+                .Include(vf => vf.Campaign!.Schedules)
                 .Where(vf => vf.StudentId == studentId)
                 .ToListAsync();
         }

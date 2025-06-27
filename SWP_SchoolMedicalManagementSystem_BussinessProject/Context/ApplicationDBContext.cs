@@ -113,6 +113,27 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Context
                     .HasForeignKey(md => md.MedicationReqId)
                     .OnDelete(DeleteBehavior.NoAction);
             });
+
+            modelBuilder.Entity<Campaign>(options =>
+            {
+                options.HasMany(c => c.Schedules)
+                    .WithOne(s => s.Campaign)
+                    .HasForeignKey(s => s.CampaignId)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                options.HasMany(c => c.ConsentForms)
+                    .WithOne(cf => cf.Campaign)
+                    .HasForeignKey(cf => cf.CampaignId)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<Schedule>(options =>
+            {
+                options.HasMany(s => s.ScheduleDetails)
+                    .WithOne(sd => sd.Schedule)
+                    .HasForeignKey(sd => sd.ScheduleId)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
         }
     }
 }
