@@ -2,7 +2,7 @@
 {
     public class Schedule : BaseEntity
     {
-        public Guid? CampaignId { get; set; }
+        public Guid CampaignId { get; set; }
         public Campaign? Campaign { get; set; }
         public DateTime ScheduledDate { get; set; }
         public string? Location { get; set; }
