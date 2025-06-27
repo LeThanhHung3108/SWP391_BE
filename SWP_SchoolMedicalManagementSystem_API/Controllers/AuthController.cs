@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.AuthDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.EmailDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
 using SWP_SchoolMedicalManagementSystem_Service.Extension;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
@@ -12,10 +13,12 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IUploadImage _uploadImageService;
-        public AuthController(IUserService userService, IUploadImage uploadImage)
+        private readonly IEmailService _emailService;
+        public AuthController(IUserService userService, IUploadImage uploadImage, IEmailService emailService)
         {
             _userService = userService;
             _uploadImageService = uploadImage;
+            _emailService = emailService;
         }
 
         [HttpPost("login")]
@@ -53,6 +56,13 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
                 return BadRequest("Failed to upload image.");
             }
             return Ok(result);
+        }
+
+        [HttpPost("send-email")]
+        public async Task<IActionResult> SendEmail([FromBody] EmailMedicalDiaryCreateDto emailRequest)
+        {
+            await _emailService.SendEmailAsync(emailRequest.Recipient, emailRequest.Body);
+            return Ok("Email sent successfully.");
         }
     }
 }

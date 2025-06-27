@@ -64,6 +64,7 @@ builder.Services.AddScoped<IVaccResultRepository, VaccResultRepository>();
 builder.Services.AddScoped<IVaccResultService, VaccResultService>();
 builder.Services.AddScoped<IMedicalConsultationRepository, MedicalConsultationRepository>();
 builder.Services.AddScoped<IMedicalConsultationService, MedicalConsultationService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 #endregion
 
 #region DBContext
