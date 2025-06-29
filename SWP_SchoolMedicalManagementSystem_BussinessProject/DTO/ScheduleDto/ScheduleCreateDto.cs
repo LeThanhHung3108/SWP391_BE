@@ -9,6 +9,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.ScheduleDto
 {
     public class ScheduleCreateDto : ScheduleBaseRequest
     {
-        public Guid? CampaignId { get; set; }
+        public Guid CampaignId { get; set; }
     }
 }

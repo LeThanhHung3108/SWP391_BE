@@ -111,6 +111,10 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             var existingCampaign = await _campaignRepository.GetCampaignByIdAsync(campaignId);
             if (existingCampaign == null)
                 throw new KeyNotFoundException($"Campaign with ID {campaignId} not found.");
+            foreach (var schedule in existingCampaign.Schedules ?? new List<Schedule>())
+            {
+                await _scheduleRepository.DeleteScheduleAsync(schedule.Id);
+            }
 
             await _campaignRepository.DeleteCampaignAsync(campaignId);
         }
