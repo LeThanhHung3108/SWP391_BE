@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.ScheduleDetailDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
+using SWP_SchoolMedicalManagementSystem_Repository.Repository.Interface;
 using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
 
@@ -11,12 +12,14 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IScheduleDetailRepository _scheduleDetailRepository;
+        private readonly IScheduleRepository _scheduleRepository;
         private readonly IMapper _mapper;
 
-        public ScheduleDetailService(IHttpContextAccessor httpContextAccessor, IScheduleDetailRepository repository, IMapper mapper)
+        public ScheduleDetailService(IHttpContextAccessor httpContextAccessor, IScheduleDetailRepository scheduleDtailRepository, IScheduleRepository scheduleRepository, IMapper mapper)
         {
             _httpContextAccessor = httpContextAccessor;
-            _scheduleDetailRepository = repository;
+            _scheduleDetailRepository = scheduleDtailRepository;
+            _scheduleRepository = scheduleRepository;
             _mapper = mapper;
         }
 
@@ -57,6 +60,10 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         //5. Create a new schedule detail
         public async Task CreateScheduleDetailAsync(ScheduleDetailRequest scheduleDetail)
         {
+            var schedule = await _scheduleRepository.GetScheduleByIdAsync(scheduleDetail.ScheduleId.Value);
+            if (schedule.ScheduledDate.Date != scheduleDetail.VaccinationDate.Value.Date)
+                throw new InvalidOperationException($"VaccinationDate must match the ScheduledDate of the Schedule. ScheduledDate: {schedule.ScheduledDate:yyyy-MM-dd}");
+
             var newScheduleDetail = _mapper.Map<ScheduleDetail>(scheduleDetail);
             newScheduleDetail.CreatedBy = GetCurrentUsername();
             newScheduleDetail.CreateAt = DateTime.UtcNow;
