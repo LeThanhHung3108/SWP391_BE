@@ -20,6 +20,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         {
             return await _context.MedicationRequests
                 .Include(mr => mr.Student)
+                .Include(mr => mr.MedicalDiaries)
                 .Include(mr => mr.MedicalStaff)
                 .AsNoTracking()
                 .ToListAsync();
