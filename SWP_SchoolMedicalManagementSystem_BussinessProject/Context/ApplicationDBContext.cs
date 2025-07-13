@@ -28,6 +28,8 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Context
         public DbSet<VaccinationResult> VaccinationResults { get; set; }
         public DbSet<MedicalDiary> MedicalDiaries { get; set; }
         public DbSet<ScheduleDetail> ScheduleDetails { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<UserNotification> UserNotifications { get; set; }
 
 
 
@@ -61,6 +63,11 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Context
                     .WithOne(c => c.MedicalStaff)
                     .HasForeignKey(c => c.MedicalStaffId)
                     .OnDelete(DeleteBehavior.NoAction);
+
+                options.HasMany(u => u.UserNotifications)
+                    .WithOne(un => un.User)
+                    .HasForeignKey(un => un.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Student>(options =>
@@ -133,6 +140,29 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Context
                     .WithOne(sd => sd.Schedule)
                     .HasForeignKey(sd => sd.ScheduleId)
                     .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<Notification>(options =>
+            {
+                options.HasMany(n => n.UserNotifications)
+                    .WithOne(un => un.Notification)
+                    .HasForeignKey(un => un.NotificationId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<UserNotification>(options =>
+            {
+                options.HasKey(un => un.Id);
+
+                options.HasOne(un => un.User)
+                    .WithMany(u => u.UserNotifications)
+                    .HasForeignKey(un => un.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                options.HasOne(un => un.Notification)
+                    .WithMany(n => n.UserNotifications)
+                    .HasForeignKey(un => un.NotificationId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

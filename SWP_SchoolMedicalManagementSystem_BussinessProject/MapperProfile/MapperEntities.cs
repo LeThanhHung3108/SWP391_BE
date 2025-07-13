@@ -8,6 +8,7 @@ using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalSupplyUsageDto
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.HealthRecordDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.MedicationRequestsDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.NotifyDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.ScheduleDetailDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.ScheduleDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.StudentDto;
@@ -15,6 +16,7 @@ using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccCampaignDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccFormDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccResultDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccScheduleDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.UserNotifyDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
@@ -103,6 +105,10 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
             CreateMap<HealthCheckupResult, HealthCheckupUpdateRequestDto>().ReverseMap();
             CreateMap<HealthCheckupResult, HealthCheckupResponseDto>().ReverseMap();
 
+            //Notification Mapper
+            CreateMap<Notification, NotificationRequest>().ReverseMap();
+            CreateMap<Notification, NotificationResponse>().ReverseMap();
+
             // Medical Consultation Mapper
             CreateMap<MedicalConsultation, MedicalConsultationCreateRequestDto>().ReverseMap();
             CreateMap<MedicalConsultation, MedicalConsultationUpdateRequesteDto>().ReverseMap();
@@ -110,6 +116,10 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
                 .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.Student!.FullName))
                 .ForMember(dest => dest.MedicalStaffName, opt => opt.MapFrom(src => src.MedicalStaff!.FullName))
                 .ReverseMap();
+
+            // UserNotification Mapper
+            CreateMap<UserNotification, UserNotificationRequest>().ReverseMap();
+            CreateMap<UserNotification, UserNotificationResponse>().ReverseMap();
         }
     }
 }
