@@ -99,10 +99,10 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         //7. Get notifications by user ID
         public async Task<List<NotificationResponse>> GetNotificationsByUserIdAsync(Guid userId)
         {
-            var notifications = _notificationRepository.GetNotificationsByUserIdAsync(userId);
-            if (notifications == null || !notifications.Result.Any())
+            var notifications = await _notificationRepository.GetNotificationsByUserIdAsync(userId);
+            if (notifications == null || !notifications.Any())
                 throw new KeyNotFoundException($"No notifications found for user with ID {userId}.");
-            return  _mapper.Map<List<NotificationResponse>>(notifications);
+            return _mapper.Map<List<NotificationResponse>>(notifications);
         }
     }
 }
