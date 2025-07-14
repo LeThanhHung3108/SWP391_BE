@@ -34,7 +34,15 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
              return Ok(notification);
         }
 
-        //3. Create notifications
+        //3. Get notifications by user ID
+        [HttpGet("get-notifications-by-user-id/{userId}")]
+        public async Task<IActionResult> GetNotificationsByUserId(Guid userId)
+        {
+            var notifications = await _notificationService.GetNotificationsByUserIdAsync(userId);
+            return Ok(notifications);
+        }
+
+        //4. Create notifications
         [HttpPost("create-notification")]
         public async Task<IActionResult> CreateNotification([FromBody] NotificationRequest request)
         {
@@ -42,7 +50,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
             return Ok("Notification created successfully.");
         }
 
-        //4. Update notification
+        //5. Update notification
         [HttpPut("update-notification/{notificationId}")]
         public async Task<IActionResult> UpdateNotification(Guid notificationId, [FromBody] NotificationRequest request)
         {
@@ -50,7 +58,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
             return Ok("Notification updated successfully.");
         }
 
-        //5. Delete notification
+        //6. Delete notification
         [HttpDelete("delete-notification/{notificationId}")]
         public async Task<IActionResult> DeleteNotification(Guid notificationId)
         {

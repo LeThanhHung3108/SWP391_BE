@@ -67,8 +67,6 @@ builder.Services.AddScoped<IMedicalConsultationService, MedicalConsultationServi
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<IUserNotificationRepository, UserNotificationRepository>();
-builder.Services.AddScoped<IUserNotificationService, UserNotificationService>();
 #endregion
 
 #region DBContext

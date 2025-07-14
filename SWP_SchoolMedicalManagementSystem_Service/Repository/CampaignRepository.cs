@@ -28,6 +28,8 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         {
             return await _context.Campaigns
                 .Include(v => v.Schedules)
+                .ThenInclude(s => s.ScheduleDetails)
+                .ThenInclude(s => s.Student)
                 .FirstOrDefaultAsync(v => v.Id == campaignId);
         }
 

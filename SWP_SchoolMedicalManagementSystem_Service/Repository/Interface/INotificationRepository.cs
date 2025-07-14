@@ -9,6 +9,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository.Interface
     {
         Task<List<Notification>> GetAllNotificationsAsync();
         Task<Notification?> GetNotificationByIdAsync(Guid notificationId);
+        Task<List<Notification>> GetNotificationsByUserIdAsync(Guid userId);
         Task CreateNotificationAsync(Notification notification);
         Task UpdateNotificationAsync(Notification notification);
         Task DeleteNotificationAsync(Guid notificationId);

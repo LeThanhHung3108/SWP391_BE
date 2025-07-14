@@ -4,7 +4,7 @@
     {
         public string? Title { get; set; }
         public string? Content { get; set; }
-        public string? Type { get; set; }    
-        public ICollection<UserNotification>? UserNotifications { get; set; }
+        public string? ReturnUrl { get; set; }    
+        public ICollection<User>? Users { get; set; }
     }
 }

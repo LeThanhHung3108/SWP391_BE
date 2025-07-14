@@ -10,18 +10,19 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
     public class NotificationService : INotificationService
     {
         private readonly INotificationRepository _notificationRepository;
-        private readonly IUserNotificationRepository _userNotificationRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserRepository _userRepository;
+        private readonly ICampaignRepository _campaignRepository;
 
-        public NotificationService(INotificationRepository notificationRepository, IUserNotificationRepository userNotificationRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserRepository userRepository )
+        public NotificationService(INotificationRepository notificationRepository, 
+            IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserRepository userRepository, ICampaignRepository campaignRepository )
         {
             _notificationRepository = notificationRepository;
-            _userNotificationRepository = userNotificationRepository;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
+            _campaignRepository = campaignRepository;
         }
 
         //1. Get all notifications
@@ -47,9 +48,19 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         {
             try
             {
+                var campaign = await _campaignRepository.GetCampaignByIdAsync(notification.CampaignId);
+                if (campaign == null)
+                    throw new KeyNotFoundException($"Campaign with ID {notification.CampaignId} not found.");
+                String body = $"Bạn có thông báo mới về chiến dịch:{campaign.Name} Xem chi tiết: {notification.ReturnUrl}";
+                var listUsers = new List<User>();
+                listUsers = campaign.Schedules.SelectMany(s => s.ScheduleDetails.Select(sd => sd.Student.Parent)).Distinct().ToList();
+
                 var newNotification = _mapper.Map<Notification>(notification);
+                newNotification.Content = body;
+                newNotification.Users = listUsers;
                 newNotification.CreatedBy = GetCurrentUsername();
                 newNotification.CreateAt = DateTime.UtcNow;
+
                 await _notificationRepository.CreateNotificationAsync(newNotification);
             }
             catch (Exception ex)
@@ -75,15 +86,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         {
             var notification = await _notificationRepository.GetNotificationByIdAsync(notificationId);
             if (notification == null)
-                throw new KeyNotFoundException($"Notification with ID {notificationId} not found.");
-            var userNotifications = await _userNotificationRepository.GetUserNotificationsByNotificationIdAsync(notificationId);
-            if (userNotifications != null && userNotifications.Any())
-            {
-                foreach (var userNotification in userNotifications)
-                {
-                    await _userNotificationRepository.DeleteUserNotificationAsync(userNotification.Id);
-                }
-            }
+                throw new KeyNotFoundException($"Notification with ID {notificationId} not found.");         
             await _notificationRepository.DeleteNotificationAsync(notificationId);
         }
 
@@ -91,6 +94,15 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         private string GetCurrentUsername()
         {
             return _httpContextAccessor.HttpContext?.User.FindFirst("username")?.Value ?? "Unknown User";
+        }
+
+        //7. Get notifications by user ID
+        public async Task<List<NotificationResponse>> GetNotificationsByUserIdAsync(Guid userId)
+        {
+            var notifications = _notificationRepository.GetNotificationsByUserIdAsync(userId);
+            if (notifications == null || !notifications.Result.Any())
+                throw new KeyNotFoundException($"No notifications found for user with ID {userId}.");
+            return  _mapper.Map<List<NotificationResponse>>(notifications);
         }
     }
 }

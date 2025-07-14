@@ -16,7 +16,6 @@ using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccCampaignDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccFormDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccResultDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.VaccScheduleDto;
-using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.UserNotifyDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 
 namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
@@ -116,10 +115,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.MapperProfile
                 .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.Student!.FullName))
                 .ForMember(dest => dest.MedicalStaffName, opt => opt.MapFrom(src => src.MedicalStaff!.FullName))
                 .ReverseMap();
-
-            // UserNotification Mapper
-            CreateMap<UserNotification, UserNotificationRequest>().ReverseMap();
-            CreateMap<UserNotification, UserNotificationResponse>().ReverseMap();
         }
     }
 }

@@ -22,7 +22,6 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         public Task<List<Notification>> GetAllNotificationsAsync()
         {
             return _context.Notifications
-                .Include(n => n.UserNotifications)
                 .ToListAsync();
         }
 
@@ -30,7 +29,6 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         public Task<Notification?> GetNotificationByIdAsync(Guid notificationId)
         {
             return _context.Notifications
-                .Include(n => n.UserNotifications)
                 .FirstOrDefaultAsync(n => n.Id == notificationId);
         }
 
@@ -57,6 +55,14 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
                 _context.Notifications.Remove(notification);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        //6. Get notifications by user ID
+        public async Task<List<Notification>> GetNotificationsByUserIdAsync(Guid userId)
+        {
+            return await _context.Notifications
+                .Where(n => n.Users.Any(u => u.Id == userId))
+                .ToListAsync();
         }
     }
 }
