@@ -14,7 +14,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Extension
             _smtpConfig = _configuration.GetSection("SMTP");
         }
 
-        public async Task SendEmailAsync(string recipient, string body)
+        public async Task SendEmailAsync(string recipient, string body, string subject)
         {
             var _smtpServer = _smtpConfig["SmtpServer"];
             var _port = int.Parse(_smtpConfig["Port"]!);
@@ -32,7 +32,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Extension
             })
             using (var mail = new MailMessage(_senderEmail!, recipient)
             {
-                Subject = "Thông báo uống thuốc của học sinh",
+                Subject = subject,
                 Body = body,
                 IsBodyHtml = true
             })
