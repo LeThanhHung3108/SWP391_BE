@@ -61,7 +61,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         [HttpPost("send-email")]
         public async Task<IActionResult> SendEmail([FromBody] EmailMedicalDiaryCreateDto emailRequest)
         {
-            await _emailService.SendEmailAsync(emailRequest.Subject, emailRequest.Recipient, emailRequest.Body);
+            await _emailService.SendEmailAsync(emailRequest.Recipient, emailRequest.Body, emailRequest.Subject);
             return Ok("Email sent successfully.");
         }
     }
