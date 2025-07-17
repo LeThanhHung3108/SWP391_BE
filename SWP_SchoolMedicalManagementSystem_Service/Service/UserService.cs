@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Http;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.AuthDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.PasswordResetDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using SWP_SchoolMedicalManagementSystem_Service.Extension;
+using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
 using System.Security.Cryptography;
 using System.Text;
-using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 
 namespace SWP_SchoolMedicalManagementSystem_Service.Service
 {
@@ -15,15 +17,19 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserRepository _userRepository;
+        private readonly IPasswordResetRepository _passwordResetRepository;
+        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly ITokenGeneratior _tokenGenerator;
 
-        public UserService(IHttpContextAccessor httpContextAccessor, IUserRepository userRepository, IMapper mapper, ITokenGeneratior tokenGeneratior)
+        public UserService(IHttpContextAccessor httpContextAccessor, IUserRepository userRepository, IMapper mapper, ITokenGeneratior tokenGeneratior, IPasswordResetRepository passwordResetRepository, IEmailService emailService)
         {
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
             _mapper = mapper;
             _tokenGenerator = tokenGeneratior;
+            _passwordResetRepository = passwordResetRepository;
+            _emailService = emailService;
         }
 
         public async Task CreateUserAsync(UserCreateRequestDto request)
@@ -100,7 +106,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             user.CreatedBy = "System";
             user.UserRole = SchoolMedicalManagementSystem.Enum.UserRole.Parent;
             await _userRepository.AddUserAsync(user);
-        }
+        }      
 
         public async Task UpdateUserAsync(Guid id, UserUpdateRequestDto request)
         {
@@ -115,6 +121,8 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             newUser.UpdatedBy = GetCurrentUsername();
             await _userRepository.UpdateUserAsync(newUser);
         }
+
+        
 
         private string GetCurrentUsername()
         {
@@ -131,6 +139,42 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
                 sb.Append(bytes[i].ToString("x2"));
             }
             return sb.ToString();
+        }
+
+        //
+        public async  Task ForgotPasswordAsync(string email)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(email);
+            if (user == null) throw new Exception("User not found");
+
+            var otp = new Random().Next(100000, 999999).ToString();
+            var  passwordRequest = new PasswordReset
+            {
+                Id = Guid.NewGuid(),
+                Email = email,
+                Otp = otp,
+                Expiration = DateTime.UtcNow.AddMinutes(5),
+                IsUsed = false
+            };
+            await _passwordResetRepository.Add(passwordRequest);
+            await _emailService.SendEmailAsync(email, $"Your OTP is: {otp}", "Password Reset OTP");
+        }
+        public async  Task<bool> VerifyOtpAsync(string email, string otp)
+        {
+            var req = await _passwordResetRepository.GetValidRequest(email, otp);
+            return req != null;
+        }
+        public async  Task ResetPasswordAsync(string email, string otp, string newPassword)
+        {
+            var req = await _passwordResetRepository.GetValidRequest(email, otp);
+            if (req == null) throw new Exception("Invalid or expired OTP");
+
+            var user = await _userRepository.GetUserByUsernameAsync(email);
+            if (user == null) throw new Exception("User not found");
+
+            user.Password = HashPasswordToSha256(newPassword);
+            await _userRepository.UpdateUserAsync(user);
+            await _passwordResetRepository.MarkAsUsed(req.Id);
         }
     }
 }
