@@ -34,6 +34,12 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
 
         public async Task CreateUserAsync(UserCreateRequestDto request)
         {
+            var existingUsername = await _userRepository.GetUserByUsernameAsync(request.Username);
+            var existingEmail = await _userRepository.GetUserByEmailAsync(request.Email);
+
+            if (existingUsername != null || existingEmail != null)
+                throw new Exception("Username or email already exist.");
+
             var user = _mapper.Map<User>(request);
             user.Password = HashPasswordToSha256(request.Password);
             user.CreateAt = DateTime.UtcNow;
