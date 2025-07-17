@@ -47,56 +47,28 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
 
             await _userRepository.AddUserAsync(user);
         }
-
-        public async Task DeleteUserAsync(Guid userId)
+        //1. Register a new user
+        public async Task Register(UserRegisterRequestDto request)
         {
-            var user = await _userRepository.GetUserByIdAsync(userId);
-            if (user == null)
+            var existingUser = await _userRepository.GetUserByUsernameAsync(request.Username);
+            if (existingUser != null)
             {
-                throw new KeyNotFoundException("User not found.");
+                throw new InvalidOperationException("Username already exists.");
             }
-            await _userRepository.DeleteUserAsync(userId);
+            existingUser = await _userRepository.GetUserByEmailAsync(request.Email);
+            if (existingUser != null)
+            {
+                throw new InvalidOperationException("Email already exists.");
+            }
+            var user = _mapper.Map<User>(request);
+            user.Password = HashPasswordToSha256(request.Password);
+            user.CreateAt = DateTime.UtcNow;
+            user.CreatedBy = "System";
+            user.UserRole = SchoolMedicalManagementSystem.Enum.UserRole.Parent;
+            await _userRepository.AddUserAsync(user);
         }
 
-        public async Task<List<UserResponseDto>> GetAllUsersAsync()
-        {
-            var listUser = await _userRepository.GetAllUsersAsync();
-            if (listUser == null || !listUser.Any())
-            {
-                throw new KeyNotFoundException("No users found.");
-            }
-            return _mapper.Map<List<UserResponseDto>>(listUser);
-        }
-
-        public async Task<UserResponseDto?> GetUserByIdAsync(Guid userId)
-        {
-            var user = await _userRepository.GetUserByIdAsync(userId);
-            if (user == null)
-            {
-                throw new KeyNotFoundException("User not found.");
-            }
-            return _mapper.Map<UserResponseDto>(user);
-        }
-
-        public async Task<UserResponseDto?> GetUserByUsernamelAsync(string username)
-        {
-            var user = await _userRepository.GetUserByUsernameAsync(username);
-            if (user == null)
-            {
-                throw new KeyNotFoundException("User not found.");
-            }
-            return _mapper.Map<UserResponseDto>(user);
-        }
-        public async Task<UserResponseDto?> GetUserByEmailAsync(string email)
-        {
-            var user = await _userRepository.GetUserByEmailAsync(email);
-            if (user == null)
-            {
-                throw new KeyNotFoundException("User not found.");
-            }
-            return _mapper.Map<UserResponseDto>(user);
-        }
-
+        //2. Update user information
         public async Task<AuthResponseDto> Login(AuthRequestDto request)
         {
             var user = await _userRepository.GetUserByUsernameAsync(request.Username);
@@ -107,22 +79,51 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             return await _tokenGenerator.GenerateToken(user, user.UserRole.ToString());
         }
 
-        public async Task Register(UserRegisterRequestDto request)
+        //3. Get all users
+        public async Task<List<UserResponseDto>> GetAllUsersAsync()
         {
-            var existingUser = await _userRepository.GetUserByUsernameAsync(request.Username);
-            if (existingUser != null)
+            var listUser = await _userRepository.GetAllUsersAsync();
+            if (listUser == null || !listUser.Any())
             {
-                throw new InvalidOperationException("Username already exists.");
+                throw new KeyNotFoundException("No users found.");
             }
+            return _mapper.Map<List<UserResponseDto>>(listUser);
+        }
 
-            var user = _mapper.Map<User>(request);
-            user.Password = HashPasswordToSha256(request.Password);
-            user.CreateAt = DateTime.UtcNow;
-            user.CreatedBy = "System";
-            user.UserRole = SchoolMedicalManagementSystem.Enum.UserRole.Parent;
-            await _userRepository.AddUserAsync(user);
-        }      
+        //4. Get user by ID
+        public async Task<UserResponseDto?> GetUserByIdAsync(Guid userId)
+        {
+            var user = await _userRepository.GetUserByIdAsync(userId);
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User not found.");
+            }
+            return _mapper.Map<UserResponseDto>(user);
+        }
 
+        //5. Get user by username
+        public async Task<UserResponseDto?> GetUserByUsernamelAsync(string username)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User not found.");
+            }
+            return _mapper.Map<UserResponseDto>(user);
+        }
+
+        //6. Get user by email
+        public async Task<UserResponseDto?> GetUserByEmailAsync(string email)
+        {
+            var user = await _userRepository.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User not found.");
+            }
+            return _mapper.Map<UserResponseDto>(user);
+        }
+
+        //7. Update user 
         public async Task UpdateUserAsync(Guid id, UserUpdateRequestDto request)
         {
             var oldUser = await _userRepository.GetUserByIdAsync(id);
@@ -137,33 +138,25 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             await _userRepository.UpdateUserAsync(newUser);
         }
 
-        
-
-        private string GetCurrentUsername()
+        //8. Delete user
+        public async Task DeleteUserAsync(Guid userId)
         {
-            return _httpContextAccessor.HttpContext?.User.FindFirst("username")?.Value ?? "Unknown User";
-        }
-
-        private string HashPasswordToSha256(string password)
-        {
-            using var sha256 = SHA256.Create();
-            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            var sb = new StringBuilder();
-            for (int i = 0; i < bytes.Length; i++)
+            var user = await _userRepository.GetUserByIdAsync(userId);
+            if (user == null)
             {
-                sb.Append(bytes[i].ToString("x2"));
+                throw new KeyNotFoundException("User not found.");
             }
-            return sb.ToString();
+            await _userRepository.DeleteUserAsync(userId);
         }
 
-        //
-        public async  Task ForgotPasswordAsync(string email)
+        //9. Forgot password
+        public async Task ForgotPasswordAsync(string email)
         {
             var user = await _userRepository.GetUserByEmailAsync(email);
             if (user == null) throw new Exception("User not found");
 
             var otp = new Random().Next(100000, 999999).ToString();
-            var  passwordRequest = new PasswordReset
+            var passwordRequest = new PasswordReset
             {
                 Id = Guid.NewGuid(),
                 Email = email,
@@ -174,12 +167,16 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             await _passwordResetRepository.Add(passwordRequest);
             await _emailService.SendEmailAsync(email, $"Your OTP is: {otp}", "Password Reset OTP");
         }
-        public async  Task<bool> VerifyOtpAsync(string email, string otp)
+
+        //10. Verify OTP
+        public async Task<bool> VerifyOtpAsync(string email, string otp)
         {
             var req = await _passwordResetRepository.GetValidRequest(email, otp);
             return req != null;
         }
-        public async  Task ResetPasswordAsync(string email, string otp, string newPassword)
+
+        //11. Reset password
+        public async Task ResetPasswordAsync(string email, string otp, string newPassword)
         {
             var req = await _passwordResetRepository.GetValidRequest(email, otp);
             if (req == null) throw new Exception("Invalid or expired OTP");
@@ -190,6 +187,25 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             user.Password = HashPasswordToSha256(newPassword);
             await _userRepository.UpdateUserAsync(user);
             await _passwordResetRepository.MarkAsUsed(req.Id);
+        }
+
+        //12. Get current username from HTTP context
+        private string GetCurrentUsername()
+        {
+            return _httpContextAccessor.HttpContext?.User.FindFirst("username")?.Value ?? "Unknown User";
+        }
+
+        //13. Hash password using SHA256
+        private string HashPasswordToSha256(string password)
+        {
+            using var sha256 = SHA256.Create();
+            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            var sb = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                sb.Append(bytes[i].ToString("x2"));
+            }
+            return sb.ToString();
         }
     }
 }
