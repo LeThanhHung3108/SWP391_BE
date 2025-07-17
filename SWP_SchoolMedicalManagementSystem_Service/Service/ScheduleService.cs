@@ -13,6 +13,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IScheduleRepository _scheduleRepository;
+        private readonly IScheduleDetailRepository _scheduleDetailRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IMapper _mapper;
         private readonly IConsentFormService _consentFormService;
@@ -20,12 +21,14 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         public ScheduleService(
             IHttpContextAccessor httpContextAccessor,
             IScheduleRepository scheduleRepository,
+            IScheduleDetailRepository scheduleDetailRepository,
             IStudentRepository studentRepository,
             IMapper mapper,
             IConsentFormService consentFormService)
         {
             _httpContextAccessor = httpContextAccessor;
             _scheduleRepository = scheduleRepository;
+            _scheduleDetailRepository = scheduleDetailRepository;
             _studentRepository = studentRepository;
             _mapper = mapper;
             _consentFormService = consentFormService;
@@ -93,7 +96,10 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             var existingSchedule = await _scheduleRepository.GetScheduleByIdAsync(scheduleId);
             if (existingSchedule == null)
                 throw new KeyNotFoundException($"Schedule with ID {scheduleId} not found.");
-
+            foreach(var scheduleDetail in existingSchedule.ScheduleDetails ?? new List<ScheduleDetail>())
+            {
+                await _scheduleDetailRepository.DeleteScheduleDetailAsync(scheduleDetail.Id);
+            }
             await _scheduleRepository.DeleteScheduleAsync(scheduleId);
         }
 

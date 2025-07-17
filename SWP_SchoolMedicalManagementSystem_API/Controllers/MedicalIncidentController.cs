@@ -51,7 +51,7 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
             return Ok("Incident created successfully.");
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("delete/{incidentId}")]
         public async Task<IActionResult> DeleteIncident([FromBody] Guid id)
         {
             await _medicalIncidentService.DeleteIncidentAsync(id);

@@ -24,5 +24,6 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Entity
         public ICollection<Student>? Students { get; set; }
         public ICollection<Campaign>? Campaigns { get; set; }
         public ICollection<MedicalIncident>? MedicalIncidents { get; set; }
+        public ICollection<Notification> Notifications { get; set; }
     }
 }

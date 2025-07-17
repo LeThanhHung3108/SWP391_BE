@@ -65,7 +65,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
 
         public async Task DeleteIncidentAsync(Guid id)
         {
-            var oldIncident = _medicalIncidentRepository.GetIncidentByIdAsync(id);
+            var oldIncident = await _medicalIncidentRepository.GetIncidentByIdAsync(id);
             if (oldIncident == null)
                 throw new KeyNotFoundException($"Incident with ID {id} not found.");
 

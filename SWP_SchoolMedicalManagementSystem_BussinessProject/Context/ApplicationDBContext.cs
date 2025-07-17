@@ -28,6 +28,8 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Context
         public DbSet<VaccinationResult> VaccinationResults { get; set; }
         public DbSet<MedicalDiary> MedicalDiaries { get; set; }
         public DbSet<ScheduleDetail> ScheduleDetails { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<PasswordReset> PasswordResets { get; set; }
 
 
 
