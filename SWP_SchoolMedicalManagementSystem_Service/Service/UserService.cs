@@ -18,16 +18,18 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserRepository _userRepository;
         private readonly IPasswordResetRepository _passwordResetRepository;
+        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly ITokenGeneratior _tokenGenerator;
 
-        public UserService(IHttpContextAccessor httpContextAccessor, IUserRepository userRepository, IMapper mapper, ITokenGeneratior tokenGeneratior, IPasswordResetRepository passwordResetRepository)
+        public UserService(IHttpContextAccessor httpContextAccessor, IUserRepository userRepository, IMapper mapper, ITokenGeneratior tokenGeneratior, IPasswordResetRepository passwordResetRepository, IEmailService emailService)
         {
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
             _mapper = mapper;
             _tokenGenerator = tokenGeneratior;
             _passwordResetRepository = passwordResetRepository;
+            _emailService = emailService;
         }
 
         public async Task CreateUserAsync(UserCreateRequestDto request)
@@ -49,8 +51,6 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             }
             await _userRepository.DeleteUserAsync(userId);
         }
-
-        
 
         public async Task<List<UserResponseDto>> GetAllUsersAsync()
         {
@@ -157,7 +157,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
                 IsUsed = false
             };
             await _passwordResetRepository.Add(passwordRequest);
-            //await _emailService.SendEmailAsync(email, $"Your OTP is: {otp}", "Password Reset OTP");
+            await _emailService.SendEmailAsync(email, $"Your OTP is: {otp}", "Password Reset OTP");
         }
         public async  Task<bool> VerifyOtpAsync(string email, string otp)
         {
