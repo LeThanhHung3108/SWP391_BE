@@ -81,6 +81,15 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             }
             return _mapper.Map<UserResponseDto>(user);
         }
+        public async Task<UserResponseDto?> GetUserByEmailAsync(string email)
+        {
+            var user = await _userRepository.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User not found.");
+            }
+            return _mapper.Map<UserResponseDto>(user);
+        }
 
         public async Task<AuthResponseDto> Login(AuthRequestDto request)
         {
@@ -144,7 +153,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         //
         public async  Task ForgotPasswordAsync(string email)
         {
-            var user = await _userRepository.GetUserByUsernameAsync(email);
+            var user = await _userRepository.GetUserByEmailAsync(email);
             if (user == null) throw new Exception("User not found");
 
             var otp = new Random().Next(100000, 999999).ToString();
@@ -169,7 +178,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             var req = await _passwordResetRepository.GetValidRequest(email, otp);
             if (req == null) throw new Exception("Invalid or expired OTP");
 
-            var user = await _userRepository.GetUserByUsernameAsync(email);
+            var user = await _userRepository.GetUserByEmailAsync(email);
             if (user == null) throw new Exception("User not found");
 
             user.Password = HashPasswordToSha256(newPassword);

@@ -9,6 +9,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service.Interface
     {
         Task<UserResponseDto?> GetUserByIdAsync(Guid userId);
         Task<UserResponseDto?> GetUserByUsernamelAsync(string username);
+        Task<UserResponseDto?> GetUserByEmailAsync(string email);
         Task<List<UserResponseDto>> GetAllUsersAsync();
         Task<AuthResponseDto> Login(AuthRequestDto request);
         Task Register(UserRegisterRequestDto request);
