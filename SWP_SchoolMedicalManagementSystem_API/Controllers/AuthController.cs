@@ -2,6 +2,7 @@
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.AuthDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.EmailDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.PasswordResetDto;
 using SWP_SchoolMedicalManagementSystem_Service.Extension;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
 
@@ -63,6 +64,27 @@ namespace SWP_SchoolMedicalManagementSystem_API.Controllers
         {
             await _emailService.SendEmailAsync(emailRequest.Recipient, emailRequest.Body, emailRequest.Subject);
             return Ok("Email sent successfully.");
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDto dto)
+        {
+            await _userService.ForgotPasswordAsync(dto.Email);
+            return Ok("OTP sent to your email.");
+        }
+
+        [HttpPost("verify-otp")]
+        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpRequestDto dto)
+        {
+            var isValid = await _userService.VerifyOtpAsync(dto.Email, dto.Otp);
+            return Ok(new { isValid });
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto dto)
+        {
+            await _userService.ResetPasswordAsync(dto.Email, dto.Otp, dto.NewPassword);
+            return Ok("Password reset successfully.");
         }
     }
 }

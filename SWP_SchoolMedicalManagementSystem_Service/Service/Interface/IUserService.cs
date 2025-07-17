@@ -1,5 +1,6 @@
 ﻿using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.AuthDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.UserDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.PasswordResetDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 
 namespace SWP_SchoolMedicalManagementSystem_Service.Service.Interface
@@ -14,5 +15,8 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service.Interface
         Task UpdateUserAsync(Guid id, UserUpdateRequestDto request);
         Task DeleteUserAsync(Guid userId);
         Task CreateUserAsync(UserCreateRequestDto request);
+        Task ForgotPasswordAsync(string email);
+        Task<bool> VerifyOtpAsync(string email, string otp);
+        Task ResetPasswordAsync(string email, string otp, string newPassword);
     }
 }
