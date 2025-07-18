@@ -43,6 +43,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Repository
         {
             var incident = await _context.MedicalIncidents
                 .Include(i => i.Student!)
+                .ThenInclude(i => i.Parent)
                 .Include(i => i.MedicalSupplyUsages!)
                     .ThenInclude(msu => msu.MedicalSupply)
                 .FirstOrDefaultAsync(i => i.Id == id);

@@ -31,7 +31,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         {
             var campaigns = await _campaignRepository.GetAllCampaignsAsync();
             if (campaigns == null || !campaigns.Any())
-                throw new KeyNotFoundException("No campaigns found.");
+                throw new Exception("No campaigns found.");
             return _mapper.Map<List<CampaignResponse>>(campaigns);
         }
 

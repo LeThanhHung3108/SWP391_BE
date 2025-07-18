@@ -14,15 +14,17 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserRepository _userRepository;
         private readonly ICampaignRepository _campaignRepository;
+        private readonly IMedicalIncidentRepository _medicalIncidentRepository;
 
-        public NotificationService(INotificationRepository notificationRepository, 
-            IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserRepository userRepository, ICampaignRepository campaignRepository )
+        public NotificationService(INotificationRepository notificationRepository,
+            IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserRepository userRepository, ICampaignRepository campaignRepository, IMedicalIncidentRepository medicalIncidentRepository)
         {
             _notificationRepository = notificationRepository;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
             _campaignRepository = campaignRepository;
+            _medicalIncidentRepository = medicalIncidentRepository;
         }
 
         //1. Get all notifications
@@ -48,15 +50,39 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         {
             try
             {
-                var campaign = await _campaignRepository.GetCampaignByIdAsync(notification.CampaignId);
-                if (campaign == null)
-                    throw new KeyNotFoundException($"Campaign with ID {notification.CampaignId} not found.");
-                String body = $"Bạn có thông báo mới về chiến dịch:{campaign.Name} Xem chi tiết: {notification.ReturnUrl}";
+                string body = string.Empty;
+                string title = string.Empty;
+                string returnUrl = string.Empty;
+
                 var listUsers = new List<User>();
-                listUsers = campaign.Schedules.SelectMany(s => s.ScheduleDetails.Select(sd => sd.Student.Parent)).Distinct().ToList();
+                if (notification.CampaignId != null)
+                {
+                    var campaign = await _campaignRepository.GetCampaignByIdAsync((Guid)notification.CampaignId);
+                    if (campaign == null)
+                        throw new KeyNotFoundException($"Campaign with ID {notification.CampaignId} not found.");
+
+                    title = $"Thông báo mới về chiến dịch: {campaign.Name}";
+                    body = $"Bạn có thông báo mới về chiến dịch:{campaign.Name} Xem chi tiết: {"campain Url"}";
+                    returnUrl = "campainUrl";
+                    listUsers = campaign.Schedules.SelectMany(s => s.ScheduleDetails.Select(sd => sd.Student.Parent)).Distinct().ToList();
+                }
+                
+                if(notification.IncidentId != null)
+                {
+                    var incident = await _medicalIncidentRepository.GetIncidentByIdAsync((Guid)notification.IncidentId);
+                    if (incident == null)
+                        throw new KeyNotFoundException($"Incident with ID {notification.IncidentId} not found.");
+
+                    title = "Bạn có thông báo mới về sự cố y tế";
+                    body = $"Học sinh với tên {incident.Student.FullName} đang có một sự cố y tế vào lúc {incident.CreateAt}. Xem chi tiết: {"http://localhost:3000/medical-events"}";
+                    returnUrl = "http://localhost:3000/medical-events";
+                    listUsers.Add(incident?.Student?.Parent);
+                }
 
                 var newNotification = _mapper.Map<Notification>(notification);
+                newNotification.Title = title ?? "Thông báo mới";
                 newNotification.Content = body;
+                newNotification.ReturnUrl = returnUrl;
                 newNotification.Users = listUsers;
                 newNotification.CreatedBy = GetCurrentUsername();
                 newNotification.CreateAt = DateTime.UtcNow;

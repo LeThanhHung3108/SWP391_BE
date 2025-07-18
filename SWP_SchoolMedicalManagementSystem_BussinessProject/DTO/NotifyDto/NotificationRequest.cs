@@ -2,8 +2,7 @@
 {
     public class NotificationRequest
     {
-        public Guid CampaignId { get; set; }
-        public string? Title { get; set; }
-        public string? ReturnUrl { get; set; }
+        public Guid? CampaignId { get; set; }
+        public Guid? IncidentId { get; set; }
     }
 }
