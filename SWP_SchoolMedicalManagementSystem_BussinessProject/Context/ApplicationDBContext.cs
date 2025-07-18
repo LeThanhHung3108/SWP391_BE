@@ -121,7 +121,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.Context
                 options.HasMany(c => c.Schedules)
                     .WithOne(s => s.Campaign)
                     .HasForeignKey(s => s.CampaignId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade); // Ensure cascade delete for required relationship
 
                 options.HasMany(c => c.ConsentForms)
                     .WithOne(cf => cf.Campaign)

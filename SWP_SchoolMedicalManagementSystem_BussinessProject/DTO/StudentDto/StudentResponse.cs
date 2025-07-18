@@ -6,6 +6,7 @@ namespace SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.StudentDto
     public class StudentResponse
     {
         public Guid Id { get; set; }
+        public Guid? ParentId { get; set; }
         public string? StudentCode { get; set; }
         public string? FullName { get; set; }
         public DateTime DateOfBirth { get; set; }
