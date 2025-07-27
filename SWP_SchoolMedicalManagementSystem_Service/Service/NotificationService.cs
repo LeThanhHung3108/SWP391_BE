@@ -62,7 +62,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
                         throw new KeyNotFoundException($"Campaign with ID {notification.CampaignId} not found.");
 
                     title = $"Thông báo mới về chiến dịch: {campaign.Name}";
-                    body = $"Bạn có thông báo mới về chiến dịch:{campaign.Name} Xem chi tiết: {"campain Url"}";
+                    body = $"Bạn có thông báo mới về chiến dịch:{campaign.Name}";
                     returnUrl = "campainUrl";
                     listUsers = campaign.Schedules.SelectMany(s => s.ScheduleDetails.Select(sd => sd.Student.Parent)).Distinct().ToList();
                 }
@@ -74,7 +74,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
                         throw new KeyNotFoundException($"Incident with ID {notification.IncidentId} not found.");
 
                     title = "Bạn có thông báo mới về sự cố y tế";
-                    body = $"Học sinh với tên {incident.Student.FullName} đang có một sự cố y tế vào lúc {incident.CreateAt}. Xem chi tiết: {"http://localhost:3000/medical-events"}";
+                    body = $"Học sinh với tên {incident.Student.FullName} đang có một sự cố y tế vào lúc {incident.CreateAt}";
                     returnUrl = "http://localhost:3000/medical-events";
                     listUsers.Add(incident?.Student?.Parent);
                 }

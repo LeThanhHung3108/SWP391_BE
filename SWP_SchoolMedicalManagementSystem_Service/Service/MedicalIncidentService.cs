@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Dto.MedicalIncidentDto;
+using SWP_SchoolMedicalManagementSystem_BussinessOject.DTO.NotifyDto;
 using SWP_SchoolMedicalManagementSystem_BussinessOject.Entity;
 using SWP_SchoolMedicalManagementSystem_Service.Repository.Interface;
 using SWP_SchoolMedicalManagementSystem_Service.Service.Interface;
@@ -14,16 +15,18 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
         private readonly IStudentRepository _studentRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly INotificationService _notificationService;
 
         public MedicalIncidentService(IMedicalIncidentRepository medicalIncidentRepository, IMapper mapper,
             IHttpContextAccessor httpContextAccessor, IStudentRepository studentRepository,
-            IMedicalSupplierRepository medicalSupplierRepository)
+            IMedicalSupplierRepository medicalSupplierRepository, INotificationService notificationService)
         {
             _medicalIncidentRepository = medicalIncidentRepository ?? throw new ArgumentNullException(nameof(medicalIncidentRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _httpContextAccessor = httpContextAccessor;
             _studentRepository = studentRepository ?? throw new ArgumentNullException(nameof(studentRepository));
             _medicalSupplierRepository = medicalSupplierRepository ?? throw new ArgumentNullException(nameof(medicalSupplierRepository));
+            _notificationService = notificationService;
         }
 
         private string GetCurrentUsername()
@@ -61,6 +64,11 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
             newIncident.CreateAt = DateTime.UtcNow;
             newIncident.CreatedBy = GetCurrentUsername();
             await _medicalIncidentRepository.CreateIncidentAsync(newIncident);
+
+            await _notificationService.CreateNotificationAsync(new NotificationRequest
+            {
+                IncidentId = newIncident.Id
+            });
         }
 
         public async Task DeleteIncidentAsync(Guid id)
