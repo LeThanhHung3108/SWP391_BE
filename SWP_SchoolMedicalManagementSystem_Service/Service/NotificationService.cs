@@ -63,7 +63,7 @@ namespace SWP_SchoolMedicalManagementSystem_Service.Service
 
                     title = $"Thông báo mới về chiến dịch: {campaign.Name}";
                     body = $"Bạn có thông báo mới về chiến dịch:{campaign.Name}";
-                    returnUrl = "http://localhost:3000/vaccination/campaign/{campaign.Id}";
+                    returnUrl = $"http://localhost:3000/vaccination/campaign/{campaign.Id}";
                     listUsers = campaign.Schedules.SelectMany(s => s.ScheduleDetails.Select(sd => sd.Student.Parent)).Distinct().ToList();
                 }
                 
